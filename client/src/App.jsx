@@ -11,13 +11,15 @@ export default class App extends Component {
       <div style={{backgroundColor: "#fffff"}}>
 
         <Switch>
-          <Route exact path ="/" render={ props => <h1>hello react</h1> } />
+          <Route exact path="/" render={ props => <h1>hello react</h1> } />
+          {/* <Route path="/example" component={ Example } /> */}
+          {/* <Route path="/example2" render={ props => {
+            return (
+              <Example2 function={ function }/>
+            )}}
+          /> */}
 
           </Switch>
-        {/* <div>
-          <p>react-ing</p>
-        </div> */}
-
       </div>
     )
   }
