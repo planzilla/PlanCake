@@ -7,7 +7,6 @@ var basename = path.basename(__filename);
 var env = process.env.NODE_ENV || 'development';
 var config = require(__dirname + '/../database.json')[env];
 var db = {};
-const { Pool, Client } = require('pg').native;
 
 // if (config.use_env_variable) {
 //   var sequelize = new Sequelize(process.env[config.use_env_variable], config);
