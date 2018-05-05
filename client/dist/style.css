@@ -17,7 +17,6 @@
 }
 
 .splash{
-  display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: .5fr repeat(11, 1fr);
   grid-gap: .25em;
@@ -25,9 +24,9 @@
   width: 90vw;
 }
 
-.grid{
-  display: grid;
-}
+/* .grid{
+
+} */
 
 .jsas{
   justify-self: center;
