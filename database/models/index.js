@@ -12,7 +12,6 @@ const { Pool, Client } = require('pg').native;
 // if (config.use_env_variable) {
 //   var sequelize = new Sequelize(process.env[config.use_env_variable], config);
 // } else {
-  console.log(config);
   var sequelize = new Sequelize(
     config.database,
     config.username,
@@ -58,6 +57,8 @@ Object.keys(db).forEach(modelName => {
     db[modelName].associate(db);
   }
 });
+
+db.sync({force: true});
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
