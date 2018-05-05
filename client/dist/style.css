@@ -1,0 +1,117 @@
+/*******************/
+/***    Setup    ***/
+/*******************/
+
+*{
+  font-size: 1rem;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+#app{
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  max-width: 1260px;
+}
+
+.splash{
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: .5fr repeat(11, 1fr);
+  grid-gap: .25em;
+  height: 275vh;
+  width: 90vw;
+}
+
+.grid{
+  display: grid;
+}
+
+.jsas{
+  justify-self: center;
+  align-self: center;
+}
+
+/*******************/
+/***     App     ***/
+/*******************/
+
+.header{
+  grid-area: 1 / 1 / 1 / 13;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: 1fr;
+}
+
+/* need to change grid area for body
+so that nav bar is transparent (opacity) */
+
+.body{
+  grid-area: 2 / 1 / 12 / 13;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1.25fr 1fr 1fr; 
+}
+
+.footer{
+  grid-area: 12 / 1 / 13 / 13;
+}
+
+/*******************/
+/***    header   ***/
+/*******************/
+
+.login{
+  grid-column: 6;
+}
+
+/*******************/
+/***    body     ***/
+/*******************/
+
+/*******************/
+/** how-it-works ***/
+/*******************/
+
+.how-it-works{
+  grid-template-rows: .25fr repeat(2, 1fr);
+}
+
+.how-row1{
+  grid-row: 2;
+  grid-template-columns: 1fr 2fr;
+}
+
+.how-row2{
+  grid-row: 3;
+  grid-template-columns: 2fr 1fr;
+}
+
+/*******************/
+/***  about-us   ***/
+/*******************/
+
+.about-us{
+  grid-template-columns: repeat(3, 1fr); 
+  grid-template-rows: .25fr repeat(2, 1fr);
+  grid-gap: 2em
+}
+
+.about-title{
+  grid-area: 1 / 1 / 2 / 4;
+}
+
+.brandon-pic{
+  grid-row: 2;
+  grid-column: 1;
+}
+
+.christina-pic{
+  grid-row: 2;
+  grid-column: 2;
+}
+
+.will-pic{
+  grid-row: 2;
+  grid-column: 3;
+}
