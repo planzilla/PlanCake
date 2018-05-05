@@ -26,14 +26,25 @@
     "body-parser": "^1.18.2",
     "express": "^4.16.3",
     "path": "^0.12.7",
+<<<<<<< HEAD
     "pg": "^7.4.2",
+=======
+    "pg": "^7.4.1",
+>>>>>>> bcccd3fd9f8a5d7dd17d29f510fff6416fb4b1ff
     "pg-hstore": "^2.3.2",
     "react": "^16.3.2",
     "react-dom": "^16.3.2",
+    "react-scripts": "^1.1.4",
+    "sequelize": "^4.37.6",
+    "sequelize-cli": "^4.0.0",
     "react-router": "^4.2.0",
+<<<<<<< HEAD
     "react-router-dom": "^4.2.2",
     "react-scripts": "^1.1.4",
     "sequelize": "^4.37.6"
+=======
+    "react-router-dom": "^4.2.2"
+>>>>>>> bcccd3fd9f8a5d7dd17d29f510fff6416fb4b1ff
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
