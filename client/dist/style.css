@@ -85,6 +85,8 @@ so that nav bar is transparent (opacity) */
   width: 100%;
   height: 100%;
   border: 1em;
+  min-width: 200px;
+  max-width: 200px;
 }
 
 .login{
