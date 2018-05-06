@@ -12,10 +12,9 @@ export default class NavBar extends Component {
   render() {
     return(
       <div className="header grid">
-        <h5>Planzilla (Nav Bar)</h5>
-        <h5>Insert Logo Here</h5>
+        <img src="plancake2.png" alt="plancake.png"/>
         <div className="login jsas">
-        <LoginSignUp />
+          <LoginSignUp />
         </div>
       </div>
     )

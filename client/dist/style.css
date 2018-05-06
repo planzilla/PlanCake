@@ -9,6 +9,10 @@
   box-sizing: border-box;
 }
 
+body{
+  font-family: "Open Sans",'Helvetica Neue', Arial";
+}
+
 #app{
   width: 100vw;
   display: flex;
@@ -18,7 +22,7 @@
 
 .splash{
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: .5fr repeat(11, 1fr);
+  grid-template-rows: .25fr repeat(11, 1fr);
   grid-gap: .25em;
   height: 275vh;
   width: 90vw;
@@ -53,6 +57,9 @@
   grid-area: 1 / 1 / 1 / 13;
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: 1fr;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  background-color: rgb(243, 154, 52);
 }
 
 /* need to change grid area for body
@@ -72,8 +79,29 @@ so that nav bar is transparent (opacity) */
 /***    header   ***/
 /*******************/
 
+.header img{
+  grid-column-start: 1;
+  grid-column-end: 3;
+  width: 100%;
+  height: 100%;
+  border: 1em;
+}
+
 .login{
   grid-column: 6;
+  width: 100%;
+  height: 100%;
+}
+
+.modal h1{
+  font-family: Montserrat,"Open Sans",'Helvetica Neue',Arial;
+  color: #fff;
+  padding: 14px 10px 13px;
+  transition: all .3s ease-in-out;
+}
+
+.header div:hover{
+  background-color: rgba(248, 199, 142, 0.952);
 }
 
 /*******************/
@@ -143,3 +171,7 @@ so that nav bar is transparent (opacity) */
 .event-cards{
   grid-area: 1 / 2 / 4 / 3;
 }
+
+/*******************/
+/*** dashbo-body ***/
+/******-end-********/
