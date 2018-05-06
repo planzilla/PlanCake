@@ -1,26 +1,46 @@
 import React, { Component } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import axios from 'axios';
+import NavBar from './components/header/NavBar.jsx';
+import SplashPage from './components/body/SplashPage.jsx';
+import ContactInfo from './components/footer/ContactInfo.jsx';
+import Dashboard from './components/body/Dashboard.jsx';
+// import Test from './test.jsx' (used to test rendering of components)
 
 export default class App extends Component {
   constructor(props) {
     super(props);
   }
 
+  componentDidMount() {
+    axios.post('/api/user', {firstName: "Brandon", lastName: "Villiados"})
+    .then((data) => {console.log("post was a success", data)})
+  }
+
   render() {
     return (
-      <div style={{backgroundColor: "#fffff"}}>
-
-        <Switch>
-          <Route exact path="/" render={ props => <h1>hello react</h1> } />
-          {/* <Route path="/example" component={ Example } /> */}
-          {/* <Route path="/example2" render={ props => {
-            return (
-              <Example2 function={ function }/>
-            )}}
-          /> */}
-
-          </Switch>
+      <div className="splash grid">
+        <NavBar />
+        <SplashPage />
+        <ContactInfo />
       </div>
+      // == route to splash if not logged in ==
+
+      // <div className="full-height-width grid">
+      // <NavBar/>
+      // <Dashboard />
+      // <ContactInfo />
+      // == route after login is authenitcated == 
+
+        // <Switch>
+        //   <Route exact path="/" render={ props => <h1>hello react</h1> } />
+        //   <Route path="/example" component={ Example } />
+        //   <Route path="/example2" render={ props => {
+        //     return (
+        //       <Example2 function={ function }/>
+        //     )}}
+        //   />
+
+        //   </Switch> 
     )
   }
 };
