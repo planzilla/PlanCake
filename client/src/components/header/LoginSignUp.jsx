@@ -12,7 +12,7 @@ export default class LoginSignUp extends Component {
     //button tag is a placeholder for modal
     return(
       <div className="modal">
-        <button>Login/SignUp</button> 
+        <h1>LOGIN/SIGNUP</h1>
       </div>
     )
   }

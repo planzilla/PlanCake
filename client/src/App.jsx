@@ -11,10 +11,29 @@ export default class App extends Component {
     super(props);
   }
 
+  // Goodmorning/afternoon/evening Beautiful peeps. You're amazing engineers.
+  // Just a quick note for the team before you both embark on your journey trying
+  // to hack stuff together.
+
+  // componentDidMount workers. I've set up the route in routes and in controller
+  // I got lost in the O-Auth and the css so I wasn't able to test data persistence
+  // with postgres. 
+
+  // Also check out the nav and let me know what you think. I was just messing around
+  // with styling it because css is FUN!
+
+  // ++Stand up responses for May 6++
+  //   I've finished stubbing out all the classes for the splash page and the dashboard
+  //   I need to finish O-Auth
+  //   Lastly, there's a learning curve to get o-auth to work and I also get easily lost
+  //   styling stuff. I need to work on time boxing especially with css.Dashboard
+
+  // Alright, have a good morning/day and I'll see you both soon
+
   componentDidMount() {
     axios.post('/api/user', {firstName: "Brandon", lastName: "Villiados"})
     .then((data) => {console.log("post was a success", data)})
-  }
+  } 
 
   render() {
     return (
