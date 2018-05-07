@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('EventUsers', {
+    return queryInterface.createTable('Boards', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -14,29 +14,26 @@ module.exports = {
         allowNull: false,
         references: {
           model: 'Events',
-          key: 'id'
-        }
+          key: 'id',
+        },
       },
-      userId: {
-        type: Sequelize.INTEGER,
-        onDelete: "CASCADE",
-        allowNull: false,
-        references: {
-          model: 'Users',
-          key: 'id'
-        }
+      title: {
+        type: Sequelize.STRING
+      },
+      links: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
       },
       updatedAt: {
-        allowNull: true,
+        allowNull: false,
         type: Sequelize.DATE
       }
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('EventUsers');
+    return queryInterface.dropTable('Boards');
   }
 };
