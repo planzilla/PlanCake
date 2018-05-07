@@ -7,4 +7,5 @@ const router = require('express').Router();
 
 // router.get('/api/logout', controller.get.logout);
 
+router.post('/api/user', controller.post.user);
 module.exports = router;

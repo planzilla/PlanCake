@@ -1,0 +1,179 @@
+/*******************/
+/***    Setup    ***/
+/*******************/
+
+*{
+  font-size: 1rem;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body{
+  font-family: "Open Sans",'Helvetica Neue', Arial";
+}
+
+#app{
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  max-width: 1260px;
+}
+
+.splash{
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: .25fr repeat(11, 1fr);
+  grid-gap: .25em;
+  height: 275vh;
+  width: 90vw;
+}
+
+.dashboard{
+  grid-area: 2 / 1 / 12 / 13;
+  grid-template-columns: 1fr 4fr;
+  grid-auto-rows: auto;
+  grid-gap: 0 1em;
+}
+
+.grid{
+  display: grid;
+}
+
+.full-height-width{
+  height: 100vh;
+  width: 90vw;
+}
+
+.jsas{
+  justify-self: center;
+  align-self: center;
+}
+
+/*******************/
+/***     App     ***/
+/*******************/
+
+.header{
+  grid-area: 1 / 1 / 1 / 13;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: 1fr;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  background-color: rgb(243, 154, 52);
+}
+
+/* need to change grid area for body
+so that nav bar is transparent (opacity) */
+
+.body{
+  grid-area: 2 / 1 / 12 / 13;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1.25fr 1fr 1fr; 
+}
+
+.footer{
+  grid-area: 12 / 1 / 13 / 13;
+}
+
+/*******************/
+/***    header   ***/
+/*******************/
+
+.header img{
+  grid-column-start: 1;
+  grid-column-end: 3;
+  width: 100%;
+  height: 100%;
+  border: 1em;
+  min-width: 200px;
+  max-width: 200px;
+}
+
+.login{
+  grid-column: 6;
+  width: 100%;
+  height: 100%;
+}
+
+.modal h1{
+  font-family: Montserrat,"Open Sans",'Helvetica Neue',Arial;
+  color: #fff;
+  padding: 14px 10px 13px;
+  transition: all .3s ease-in-out;
+}
+
+.header div:hover{
+  background-color: rgba(248, 199, 142, 0.952);
+}
+
+/*******************/
+/*** splash-body ***/
+/*******************/
+
+/*******************/
+/** how-it-works ***/
+/*******************/
+
+.how-it-works{
+  grid-template-rows: .25fr repeat(2, 1fr);
+}
+
+.how-row1{
+  grid-row: 2;
+  grid-template-columns: 1fr 2fr;
+}
+
+.how-row2{
+  grid-row: 3;
+  grid-template-columns: 2fr 1fr;
+}
+
+/*******************/
+/***  about-us   ***/
+/*******************/
+
+.about-us{
+  grid-template-columns: repeat(3, 1fr); 
+  grid-template-rows: .25fr repeat(2, 1fr);
+  grid-gap: 2em
+}
+
+.about-title{
+  grid-area: 1 / 1 / 2 / 4;
+}
+
+.brandon-pic{
+  grid-row: 2;
+  grid-column: 1;
+}
+
+.christina-pic{
+  grid-row: 2;
+  grid-column: 2;
+}
+
+.will-pic{
+  grid-row: 2;
+  grid-column: 3;
+}
+
+/******-end-********/
+/*** splash-body ***/
+/******-end-********/
+
+/*******************/
+/*** dashbo-body ***/
+/*******************/
+
+.sidebar{
+  grid-area: 1 / 1 / 4 / 2;
+  background-color: rgb(42, 230, 183);
+}
+
+.event-cards{
+  grid-area: 1 / 2 / 4 / 3;
+}
+
+/*******************/
+/*** dashbo-body ***/
+/******-end-********/
