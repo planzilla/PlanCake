@@ -6,4 +6,10 @@ style.css
 
 webpack.config.js
 
+database/migrations
 
+database/models
+
+database/seeders
+
+database.json
