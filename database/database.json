@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "postgres",
-    "password": null,
-    "database": "postgres",
-    "host": "127.0.0.1",
+    "username": "plancakeWBC",
+    "password": "plancakeWBC",
+    "database": "plancake",
+    "host": "plancake.cwg81p73rr2a.us-west-1.rds.amazonaws.com",
     "port": "5432",
     "dialect": "postgres", 
     "operatorsAliases": false
