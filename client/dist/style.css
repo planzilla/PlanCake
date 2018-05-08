@@ -84,7 +84,7 @@ so that nav bar is transparent (opacity) */
   border: 1em;
 }
 
-.header .img img{
+.header img{
   width: 100%;
   height: auto;
   max-height: 50px;
@@ -97,7 +97,7 @@ so that nav bar is transparent (opacity) */
   height: 100%;
 }
 
-.modal h2{
+.modal a{
   font-family: Montserrat,"Open Sans",'Helvetica Neue',Arial;
   color: #fff;
   padding: 14px 10px 13px;
