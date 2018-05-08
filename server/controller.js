@@ -6,9 +6,6 @@ const post = {};
 const get = {};
 const patch = {};
 
-
-
-
 post.user = (req, res) => {
   // console.log('Recieved post for user', req.body);
   res.status(200);

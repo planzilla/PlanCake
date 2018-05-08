@@ -37,11 +37,8 @@ export default class NavBar extends Component {
           <img src="plancake2.png" alt="plancake.png"/>
         </div>
         <div className="login jsas">
-          <a onClick={this.toggleModal.bind(this)}>Login</a>
-          <Modal 
-            handleView={this.handleView}
-            handleModal={this.handleModal}
-          />
+          <a onClick={this.handleModal.bind(this)}>Login</a>
+          {/* <Modal /> */}
         </div>
       </div>
     )
