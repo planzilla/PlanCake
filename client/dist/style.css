@@ -31,7 +31,6 @@ body{
 .dashboard{
   grid-area: 2 / 1 / 12 / 13;
   grid-template-columns: 1fr 4fr;
-  grid-auto-rows: auto;
   grid-gap: 0 1em;
 }
 
@@ -56,7 +55,6 @@ body{
 .header{
   grid-area: 1 / 1 / 1 / 13;
   grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: 1fr;
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
   background-color: rgb(243, 154, 52);
@@ -79,13 +77,17 @@ so that nav bar is transparent (opacity) */
 /***    header   ***/
 /*******************/
 
-.header img{
+.header .img{
   grid-column-start: 1;
   grid-column-end: 3;
-  width: 100%;
-  height: 100%;
+  height: auto;
   border: 1em;
-  min-width: 200px;
+}
+
+.header .img img{
+  width: 100%;
+  height: auto;
+  max-height: 50px;
   max-width: 200px;
 }
 
@@ -95,7 +97,7 @@ so that nav bar is transparent (opacity) */
   height: 100%;
 }
 
-.modal h1{
+.modal h2{
   font-family: Montserrat,"Open Sans",'Helvetica Neue',Arial;
   color: #fff;
   padding: 14px 10px 13px;
