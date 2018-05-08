@@ -7,15 +7,9 @@ const get = {};
 const patch = {};
 
 post.user = (req, res) => {
-<<<<<<< HEAD
-  // console.log('Recieved post for user', req.body);
-  res.status(200);
-  res.end();
-=======
   // console.log("recieved post for user", req.body)
   res.status(200)
   res.end()
->>>>>>> Modals and routes
 }
 
 post.signup = (req, res) => {
@@ -23,7 +17,7 @@ post.signup = (req, res) => {
   //   .then((result) => {
   //     result === false ? res.sendStatus(422) : res.sendStatus(200);
   //   })
-  db.sequelize.query(`INSERT INTO "Users" ("firstName", "lastName", "email", "username", "password", "createdAt") VALUES ("Brandon", "Villiados", "brandon.villiados@gmail.com", "brandonvilly", "123", "date")`)
+  db.sequelize.query(`INSERT INTO "Users" ("firstName", "lastName", "email", "username", "password") VALUES ('Brandon', 'Villiados', 'brandon.villiados@gmail.com', 'brandonvilly', '123')`)
   .then(result => {console.log('query was successful')})
 };
 
