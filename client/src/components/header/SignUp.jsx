@@ -14,7 +14,6 @@ export default class SignUp extends Component {
       firstName: null,
       lastName: null,
       loggedIn: false,
-      status: undefined,
     }
     
     this.handleChange = this.handleChange.bind(this);
@@ -29,10 +28,11 @@ export default class SignUp extends Component {
     )
   }
 
-  sendSignup(credentials) {
+  handleSignup(credentials) {
     return axios.post('/api/signup', credentials)
       .then(() => {
         this.props.sendLogin(this.state);
+        console.log('successs')
       })
       
       .catch(() => {
@@ -44,9 +44,6 @@ export default class SignUp extends Component {
 
   render() {
     return(
-      <Modal
-      isOpen={this.state.modalIsOpen}
-      >
         <form>
         <input
               placeholder="First"
@@ -81,10 +78,9 @@ export default class SignUp extends Component {
           <input
               value="SUBMIT"
               type="submit"
-              onClick={this.handleLogin}
+              onClick={this.handleSignup}
           />
         </form>
-      </Modal>
     )
   }
 }

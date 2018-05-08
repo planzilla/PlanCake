@@ -13,9 +13,9 @@ export default class App extends Component {
     }
   }
 
-  componentDidMount() {
-    axios.get('/api/user').then(() => {console.log('success')});
-  }
+  // componentDidMount() {
+  //   axios.get('/api/user').then(() => {console.log('success')});
+  // }
 
   render() {
     return (

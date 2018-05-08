@@ -18,11 +18,7 @@ export default class Login extends Component {
   }
 
   handleChange(e){
-    this.setState(
-        {
-            [e.target.name]: e.target.value
-        }
-    )
+    this.setState({[e.target.name]: e.target.value})
   }
 
   handleLogin(e) {
@@ -52,6 +48,7 @@ export default class Login extends Component {
               type="password"
               onChange={this.handleChange}
           />
+          <a onClick={this.props.handleView}>SignUp</a>
           <input
               value="SUBMIT"
               type="submit"
