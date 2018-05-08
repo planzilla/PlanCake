@@ -8,7 +8,8 @@
     "react-dev": "webpack -d --watch",
     "dev": "jest --watch",
     "test": "jest",
-    "eslint": "eslint --ignore-path .eslintignore ."
+    "eslint": "eslint --ignore-path .eslintignore .",
+    "ducky": "webpack -p --config ./webpack.config.js --progress",
   },
   "repository": {
     "type": "git",
