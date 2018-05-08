@@ -6,18 +6,15 @@ module.exports = {
     [
       {
         title: 'Week 12',
-        location: 'San Francisco',
-        createdAt: '2018-05-05T06:52:26.282Z'
+        location: 'San Francisco'
       },
       {
         title: 'Paradiso',
-        location: 'Seattle',
-        createdAt: '2018-05-06T06:52:26.282Z'
+        location: 'Seattle'
       },
       {
         title: 'Disneyland',
-        location: 'Anaheim',
-        createdAt: '2018-05-07T06:52:26.282Z'
+        location: 'Anaheim'
       },
     ], {});
   },

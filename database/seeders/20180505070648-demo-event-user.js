@@ -6,33 +6,27 @@ module.exports = {
     [
       {
         eventId: '1',
-        userId: '1',
-        createdAt: '2018-05-05T06:52:26.282Z'
+        userId: '1'
       },
       {
         eventId: '1',
-        userId: '2',
-        createdAt: '2018-05-06T06:52:26.282Z'
+        userId: '2'
       },
       {
         eventId: '1',
-        userId: '3',
-        createdAt: '2018-05-07T06:52:26.282Z'
+        userId: '3'
       },
       {
         eventId: '2',
-        userId: '1',
-        createdAt: '2018-05-05T06:52:26.282Z'
+        userId: '1'
       },
       {
         eventId: '3',
-        userId: '2',
-        createdAt: '2018-05-06T06:52:26.282Z'
+        userId: '2'
       },
       {
         eventId: '3',
-        userId: '3',
-        createdAt: '2018-05-07T06:52:26.282Z'
+        userId: '3'
       },
     ], {});
   },
