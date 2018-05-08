@@ -17,7 +17,7 @@ post.signup = (req, res) => {
   //   .then((result) => {
   //     result === false ? res.sendStatus(422) : res.sendStatus(200);
   //   })
-  db.sequelize.query(`INSERT INTO "Users" ("firstName", "lastName", "email", "username", "password") VALUES ('Brandon', 'Villiados', 'brandon.villiados@gmail.com', 'brandonvilly', '123')`)
+  db.sequelize.query(`INSERT INTO "Users" ("firstName", "lastName", "email", "username", "password") VALUES ('William', 'Ha', 'will.haha@gmail.com', 'willhaha', '123')`)
   .then(result => {console.log('query was successful')})
 };
 
