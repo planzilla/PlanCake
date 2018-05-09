@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-//import sidebar
 //import event cards
 
 export default class Dashboard extends Component {
@@ -9,10 +8,7 @@ export default class Dashboard extends Component {
 
   render() {
     return(
-      <div className="dashboard grid">
-        <div className="sidebar">sidebar</div>
-        <div className="event-cards">eventcards</div>
-      </div>
+      <div className="event-cards">eventcards</div>
     )
   }
 }
