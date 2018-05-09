@@ -30,7 +30,10 @@ export default class NavBar extends Component {
   }
 
   sendLogin(credentials) {
-    return axios.post('/api/login', credentials);
+    axios.post('/api/login', credentials)
+    .then(data => {
+      window.location.replace(`${window.location.origin}/dashboard`);
+    });
   }
 
   render() {

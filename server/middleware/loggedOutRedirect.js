@@ -5,7 +5,7 @@ const noLoginRequired = [
   '/api/login',
   '/api/user',
   '/api/logout',
-  '/bundles.js',
+  '/bundle.jsx',
 ];
 
 const loggedOutRedirect = (req, res, next) => {
