@@ -17,3 +17,5 @@ database.json
 /server/middleware
 
 /server/controller.js
+
+/__tests__
