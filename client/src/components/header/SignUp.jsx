@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Modal from 'react-modal';
 import axios from 'axios';
 
 export default class SignUp extends Component {
@@ -32,7 +31,6 @@ export default class SignUp extends Component {
     return axios.post('/api/signup', credentials)
       .then(() => {
         this.props.sendLogin(this.state);
-        console.log('successs')
       })
       
       .catch(() => {

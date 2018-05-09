@@ -6,7 +6,6 @@ const noLoginRequired = [
   '/api/user',
   '/api/logout',
   '/bundles.js',
-  '/fonts/Billabong.ttf'
 ];
 
 const loggedOutRedirect = (req, res, next) => {

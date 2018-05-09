@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Modal from 'react-modal';
 import axios from 'axios';
 
 export default class Login extends Component {
@@ -10,7 +9,7 @@ export default class Login extends Component {
     this.state = {
       username: null,
       password: null,
-      loggedIn: false,
+      failedLogin: '',
     }
     
     this.handleChange = this.handleChange.bind(this);
@@ -20,6 +19,9 @@ export default class Login extends Component {
   handleChange(e){
     this.setState({[e.target.name]: e.target.value})
   }
+
+  //start typing set the state to empty  string
+  //if failed login false render this
 
   handleLogin(e) {
     this.props.sendLogin(this.state)
