@@ -33,15 +33,14 @@ export default class App extends Component {
       </div>
 
 
-      // {/* </div> */}
       // == route to splash if not logged in ==
 
-      <div className="full-height-width grid">
-      <NavBar/>
+      // <div className="full-height-width grid">
+      // <NavBar/>
 
-      <LoggedInView />
-      <ContactInfo />
-      </div>
+      // <LoggedInView />
+      // <ContactInfo />
+      // </div>
       // == route after login is authenitcated == 
 
         // <Switch>
