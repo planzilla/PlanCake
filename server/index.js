@@ -14,6 +14,7 @@ const reactApp = express.static(path.join(__dirname, '/../client/dist'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(reactApp);
 app.use(morgan);
 app.use(reactApp);
 app.use(cookieParser());
@@ -21,6 +22,7 @@ app.use(session);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(loggedOutRedirect);
+
 
 reactRoutes.forEach(route => app.use(route, reactApp));
 app.use('/', router);

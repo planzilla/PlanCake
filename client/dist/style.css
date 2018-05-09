@@ -18,6 +18,7 @@ body{
   display: flex;
   justify-content: center;
   max-width: 1260px;
+  margin: auto;
 }
 
 .splash{
@@ -25,7 +26,7 @@ body{
   grid-template-rows: .25fr repeat(11, 1fr);
   grid-gap: .25em;
   height: 275vh;
-  width: 90vw;
+  width: 80vw;
 }
 
 .dashboard{

@@ -4,7 +4,7 @@ import axios from 'axios';
 import NavBar from './components/header/NavBar.jsx';
 import SplashPage from './components/body/SplashPage.jsx';
 import ContactInfo from './components/footer/ContactInfo.jsx';
-import Dashboard from './components/body/Dashboard.jsx';
+import LoggedInView from './components/body/LoggedInView.jsx';
 
 export default class App extends Component {
   constructor(props) {
@@ -36,11 +36,12 @@ export default class App extends Component {
       // {/* </div> */}
       // == route to splash if not logged in ==
 
-      // <div className="full-height-width grid">
-      // <NavBar/>
-      // <Dashboard />
-      // <ContactInfo />
-      // </div>
+      <div className="full-height-width grid">
+      <NavBar/>
+
+      <LoggedInView />
+      <ContactInfo />
+      </div>
       // == route after login is authenitcated == 
 
         // <Switch>
