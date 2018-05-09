@@ -13,3 +13,7 @@ database/models
 database/seeders
 
 database.json
+
+/server/middleware
+
+/server/controller.js
