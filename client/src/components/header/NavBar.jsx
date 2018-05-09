@@ -3,7 +3,6 @@ import Login from './Login.jsx';
 import Signup from './SignUp.jsx';
 import Modal from 'react-modal';
 import axios from 'axios';
-import CreateEvent from '../body/CreateEvent.jsx';
 
 export default class NavBar extends Component {
   constructor(props) {
@@ -40,7 +39,6 @@ export default class NavBar extends Component {
         <div>
           <img src="plancake2.png" alt="plancake.png"/>
         </div>
-        <CreateEvent />
         <div className="login jsas">
           <a onClick={this.handleModal.bind(this)}>Login</a>
           <Modal
