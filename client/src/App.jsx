@@ -19,11 +19,18 @@ export default class App extends Component {
 
   render() {
     return (
+      // <div>
+
       <div className="splash grid">
         <NavBar />
-        <SplashPage />
+          {/* <Switch> */}
+    {/* <Route path="/" render={ props => <Dashboard /> } /> */}
+  <Dashboard />
+            
+          {/* </Switch> */}
         <ContactInfo />
       </div>
+      // {/* </div> */}
       // == route to splash if not logged in ==
 
       // <div className="full-height-width grid">
