@@ -9,5 +9,5 @@ module.exports = morgan((tokens, req, res) => [
   tokens.res(req, res, 'content-length'),
   '-',
   tokens['response-time'](req,res),
-  'ms'].join(' ')
+  'ms'].join(' '),
 );

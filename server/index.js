@@ -8,12 +8,13 @@ const session = require('./middleware/session.js');
 const loggedOutRedirect = require('./middleware/loggedOutRedirect.js');
 const router = require('./routes/routes.js');
 const reactRoutes = require('./routes/reactRoutes.js');
+
 const app = express();
 const reactApp = express.static(path.join(__dirname, '/../client/dist'));
 const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan);
 app.use(cookieParser());
 app.use(session);

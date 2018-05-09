@@ -1,4 +1,4 @@
-const db = require("../database/models/index.js");
+const db = require('../database/models/index.js');
 const passport = require('./middleware/passport.js');
 const Promise = require('bluebird');
 
@@ -8,9 +8,9 @@ const patch = {};
 
 post.user = (req, res) => {
   // console.log("recieved post for user", req.body)
-  res.status(200)
-  res.end()
-}
+  res.status(200);
+  res.end();
+};
 
 post.signup = (req, res) => {
   // db.saveUser(req.body)
@@ -18,24 +18,20 @@ post.signup = (req, res) => {
   //     result === false ? res.sendStatus(422) : res.sendStatus(200);
   //   })
   db.sequelize.query(`INSERT INTO "Users" ("firstName", "lastName", "email", "username", "password") VALUES ('William', 'Ha', 'will.haha@gmail.com', 'willhaha', '123')`)
-  .then(result => {console.log('query was successful')})
+    .then((result) => { console.log('query was successful'); });
 };
 
 post.login = (req, res, next) => {
-  passport.authenticate('local', function (err, user, info) {
-    
+  passport.authenticate('local', (err, user, info) => {
     if (err || !user) {
       res.status(422).send(info);
-    
     } else {
-
       user.password = undefined;
       user.salt = undefined;
-
-      req.login(user, function (err) {
-        if (err) {
-          console.log('error logging in', err);
-          res.status(400).send(err);
+      req.login(user, (error) => {
+        if (error) {
+          console.log('error logging in', error);
+          res.status(400).send(error);
         } else {
           res.json(user);
         }
@@ -48,9 +44,9 @@ get.logout = (req, res) => {
   req.logout();
   req.session.destroy();
   res.redirect('/');
-}
+};
 
-//THIS IS AN EXAMPLE OF QUERY STRING
+// THIS IS AN EXAMPLE OF QUERY STRING
 // get.user = (req, res) => {
 //   db.sequelize.query(`select * from "Users"`, { type: db.sequelize.QueryTypes.SELECT})
 //   .then(users => console.log(users))
