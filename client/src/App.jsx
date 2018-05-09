@@ -29,7 +29,7 @@ export default class App extends Component {
       </Switch>
 
       <Link to="/dashboard">dashboard</Link>
-        <ContactInfo />
+      <ContactInfo />
       </div>
 
 
