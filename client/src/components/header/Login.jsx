@@ -26,8 +26,8 @@ export default class Login extends Component {
   handleLogin(e) {
     this.props.sendLogin(this.state)
     .then(data => {
-      this.props.history.push('/locations');
-      return data;
+      // this.props.history.push('/locations');
+      console.log(data);
     })
     .then(({ data }) => this.props.setUser(data))
     .catch(err => this.setState({

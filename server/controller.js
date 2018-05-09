@@ -13,15 +13,11 @@ post.user = (req, res) => {
 };
 
 post.signup = (req, res) => {
-  // db.saveUser(req.body)
-  //   .then((result) => {
-  //     result === false ? res.sendStatus(422) : res.sendStatus(200);
-  //   })
-  // db.sequelize.query(`INSERT INTO "Users" ("firstName", "lastName", "email", "username", "password") VALUES ('William', 'Ha', 'will.haha@gmail.com', 'willhaha', '123')`)
-    // .then((result) => { console.log('query was successful'); });
-    console.log(req.body);
+  db.saveUser(req.body)
+  .then(() => {
     res.status(200);
     res.end();
+  });
 };
 
 post.login = (req, res, next) => {
@@ -48,13 +44,6 @@ get.logout = (req, res) => {
   req.session.destroy();
   res.redirect('/');
 };
-
-// THIS IS AN EXAMPLE OF QUERY STRING
-// get.user = (req, res) => {
-//   db.sequelize.query(`select * from "Users"`, { type: db.sequelize.QueryTypes.SELECT})
-//   .then(users => console.log(users))
-//   .catch(err => console.log('error'))
-// }
 
 module.exports.get = get;
 module.exports.post = post;
