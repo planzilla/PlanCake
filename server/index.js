@@ -11,22 +11,23 @@ const reactRoutes = require('./routes/reactRoutes.js');
 
 const app = express();
 const reactApp = express.static(path.join(__dirname, '/../client/dist'));
-const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(reactApp);
 app.use(morgan);
+app.use(reactApp);
 app.use(cookieParser());
 app.use(session);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(loggedOutRedirect);
-app.use('/', router);
 
 
 reactRoutes.forEach(route => app.use(route, reactApp));
+app.use('/', router);
 
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => { console.log(`listening to port ${PORT}!`); });
 
 

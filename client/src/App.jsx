@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Route, Link, Switch } from 'react-router-dom';
 import axios from 'axios';
 import NavBar from './components/header/NavBar.jsx';
 import SplashPage from './components/body/SplashPage.jsx';
@@ -19,19 +20,27 @@ export default class App extends Component {
 
   render() {
     return (
-      // <div className="splash grid">
-      //   <NavBar />
-      //   <SplashPage />
-      //   <ContactInfo />
-      // </div>
-      // == route to splash if not logged in ==
+      <div className="splash grid">
+      <NavBar />
 
-      <div className="full-height-width grid">
-      <NavBar/>
+      <Switch>
+        <Route exact path="/" component={ SplashPage } />
+        <Route path="/dashboard" component={ Dashboard } />
+      </Switch>
 
-      <LoggedInView />
+      <Link to="/dashboard">dashboard</Link>
       <ContactInfo />
       </div>
+
+
+      // == route to splash if not logged in ==
+
+      // <div className="full-height-width grid">
+      // <NavBar/>
+
+      // <LoggedInView />
+      // <ContactInfo />
+      // </div>
       // == route after login is authenitcated == 
 
         // <Switch>
