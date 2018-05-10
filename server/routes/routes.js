@@ -17,7 +17,7 @@ router.post('/api/signup', controller.post.signup);
 
 router.post('/api/login', controller.post.login);
 
-// router.get('/api/user', controller.get.user);
+router.get('/api/user', controller.get.user);
 
 router.get('/api/logout', controller.get.logout);
 

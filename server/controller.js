@@ -61,6 +61,13 @@ post.createEvent = (req, res) => {
 
 }
 
+get.user = (req, res) => {
+  console.log('get user', req.user);
+  if (req.user) {
+    db.fetchUser(req.user.username).then(user => res.json(user));
+  }
+}
+
 module.exports.get = get;
 module.exports.post = post;
 module.exports.patch = patch;
