@@ -9,7 +9,8 @@ export default class LoggedInView extends Component {
     this.state = {
       createEventTitle: '',
       createEventLocation: '',
-      createEventEmails: ''
+      createEventEmails: '',
+      createEventError: ''
     };
     this.handleCreateEvent = this.handleCreateEvent.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -21,17 +22,29 @@ export default class LoggedInView extends Component {
 
   handleCreateEvent(event) {
     event.preventDefault();
-    console.log(this.state);
-    axios.post('/api/createEvent', {
-      createEventTitle: this.state.createEventTitle,
-      createEventLocation: this.state.createEventLocation
-    })
+    if (this.state.createEventTitle === '') {
+      this.setState({
+        createEventError: 'Please insert an event title.'
+      })
+    } else if (this.state.createEventLocation === '') {
+      this.setState({
+        createEventError: 'Please insert an event location.'
+      })
+    }else {
+      axios.post('/api/createEvent', {
+        createEventTitle: this.state.createEventTitle,
+        createEventLocation: this.state.createEventLocation
+      })
       .then((data) => {
+        console.log('data line 30 logginedinview', data)
         // TODO: close modal and redirect to new board
       })
       .catch((err) => {
-        // TODO: give error in modal
+        this.setState({
+          createEventError: 'An error occurred. Please try again.'
+        });
       })
+    }
   }
 
   render() {
@@ -40,6 +53,7 @@ export default class LoggedInView extends Component {
         <SideBar
           handleCreateEvent={this.handleCreateEvent}
           handleInputChange={this.handleInputChange}
+          createEventError={this.state.createEventError}
         />
         <Dashboard />
       </div>

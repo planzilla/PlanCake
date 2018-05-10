@@ -12,6 +12,7 @@ const controller = require('../controller.js');
 // router.get('/api/events', controller.get.events);
 // router.get('/api/board', controller.get.board);
 router.post('/api/createEvent', controller.post.createEvent);
+router.post('/api/addUserToEvent', controller.post.addUserToEvent);
 
 router.post('/api/signup', controller.post.signup);
 

@@ -46,23 +46,35 @@ get.logout = (req, res) => {
 //   .catch(err => console.log('error'))
 // }
 post.createEvent = (req, res) => {
-  console.log('in post createEvent', req.body);
-
   const query = {
     title: req.body.createEventTitle,
     location: req.body.createEventLocation
   }
 
-  console.log('this is the query', query);
-
-  db.Event.create(query)
-    .then((() => {console.log('added')}))
+  return db.Event.create(query)
+    .then((({ dataValues }) => {
+      return post.addUserToEvent(dataValues, req.user)
+        .then((data) => {
+          res.json(data);
+        })
+        .catch((err)=> {
+          console.log(err);
+          res.status(err.status);
+        })
+    }))
     .catch((err) => {console.log(err)})
+}
 
+post.addUserToEvent = (event, user, res) => {
+  const query = {
+    eventId: event.id,
+    userId: user.id
+  }
+
+  return db.EventUser.create(query);
 }
 
 get.user = (req, res) => {
-  console.log('get user', req.user);
   if (req.user) {
     db.fetchUser(req.user.username).then(user => res.json(user));
   }

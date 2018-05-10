@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Header, Icon, Image, Modal, Form, Input, TextArea } from 'semantic-ui-react';
 
-const CreateEvent = ({ handleCreateEvent, handleInputChange }) => (
+const CreateEvent = ({ handleCreateEvent, handleInputChange , createEventError}) => (
   <Modal trigger={<Button>Create an Event</Button>} closeIcon>
     <Modal.Header>Create an Event</Modal.Header>
     <Modal.Content>
@@ -35,6 +35,7 @@ const CreateEvent = ({ handleCreateEvent, handleInputChange }) => (
       </Form>
     </Modal.Content>
     <Modal.Actions>
+      <p>{createEventError}</p>
       <Button basic color='red'>
         <Icon name='remove' /> Cancel
       </Button>
