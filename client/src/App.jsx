@@ -10,31 +10,45 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: null,
-      firstName: null,
-      lastName: null,
-      email: null,
-      username: null,
+      userData:
+        {
+          id: null,
+          firstName: null,
+          lastName: null,
+          email: null,
+          username: null,
+        }
     }
 
     this.setUser = this.setUser.bind(this);
+
+    axios.get('/api/user')
+    .then((result) => 
+      this.setState({userData: result.data}));
   }
 
   setUser(obj) {
-    this.setState(obj);
+    console.log('obj', obj)
+    this.setState( obj);
   }
 
   render() {
     return (
       <div className="splash grid">
-      <NavBar setUser={this.setUser} />
+      {console.log('userData', this.state.userData)}
+        <NavBar setUser={this.setUser} />
         <Switch>
-          <Route exact path="/" component={ SplashPage } />
-          <Route exact path="/loggedinview" component={ LoggedInView } />
+          <Route exact path="/" component={SplashPage} />
+          <Route exact path="/loggedinview" render={() => {
+            return ( 
+            <LoggedInView userData={this.state.userData} /> 
+            )}} 
+          />
         </Switch>
-      <Link to="/loggedinview">dashboard</Link>
-      <ContactInfo />
+        <Link to="/loggedinview">dashboard</Link>
+        <ContactInfo />
       </div>
     )
   }
 };
+

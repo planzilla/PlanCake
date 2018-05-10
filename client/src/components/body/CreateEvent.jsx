@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Header, Icon, Image, Modal, Form, Input, TextArea } from 'semantic-ui-react';
 
-const CreateEvent = () => (
+const CreateEvent = ({ handleCreateEvent, handleInputChange , createEventError}) => (
   <Modal trigger={<Button>Create an Event</Button>} closeIcon>
     <Modal.Header>Create an Event</Modal.Header>
     <Modal.Content>
@@ -12,12 +12,16 @@ const CreateEvent = () => (
             control={Input}
             label='Title'
             placeholder='Title'
+            name='createEventTitle'
+            onChange={handleInputChange}
           />
           <Form.Field
             id='form-input-control-location'
             control={Input}
             label='Location'
             placeholder='Location'
+            name='createEventLocation'
+            onChange={handleInputChange}
           />
         </Form.Group>
         <Form.Input
@@ -25,14 +29,17 @@ const CreateEvent = () => (
           control={TextArea}
           label='Invite Friends'
           placeholder='Enter email addresses'
+          name='createEventEmails'
+          onChange={handleInputChange}
         />
       </Form>
     </Modal.Content>
     <Modal.Actions>
+      <p>{createEventError}</p>
       <Button basic color='red'>
         <Icon name='remove' /> Cancel
       </Button>
-      <Button color='green'>
+      <Button color='green' onClick={handleCreateEvent}>
         <Icon name='checkmark' /> Create
       </Button>
     </Modal.Actions>

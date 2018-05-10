@@ -9,7 +9,11 @@ export default class SideBar extends Component {
   render() {
     return(
       <div className="sidebar">
-        <CreateEvent />        
+        <CreateEvent
+          handleCreateEvent={this.props.handleCreateEvent}
+          handleInputChange={this.props.handleInputChange}
+          createEventError={this.props.createEventError}
+        />        
       </div>
     )
   }

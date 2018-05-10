@@ -39,6 +39,47 @@ get.logout = (req, res) => {
   res.redirect('/');
 };
 
+// THIS IS AN EXAMPLE OF QUERY STRING
+// get.user = (req, res) => {
+//   db.sequelize.query(`select * from "Users"`, { type: db.sequelize.QueryTypes.SELECT})
+//   .then(users => console.log(users))
+//   .catch(err => console.log('error'))
+// }
+post.createEvent = (req, res) => {
+  const query = {
+    title: req.body.createEventTitle,
+    location: req.body.createEventLocation
+  }
+
+  return db.Event.create(query)
+    .then((({ dataValues }) => {
+      return post.addUserToEvent(dataValues, req.user)
+        .then((data) => {
+          res.json(data);
+        })
+        .catch((err)=> {
+          console.log(err);
+          res.status(err.status);
+        })
+    }))
+    .catch((err) => {console.log(err)})
+}
+
+post.addUserToEvent = (event, user, res) => {
+  const query = {
+    eventId: event.id,
+    userId: user.id
+  }
+
+  return db.EventUser.create(query);
+}
+
+get.user = (req, res) => {
+  if (req.user) {
+    db.fetchUser(req.user.username).then(user => res.json(user));
+  }
+}
+
 module.exports.get = get;
 module.exports.post = post;
 module.exports.patch = patch;

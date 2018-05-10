@@ -1,3 +1,9 @@
 language: node_js
 node_js:
   - "stable" 
+services:
+   - postgresql
+before_script:
+   - psql -c 'create database travis_ci_test;' -U postgres
+   - cp src/db/config/database.yml.travis src/db/config/config.json
+   - sequelize db:migrate
