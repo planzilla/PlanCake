@@ -23,7 +23,7 @@ export default class LoggedInView extends Component {
     event.preventDefault();
     console.log(this.state);
     axios.post('/api/createEvent', {
-      createEventTitle: this.state.createEventEmails,
+      createEventTitle: this.state.createEventTitle,
       createEventLocation: this.state.createEventLocation
     })
       .then((data) => {
