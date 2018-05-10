@@ -11,7 +11,7 @@ const controller = require('../controller.js');
 // router.patch('/api/vote', controller.patch.vote);
 // router.get('/api/events', controller.get.events);
 // router.get('/api/board', controller.get.board);
-// router.post('/api/events', controller.post.events);
+router.post('/api/createEvent', controller.post.createEvent);
 
 router.post('/api/signup', controller.post.signup);
 
