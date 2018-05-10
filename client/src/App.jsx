@@ -10,49 +10,31 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      id: null,
+      firstName: null,
+      lastName: null,
+      email: null,
+      username: null,
     }
+
+    this.setUser = this.setUser.bind(this);
   }
 
-  // componentDidMount() {
-  //   axios.get('/api/user').then(() => {console.log('success')});
-  // }
+  setUser(obj) {
+    this.setState(obj);
+  }
 
   render() {
     return (
       <div className="splash grid">
-      <NavBar />
-
-      <Switch>
-        <Route exact path="/" component={ SplashPage } />
-        <Route path="/dashboard" component={ Dashboard } />
-      </Switch>
-
-      <Link to="/dashboard">dashboard</Link>
+      <NavBar setUser={this.setUser} />
+        <Switch>
+          <Route exact path="/" component={ SplashPage } />
+          <Route exact path="/loggedinview" component={ LoggedInView } />
+        </Switch>
+      <Link to="/loggedinview">dashboard</Link>
       <ContactInfo />
       </div>
-
-
-      // == route to splash if not logged in ==
-
-      // <div className="full-height-width grid">
-      // <NavBar/>
-
-      // <LoggedInView />
-      // <ContactInfo />
-      // </div>
-      // == route after login is authenitcated == 
-
-        // <Switch>
-        //   <Route exact path="/" render={ props => <h1>hello react</h1> } />
-        //   <Route path="/example" component={ Example } />
-        //   <Route path="/example2" render={ props => {
-        //     return (
-        //       <Example2 function={ function }/>
-        //     )}}
-        //   />
-
-        //   </Switch> 
     )
   }
 };

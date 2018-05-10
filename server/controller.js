@@ -6,12 +6,6 @@ const post = {};
 const get = {};
 const patch = {};
 
-post.user = (req, res) => {
-  // console.log("recieved post for user", req.body)
-  res.status(200);
-  res.end();
-};
-
 post.signup = (req, res) => {
   db.saveUser(req.body)
   .then(() => {
@@ -32,7 +26,7 @@ post.login = (req, res, next) => {
           console.log('error logging in', error);
           res.status(400).send(error);
         } else {
-          res.json(user);
+          res.json(user.dataValues);
         }
       });
     }
