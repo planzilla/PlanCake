@@ -5,12 +5,21 @@ const controller = require('../controller.js');
 router.post('/api/signup', controller.post.signup);
 router.post('/api/login', controller.post.login);
 router.get('/api/logout', controller.get.logout);
-// router.post('/api/user', controller.post.user);
+router.post('/api/user', controller.post.user);
 
 // EVENT RELATED ROUTES
 // router.patch('/api/vote', controller.patch.vote);
 router.get('/api/userEvents', controller.get.userEvents);
 // router.get('/api/board', controller.get.board);
-// router.post('/api/events', controller.post.events);
+router.post('/api/createEvent', controller.post.createEvent);
+router.post('/api/addUserToEvent', controller.post.addUserToEvent);
+
+// router.post('/api/signup', controller.post.signup);
+
+// router.post('/api/login', controller.post.login);
+
+// router.get('/api/user', controller.get.user);
+
+// router.get('/api/logout', controller.get.logout);
 
 module.exports = router;

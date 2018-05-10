@@ -16,6 +16,10 @@ export default class Login extends Component {
     this.handleLogin = this.handleLogin.bind(this);
   }
 
+  componentDidMount() {
+    this.props.setUser({ username: this.state.username})
+  }
+
   handleChange(e){
     this.setState({[e.target.name]: e.target.value})
   }
@@ -26,10 +30,12 @@ export default class Login extends Component {
   handleLogin(e) {
     this.props.sendLogin(this.state)
     .then(data => {
-      this.props.history.push('/locations');
-      return data;
+      this.props.history.push('/loggedinview');
+      console.log(data);
     })
-    .then(({ data }) => this.props.setUser(data))
+    .then(({ data }) => {
+      this.props.setUser(data)
+    })
     .catch(err => this.setState({
       failedLogin: 'Incorrect username or password.'
     }));
@@ -53,7 +59,7 @@ export default class Login extends Component {
           <a onClick={this.props.handleView}>SignUp</a>
           <input
               value="SUBMIT"
-              type="submit"
+              type="button"
               onClick={this.handleLogin}
           />
         </form>

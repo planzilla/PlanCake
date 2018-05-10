@@ -4,6 +4,7 @@ const reactRoutes = [
   '/createEvent',
   '/event',
   '/board',
+  '/loggedinview',
 ];
 
 module.exports = reactRoutes;

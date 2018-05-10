@@ -6,22 +6,12 @@ const post = {};
 const get = {};
 const patch = {};
 
-post.user = (req, res) => {
-  // console.log("recieved post for user", req.body)
-  res.status(200);
-  res.end();
-};
-
 post.signup = (req, res) => {
-  // db.saveUser(req.body)
-  //   .then((result) => {
-  //     result === false ? res.sendStatus(422) : res.sendStatus(200);
-  //   })
-  // db.sequelize.query(`INSERT INTO "Users" ("firstName", "lastName", "email", "username", "password") VALUES ('William', 'Ha', 'will.haha@gmail.com', 'willhaha', '123')`)
-    // .then((result) => { console.log('query was successful'); });
-    console.log(req.body);
+  db.saveUser(req.body)
+  .then(() => {
     res.status(200);
     res.end();
+  });
 };
 
 post.login = (req, res, next) => {
@@ -36,7 +26,7 @@ post.login = (req, res, next) => {
           console.log('error logging in', error);
           res.status(400).send(error);
         } else {
-          res.json(user);
+          res.json(user.dataValues);
         }
       });
     }
@@ -65,6 +55,40 @@ get.userEvents = (req, res) => {
 //   .then(users => console.log(users))
 //   .catch(err => console.log('error'))
 // }
+post.createEvent = (req, res) => {
+  const query = {
+    title: req.body.createEventTitle,
+    location: req.body.createEventLocation
+  }
+
+  return db.Event.create(query)
+    .then((({ dataValues }) => {
+      return post.addUserToEvent(dataValues, req.user)
+        .then((data) => {
+          res.json(data);
+        })
+        .catch((err)=> {
+          console.log(err);
+          res.status(err.status);
+        })
+    }))
+    .catch((err) => {console.log(err)})
+}
+
+post.addUserToEvent = (event, user, res) => {
+  const query = {
+    eventId: event.id,
+    userId: user.id
+  }
+
+  return db.EventUser.create(query);
+}
+
+get.user = (req, res) => {
+  if (req.user) {
+    db.fetchUser(req.user.username).then(user => res.json(user));
+  }
+}
 
 module.exports.get = get;
 module.exports.post = post;
