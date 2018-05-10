@@ -30,9 +30,9 @@ export default class NavBar extends Component {
   }
 
   sendLogin(credentials) {
-    axios.post('/api/login', credentials)
+    return axios.post('/api/login', credentials)
     .then(data => {
-      window.location.replace(`${window.location.origin}/dashboard`);
+      window.location.replace(`${window.location.origin}/loggedinview`);
     });
   }
 
@@ -53,10 +53,12 @@ export default class NavBar extends Component {
                 handleView={this.handleView}
                 handleModal={this.handleModal}
                 sendLogin={this.sendLogin}
+                setUser={this.props.setUser}
               /> 
               : <Signup 
                   handleModal={this.handleModal}
                   sendLogin={this.sendLogin}
+                  setUser={this.props.setUser}
               />}
           </Modal>
         </div>

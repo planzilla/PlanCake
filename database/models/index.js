@@ -1,5 +1,7 @@
 'use strict';
 
+const Promise = require('bluebird');
+const bcrypt = require('bcrypt-nodejs');
 var fs = require('fs');
 var path = require('path');
 var Sequelize = require('sequelize');
@@ -55,6 +57,47 @@ Object.keys(db).forEach(modelName => {
     db[modelName].associate(db);
   }
 });
+
+Promise.promisifyAll(bcrypt);
+
+db.fetchUser = (username) =>  db.User.findOne({ where: {username: username}});
+
+db.saveUser = (obj) => {
+  return db.fetchUser(obj.username)
+  
+  .then((user) => {
+    
+    if (user === null) {
+      const saltRounds = 10;
+      return bcrypt.genSaltAsync(saltRounds)
+      
+      .then ((salt) => {
+        return bcrypt.hashAsync(obj.password, salt, null)
+        
+        .then ((hash) => {
+          obj.password = hash;
+          return db.User.create({
+            firstName: obj.firstName,
+            lastName: obj.lastName,
+            username: obj.username,
+            password: obj.password,
+            username: obj.username,
+            email: obj.email
+          }, (err) => {
+            console.log(err);
+          });
+        })
+
+        .catch((err) => 
+          console.log(err)
+        )
+    }) 
+    
+    } else {
+      return false;
+    }
+  })
+};
 
 sequelize.sync();
 

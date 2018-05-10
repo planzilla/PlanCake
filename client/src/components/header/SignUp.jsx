@@ -30,7 +30,8 @@ export default class SignUp extends Component {
   handleSignup(credentials) {
     return axios.post('/api/signup', credentials)
       .then(() => {
-        this.props.sendLogin(this.state);
+        console.log(this.state)
+        // this.props.sendLogin(this.state);
       })
       
       .catch(() => {
@@ -76,7 +77,7 @@ export default class SignUp extends Component {
           <input
               value="SUBMIT"
               type="submit"
-              onClick={this.handleSignup}
+              onClick={() => this.handleSignup(this.state)}
           />
         </form>
     )
