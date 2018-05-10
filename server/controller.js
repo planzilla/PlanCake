@@ -49,6 +49,16 @@ get.logout = (req, res) => {
   res.redirect('/');
 };
 
+get.userEvents = (req, res) => {
+  console.log('get.userEvents', req.body);
+  // db.Board.findAll({
+  //   where: {
+  //     userId: req.
+  //   }
+  // })
+  res.end('hi from get.userevents');
+}
+
 // THIS IS AN EXAMPLE OF QUERY STRING
 // get.user = (req, res) => {
 //   db.sequelize.query(`select * from "Users"`, { type: db.sequelize.QueryTypes.SELECT})

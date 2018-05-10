@@ -10,13 +10,18 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      userData:
+        {
+          id: null,
+          firstName: null,
+          lastName: null,
+          email: null,
+          username: null,
+        }
     }
   }
 
-  // componentDidMount() {
-  //   axios.get('/api/user').then(() => {console.log('success')});
-  // }
+
 
   render() {
     return (
@@ -25,10 +30,10 @@ export default class App extends Component {
 
       <Switch>
         <Route exact path="/" component={ SplashPage } />
-        <Route path="/dashboard" component={ Dashboard } />
+        <Route path="/loggedinview" render={() => <LoggedInView userData={this.state.userData} /> } />
       </Switch>
 
-      <Link to="/dashboard">dashboard</Link>
+      <Link to="/loggedinview">Logged In View</Link>
       <ContactInfo />
       </div>
 
