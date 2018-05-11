@@ -12,7 +12,7 @@ export default class EventCard extends Component {
     return(
       <div>hello this is event card
         <div className="ui compact segment">
-          <p>Pellentesque habitant morbi</p>
+          <p>FUTURE EVENT CARDS</p>
         </div>
       </div>
     )

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { withRouter } from 'react-router-dom';
 
-export default class SignUp extends Component {
+class SignUp extends Component {
   constructor(props){
 
     super(props);
@@ -12,7 +13,6 @@ export default class SignUp extends Component {
       email: null,
       firstName: null,
       lastName: null,
-      loggedIn: false,
     }
     
     this.handleChange = this.handleChange.bind(this);
@@ -28,16 +28,15 @@ export default class SignUp extends Component {
   }
 
   handleSignup(credentials) {
-    return axios.post('/api/signup', credentials)
+     return axios.post('/api/signup', credentials)
       .then(() => {
-        console.log(this.state)
-        // this.props.sendLogin(this.state);
+        this.props.setUser(this.state);
+        this.props.handleModal();
+        this.props.handleView('logout');
+        this.props.sendLogin(this.state);
       })
-      
-      .catch(() => {
-        this.setState({
-          status: false
-        })
+      .catch(err => {
+        console.error(err);
       })
   }
 
@@ -83,3 +82,5 @@ export default class SignUp extends Component {
     )
   }
 }
+
+export default withRouter(SignUp);

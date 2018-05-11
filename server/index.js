@@ -7,14 +7,12 @@ const passport = require('./middleware/passport');
 const session = require('./middleware/session.js');
 const loggedOutRedirect = require('./middleware/loggedOutRedirect.js');
 const router = require('./routes/routes.js');
-const reactRoutes = require('./routes/reactRoutes.js');
 
 const app = express();
 const reactApp = express.static(path.join(__dirname, '/../client/dist'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(reactApp);
 app.use(morgan);
 app.use(reactApp);
 app.use(cookieParser());
@@ -22,10 +20,9 @@ app.use(session);
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(loggedOutRedirect);
+app.use(router);
 
-
-reactRoutes.forEach(route => app.use(route, reactApp));
-app.use('/', router);
+app.get('*', express.static(`${__dirname}/../client/dist`));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => { console.log(`listening to port ${PORT}!`); });
