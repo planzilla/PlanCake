@@ -39,13 +39,20 @@ get.logout = (req, res) => {
   res.redirect('/');
 };
 
+// Retrieve all events of user after login
 get.userEvents = (req, res) => {
-  console.log('get.userEvents', req.body);
-  // db.Board.findAll({
-  //   where: {
-  //     userId: req.
-  //   }
-  // })
+  console.log('get.userEvents', req.user.id);
+  return db.EventUser.findAll({
+    // where: {
+    //   userId: req.user.id
+    // },
+    // include: {
+    //   model: db.Event,
+    //   model: db.User,
+    //   required: true,
+    // }
+  })
+  .then(data => console.log('db.user.findall:', data));
   res.end('hi from get.userevents');
 }
 

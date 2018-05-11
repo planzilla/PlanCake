@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 import SideBar from './SideBar.jsx';
 import Dashboard from './Dashboard.jsx';
 import axios from 'axios';
@@ -20,11 +19,11 @@ export default class LoggedInView extends Component {
 
   // load user events and info
   componentDidMount() {
-    console.log(this.props);
-    axios.get('/api/userEvents', this.props.userData.id)
-    .then(data => console.log(data));
+    console.log('this.props.userData.id:', this.props.userData.id);
+    axios.get('/api/userEvents')
+    .then(data => console.log('this is comp did mount:', data));
   }
-
+// {params: {id: this.props.userData.id}}
   handleInputChange(event) {
     this.setState({ [event.target.name]: event.target.value })
   }

@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
       through: 'eventUser',
       foreignKey: 'userId'
     });
+    User.hasMany(models.Event, {
+      through: 'eventUser',
+      foreignKey: 'userId'
+    });
   };
   return User;
 };
