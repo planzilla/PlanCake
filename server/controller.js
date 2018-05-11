@@ -6,42 +6,28 @@ const post = {};
 const get = {};
 const patch = {};
 
-post.signup = (req, res) => {
-  db.saveUser(req.body)
-  .then(() =>  {
-    res.status(302);
-    res.end();
-  });
-};
+// THIS IS AN EXAMPLE OF QUERY STRING
+// get.user = (req, res) => {
+//   db.sequelize.query(`select * from "Users"`, { type: db.sequelize.QueryTypes.SELECT})
+//   .then(users => console.log(users))
+//   .catch(err => console.log('error'))
+// }
 
-post.login = (req, res, next) => {
-  passport.authenticate('local', (err, user, info) => {
-    if (err || !user) {
-      res.status(422).send(info);
-    } else {
-      user.password = undefined;
-      user.salt = undefined;
-      req.login(user, (error) => {
-        if (error) {
-          console.log('error logging in', error);
-          res.status(400).send(error);
-        } else {
-          res.json(user.dataValues);
-        }
-      });
-    }
-  })(req, res, next);
-};
-
+/* -------- GET REQUESTS --------- */
 get.logout = (req, res) => {
   req.logout();
   req.session.destroy();
   res.redirect('/');
 };
 
+get.user = (req, res) => {
+  if (req.user) {
+    db.fetchUser(req.user.username).then(user => res.json(user));
+  }
+}
+
 // Retrieve all events of user after login
 get.userEvents = (req, res) => {
-  console.log('get.userEvents', req.user.id);
   return db.EventUser.findAll({
     where: {
       UserId: req.user.id
@@ -63,12 +49,17 @@ get.userEvents = (req, res) => {
   });
 }
 
-// THIS IS AN EXAMPLE OF QUERY STRING
-// get.user = (req, res) => {
-//   db.sequelize.query(`select * from "Users"`, { type: db.sequelize.QueryTypes.SELECT})
-//   .then(users => console.log(users))
-//   .catch(err => console.log('error'))
-// }
+/* -------- POST REQUESTS --------- */
+
+post.addUserToEvent = (event, user, res) => {
+  const query = {
+    EventId: event.id,
+    UserId: user.id
+  }
+
+  return db.EventUser.create(query);
+}
+
 post.createEvent = (req, res) => {
   const query = {
     title: req.body.createEventTitle,
@@ -89,20 +80,32 @@ post.createEvent = (req, res) => {
     .catch((err) => {console.log(err)})
 }
 
-post.addUserToEvent = (event, user, res) => {
-  const query = {
-    EventId: event.id,
-    UserId: user.id
-  }
+post.login = (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    if (err || !user) {
+      res.status(422).send(info);
+    } else {
+      user.password = undefined;
+      user.salt = undefined;
+      req.login(user, (error) => {
+        if (error) {
+          console.log('error logging in', error);
+          res.status(400).send(error);
+        } else {
+          res.json(user.dataValues);
+        }
+      });
+    }
+  })(req, res, next);
+};
 
-  return db.EventUser.create(query);
-}
-
-get.user = (req, res) => {
-  if (req.user) {
-    db.fetchUser(req.user.username).then(user => res.json(user));
-  }
-}
+post.signup = (req, res) => {
+  db.saveUser(req.body)
+  .then(() =>  {
+    res.status(302);
+    res.end();
+  });
+};
 
 module.exports.get = get;
 module.exports.post = post;
