@@ -5,28 +5,28 @@ module.exports = {
     return queryInterface.bulkInsert('EventUsers',
     [
       {
-        eventId: '1',
-        userId: '1'
+        EventId: '1',
+        UserId: '1'
       },
       {
-        eventId: '1',
-        userId: '2'
+        EventId: '1',
+        UserId: '2'
       },
       {
-        eventId: '1',
-        userId: '3'
+        EventId: '1',
+        UserId: '3'
       },
       {
-        eventId: '2',
-        userId: '1'
+        EventId: '2',
+        UserId: '1'
       },
       {
-        eventId: '3',
-        userId: '2'
+        EventId: '3',
+        UserId: '2'
       },
       {
-        eventId: '3',
-        userId: '3'
+        EventId: '3',
+        UserId: '3'
       },
     ], {});
   },

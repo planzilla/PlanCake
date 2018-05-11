@@ -8,11 +8,12 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Link.associate = function(models) {
     // associations can be defined here
+    // TODO: Might need to change this later
     Link.belongsTo(models.Board, {
-      foreignKey: 'links'
+      foreignKey: 'links' 
     });
     Link.belongsTo(models.User), {
-      foreignKey: 'userId'
+      foreignKey: 'UserId'
     }
   };
   return Link;

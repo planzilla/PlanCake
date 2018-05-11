@@ -44,15 +44,18 @@ get.userEvents = (req, res) => {
   console.log('get.userEvents', req.user.id);
   return db.EventUser.findAll({
     where: {
-      UserId: 2
+      UserId: req.user.id
     },
-    include: {
-      model: db.Event,
-      model: db.User,
-      required: true,
-    }
+    include: [
+     {model: db.Event,
+      required: true,}
+    ],
   })
-  .then(data => console.log('db.user.findall:', data))
+  .then(data => {
+    let eventArr = data.map((item) => {return item.dataValues.Event.dataValues});
+    console.log(eventArr);
+    res.json(eventArr);
+  })
   .catch(error => console.log('error:', error));
   res.end('hi from get.userevents');
 }
@@ -85,8 +88,8 @@ post.createEvent = (req, res) => {
 
 post.addUserToEvent = (event, user, res) => {
   const query = {
-    eventId: event.id,
-    userId: user.id
+    EventId: event.id,
+    UserId: user.id
   }
 
   return db.EventUser.create(query);

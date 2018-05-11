@@ -11,7 +11,7 @@ module.exports = {
       text: {
         type: Sequelize.STRING
       },
-      userId: {
+      UserId: {
         type: Sequelize.INTEGER,
         onDelete: "CASCADE",
         allowNull: false,
@@ -20,7 +20,7 @@ module.exports = {
           key: 'id'
         }
       },
-      boardId: {
+      BoardId: {
         type: Sequelize.INTEGER,
         onDelete: "CASCADE",
         allowNull: false,

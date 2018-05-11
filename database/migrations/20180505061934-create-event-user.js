@@ -8,7 +8,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      eventId: {
+      EventId: {
         type: Sequelize.INTEGER,
         onDelete: "CASCADE",
         allowNull: false,
@@ -17,7 +17,7 @@ module.exports = {
           key: 'id'
         }
       },
-      userId: {
+      UserId: {
         type: Sequelize.INTEGER,
         onDelete: "CASCADE",
         allowNull: false,

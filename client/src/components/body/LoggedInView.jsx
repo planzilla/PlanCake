@@ -7,7 +7,13 @@ export default class LoggedInView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      events: [],
+      events: [{
+        id: '',
+        title: '',
+        location: '',
+        createdAt: '',
+        updatedAt: ''
+      }],
       createEventTitle: '',
       createEventLocation: '',
       createEventEmails: '',
@@ -19,11 +25,10 @@ export default class LoggedInView extends Component {
 
   // load user events and info
   componentDidMount() {
-    console.log('this.props.userData.id:', this.props.userData.id);
     axios.get('/api/userEvents')
-    .then(data => console.log('this is comp did mount:', data));
+    .then(result => this.setState({events: result.data}));
   }
-// {params: {id: this.props.userData.id}}
+
   handleInputChange(event) {
     this.setState({ [event.target.name]: event.target.value })
   }
@@ -62,6 +67,7 @@ export default class LoggedInView extends Component {
           handleCreateEvent={this.handleCreateEvent}
           handleInputChange={this.handleInputChange}
           createEventError={this.state.createEventError}
+          events={this.state.events}
         />
         <Dashboard />
       </div>
