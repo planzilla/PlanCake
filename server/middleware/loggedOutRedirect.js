@@ -9,7 +9,7 @@ const noLoginRequired = [
 ];
 
 const loggedOutRedirect = (req, res, next) => {
-  // return next(); // uncomment to turn off redirect while developing
+  return next(); // uncomment to turn off redirect while developing
   if (req.user || noLoginRequired.includes(req.url)) {
     return next();
   } else {

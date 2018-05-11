@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     Event.belongsToMany(models.User, {
       through: 'EventUser',
-      foreignKey: 'eventId'
+      foreignKey: 'EventId'
     });
   };
   return Event;

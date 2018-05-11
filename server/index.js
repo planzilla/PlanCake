@@ -21,8 +21,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(loggedOutRedirect);
 app.use(router);
+app.get('*',  express.static(`${__dirname}/../client/dist`))
 
-app.get('*', express.static(`${__dirname}/../client/dist`));
+// reactRoutes.forEach(route => app.use(route, reactApp));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => { console.log(`listening to port ${PORT}!`); });

@@ -35,6 +35,7 @@ export default class App extends Component {
   render() {
     return (
       <div className="splash grid">
+      <Link to="/loggedinview">logged in!</Link>
       {console.log('userData', this.state.userData)}
         <NavBar setUser={this.setUser} />
         <Switch>
