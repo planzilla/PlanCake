@@ -8,8 +8,8 @@ const patch = {};
 
 post.signup = (req, res) => {
   db.saveUser(req.body)
-  .then(() => {
-    res.status(200);
+  .then(() =>  {
+    res.status(302);
     res.end();
   });
 };

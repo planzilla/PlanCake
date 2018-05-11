@@ -11,9 +11,9 @@ export default class SplashPage extends Component {
   render() {
     return(
       <div className="body grid">
-        <h1 className="splash-page-image">Splash Page Image</h1>
-        <div className="how-it-works grid">
-          <h1 className="how-title jsas">How It Works</h1>
+      <h1>pic</h1>
+        {/* <div className="how-it-works grid"> */}
+          {/* <h1 className="how-title jsas">How It Works</h1>
           <div className="how-row1 grid">
             <h3 className="how-pic1">image 1</h3>
           </div>
@@ -25,8 +25,8 @@ export default class SplashPage extends Component {
           <h1 className="about-title jsas">About Us</h1>
           <h3 className="brandon-pic">Engineer Pic1</h3>
           <h3 className="christina-pic">Engineer Pic2</h3>
-          <h3 className="will-pic">Engineer Pic3</h3>
-        </div>
+          <h3 className="will-pic">Engineer Pic3</h3> */}
+        {/* </div> */}
       </div>
     )
   }

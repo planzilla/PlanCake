@@ -3,18 +3,22 @@ import Login from './Login.jsx';
 import Signup from './SignUp.jsx';
 import Modal from 'react-modal';
 import axios from 'axios';
+import Logout from './Logout.jsx';
 
 export default class NavBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modalIsOpen: false,
-      view: 'login'
+      view: 'login',
+      status: 'not authenticated',
     }
 
     this.handleModal = this.handleModal.bind(this);
     this.handleView = this.handleView.bind(this);
     this.sendLogin = this.sendLogin.bind(this);
+    this.authenticate = this.authenticate.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   componentDidMount() {
@@ -25,28 +29,35 @@ export default class NavBar extends Component {
     this.setState({modalIsOpen: !this.state.modalIsOpen})
   }
 
-  handleView() {
-    this.setState({view: this.state.view === 'login' ? 'signup' : 'login'})
+  handleView(view) {
+    this.setState({view: view})
+  }
+  
+  authenticate() {
+    this.setState({ status: 'authenticated' })
   }
 
   sendLogin(credentials) {
     return axios.post('/api/login', credentials)
-    .then(data => {
-      window.location.replace(`${window.location.origin}/loggedinview`);
-    });
+  }
+  
+  logout() {
+    axios.get('/api/logout')
+    .then(() => {
+      this.setState({
+        status: 'not authenticated',
+        view: 'login',
+      })
+    })
   }
 
   render() {
     return(
       <div className="header grid">
-        <div>
-          <img src="plancake2.png" alt="plancake.png"/>
-        </div>
         <div className="login jsas">
-          <a onClick={this.handleModal.bind(this)}>Login</a>
+          {this.state.view === 'logout' ? null : <h3 className="jsas" onClick={this.handleModal.bind(this)}>Login</h3>}
           <Modal
             isOpen={this.state.modalIsOpen}
-            // overlayClassName="modal-overlay"
           >
             {this.state.view === 'login' 
             ? <Login 
@@ -54,6 +65,7 @@ export default class NavBar extends Component {
                 handleModal={this.handleModal}
                 sendLogin={this.sendLogin}
                 setUser={this.props.setUser}
+                authenticate={this.authenticate}
               /> 
               : <Signup 
                   handleModal={this.handleModal}
@@ -61,6 +73,8 @@ export default class NavBar extends Component {
                   setUser={this.props.setUser}
               />}
           </Modal>
+          {this.state.status === 'authenticated' 
+          ? <Logout logout={this.logout} /> : null}
         </div>
       </div>
     )
