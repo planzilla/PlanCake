@@ -99,7 +99,7 @@ db.saveUser = (obj) => {
   })
 };
 
-sequelize.sync();
+// sequelize.sync();
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
