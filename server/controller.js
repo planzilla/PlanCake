@@ -8,8 +8,8 @@ const patch = {};
 
 post.signup = (req, res) => {
   db.saveUser(req.body)
-  .then(() => {
-    res.status(200);
+  .then(() =>  {
+    res.status(302);
     res.end();
   });
 };
@@ -43,16 +43,17 @@ get.logout = (req, res) => {
 get.userEvents = (req, res) => {
   console.log('get.userEvents', req.user.id);
   return db.EventUser.findAll({
-    // where: {
-    //   userId: req.user.id
-    // },
-    // include: {
-    //   model: db.Event,
-    //   model: db.User,
-    //   required: true,
-    // }
+    where: {
+      UserId: 2
+    },
+    include: {
+      model: db.Event,
+      model: db.User,
+      required: true,
+    }
   })
-  .then(data => console.log('db.user.findall:', data));
+  .then(data => console.log('db.user.findall:', data))
+  .catch(error => console.log('error:', error));
   res.end('hi from get.userevents');
 }
 

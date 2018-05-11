@@ -28,25 +28,21 @@ export default class App extends Component {
   }
 
   setUser(obj) {
-    console.log('obj', obj)
-    this.setState( obj);
+    this.setState(obj);
+    console.log(obj)
   }
 
   render() {
     return (
       <div className="splash grid">
+      <Link to="/loggedinview">logged in!</Link>
       {console.log('userData', this.state.userData)}
         <NavBar setUser={this.setUser} />
         <Switch>
-          <Route exact path="/" component={SplashPage} />
-          <Route exact path="/loggedinview" render={() => {
-            return ( 
-            <LoggedInView userData={this.state.userData} /> 
-            )}} 
-          />
+          <Route exact path="/" component={ SplashPage } />
+          <Route exact path="/loggedinview" render={() => <LoggedInView  userData={this.state.userData}/> } />
         </Switch>
-        <Link to="/loggedinview">dashboard</Link>
-        <ContactInfo />
+      <ContactInfo />
       </div>
     )
   }

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { withRouter } from 'react-router-dom';
 
-export default class Login extends Component {
+class Login extends Component {
   constructor(props){
 
     super(props);
@@ -14,28 +15,24 @@ export default class Login extends Component {
     
     this.handleChange = this.handleChange.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
-  }
-
-  componentDidMount() {
-    this.props.setUser({ username: this.state.username})
+    this.sendLogin = this.props.sendLogin.bind(this);
   }
 
   handleChange(e){
     this.setState({[e.target.name]: e.target.value})
   }
 
-  //start typing set the state to empty  string
-  //if failed login false render this
-
   handleLogin(e) {
     this.props.sendLogin(this.state)
     .then(data => {
+      this.props.authenticate();
+      this.props.setUser(this.state);
+      this.props.handleModal();
+      this.props.handleView('logout');
       this.props.history.push('/loggedinview');
-      console.log(data);
+      return data;
     })
-    .then(({ data }) => {
-      this.props.setUser(data)
-    })
+    .then(({ data }) => this.props.setUser(data))
     .catch(err => this.setState({
       failedLogin: 'Incorrect username or password.'
     }));
@@ -56,7 +53,7 @@ export default class Login extends Component {
               type="password"
               onChange={this.handleChange}
           />
-          <a onClick={this.props.handleView}>SignUp</a>
+          <a onClick={() => this.props.handleView('signup')}>SignUp</a>
           <input
               value="SUBMIT"
               type="button"
@@ -66,3 +63,5 @@ export default class Login extends Component {
     )
   }
 }
+
+export default withRouter(Login);

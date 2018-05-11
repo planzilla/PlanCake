@@ -7,7 +7,6 @@ const passport = require('./middleware/passport');
 const session = require('./middleware/session.js');
 const loggedOutRedirect = require('./middleware/loggedOutRedirect.js');
 const router = require('./routes/routes.js');
-// const reactRoutes = require('./routes/reactRoutes.js');
 
 const app = express();
 const reactApp = express.static(path.join(__dirname, '/../client/dist'));

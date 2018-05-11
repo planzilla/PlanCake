@@ -11,8 +11,8 @@ export default class EventCard extends Component {
   render() {
     return(
       <div>hello this is event card
-        <div className="ui raised segment">
-          <p>Pellentesque habitant morbi</p>
+        <div className="ui compact segment">
+          <p>FUTURE EVENT CARDS</p>
         </div>
       </div>
     )
