@@ -56,8 +56,11 @@ get.userEvents = (req, res) => {
     console.log(eventArr);
     res.json(eventArr);
   })
-  .catch(error => console.log('error:', error));
-  res.end('hi from get.userevents');
+  .catch(error => {
+    console.log('error:', error);
+    res.status(500);
+    res.end();
+  });
 }
 
 // THIS IS AN EXAMPLE OF QUERY STRING
