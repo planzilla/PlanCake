@@ -5,7 +5,7 @@ import CreateEvent from './CreateEvent.jsx';
 export default class SideBar extends Component {
   constructor(props) {
     super(props);
-    this.state = { activeIndex: 0 };
+    this.state = { activeIndex: -1 };
     this.handleClick = this.handleClick.bind(this);
   }
 
