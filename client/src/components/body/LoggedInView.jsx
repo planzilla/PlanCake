@@ -68,6 +68,9 @@ export default class LoggedInView extends Component {
         eventId: eventId,
         addTopicTitle: this.state.addTopicTitle
       })
+      .then((data) => {
+        this.handleAddTopicModalOpenClose();
+      })
     }
   }
 

@@ -59,7 +59,13 @@ post.addTopicBoard = (req, res) => {
     title: req.body.addTopicTitle
   }
 
-  return db.Board.create(query);
+  return db.Board.create(query)
+    .then(() => res.end())
+    .catch((err) => {
+      console.log(err);
+      res.status(err.status);
+      res.end();
+    })
 }
 
 post.addUserToEvent = (event, user, res) => {
@@ -86,6 +92,7 @@ post.createEvent = (req, res) => {
         .catch((err)=> {
           console.log(err);
           res.status(err.status);
+          res.end();
         })
     }))
     .catch((err) => {console.log(err)})
