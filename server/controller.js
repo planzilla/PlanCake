@@ -55,12 +55,11 @@ get.userEvents = (req, res) => {
 
 post.addTopicBoard = (req, res) => {
   const query = {
-    eventId: req.body.eventId,
+    EventId: req.body.eventId,
     title: req.body.addTopicTitle
   }
 
-  console.log('addtopicboard query', query)
-  
+  return db.Board.create(query);
 }
 
 post.addUserToEvent = (event, user, res) => {
