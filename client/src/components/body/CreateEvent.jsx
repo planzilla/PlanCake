@@ -6,6 +6,7 @@ const CreateEvent = ({ handleCreateEvent, handleInputChange, handleCreateEventMo
     trigger={<Button onClick={handleCreateEventModalOpenClose}>Create an Event</Button>}
     open={createEventModalOpen}
     onClose={handleCreateEventModalOpenClose}
+    size='tiny'
     closeIcon
   >
     <Modal.Header>Create an Event <Icon name="map" /></Modal.Header>
@@ -49,9 +50,6 @@ const CreateEvent = ({ handleCreateEvent, handleInputChange, handleCreateEventMo
       }
     </Modal.Content>
     <Modal.Actions>
-      <Button basic color='red' onClick={handleCreateEventModalOpenClose} inverted>
-        <Icon name='remove' /> Cancel
-      </Button>
       <Button color='green' onClick={handleCreateEventModalOpenClose} inverted>
         <Icon name='checkmark' /> Create
       </Button>
