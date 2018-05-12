@@ -34,7 +34,14 @@ export default class LoggedInView extends Component {
   // load user events and info
   componentDidMount() {
     axios.get('/api/userEvents')
-      .then(result => this.setState({events: result.data}));
+      .then(({ data }) => {
+        this.setState({events: data})
+        let eventIdsStr = data.map((event) => event.id).toString();
+        return axios.get(`/api/topicBoards?eventIds=${eventIdsStr}`)
+      .then(({ data }) => {
+        console.log('inhen of gettopicboards', data)
+      })
+      });
   }
 
   clearAllCreateEventInfo() {

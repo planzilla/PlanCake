@@ -1,6 +1,7 @@
 const db = require('../database/models/index.js');
 const passport = require('./middleware/passport.js');
 const Promise = require('bluebird');
+const bodyParser = require('body-parser');
 
 const post = {};
 const get = {};
@@ -20,6 +21,24 @@ get.logout = (req, res) => {
   res.redirect('/');
 };
 
+get.topicBoards = (req, res) => {
+  let query = req.query.eventIds.split(',').map(id => {return {EventId: id}})
+  return db.Board.findAll({
+    where: {
+      $or: query
+    }
+  })
+    .then(data => {
+      let boardArr = data.map(item => item.dataValues)
+      res.json(boardArr);
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500);
+      res.end();
+    })
+}
+
 get.user = (req, res) => {
   if (req.user) {
     db.fetchUser(req.user.username).then(user => res.json(user));
@@ -38,7 +57,7 @@ get.userEvents = (req, res) => {
     ],
   })
   .then(data => {
-    let eventArr = data.map((item) => {return item.dataValues.Event.dataValues});
+    let eventArr = data.map(item => item.dataValues.Event.dataValues);
     res.json(eventArr);
   })
   .catch(error => {
