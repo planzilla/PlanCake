@@ -24,7 +24,9 @@ export default class SideBar extends Component {
         <CreateEvent
           handleCreateEvent={this.props.handleCreateEvent}
           handleInputChange={this.props.handleInputChange}
+          handleModalOpenClose={this.props.handleModalOpenClose}
           createEventError={this.props.createEventError}
+          createEventModalOpen={this.props.createEventModalOpen}
         />
         <Accordion>
           {this.props.events.map((event, i) => {

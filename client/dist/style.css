@@ -185,4 +185,9 @@ so that nav bar is transparent (opacity) */
 /***    modal    ***/
 /*******************/
 
+.error{
+  padding-top: 10px;
+  color: #db2828;
+}
+
 
