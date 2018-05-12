@@ -19,3 +19,5 @@ database.json
 /server/controller.js
 
 /__tests__
+
+/coverage

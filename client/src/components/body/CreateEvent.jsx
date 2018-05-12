@@ -1,8 +1,13 @@
 import React from 'react';
 import { Button, Header, Icon, Image, Modal, Form, Input, TextArea } from 'semantic-ui-react';
 
-const CreateEvent = ({ handleCreateEvent, handleInputChange , createEventError}) => (
-  <Modal trigger={<Button>Create an Event</Button>} closeIcon>
+const CreateEvent = ({ handleCreateEvent, handleInputChange, handleModalOpenClose, createEventError, createEventModalOpen }) => (
+  <Modal 
+    trigger={<Button onClick={handleModalOpenClose}>Create an Event</Button>} 
+    open={createEventModalOpen}
+    onClose={handleModalOpenClose}
+    closeIcon
+    >
     <Modal.Header>Create an Event</Modal.Header>
     <Modal.Content>
       <Form>
@@ -33,10 +38,10 @@ const CreateEvent = ({ handleCreateEvent, handleInputChange , createEventError})
           onChange={handleInputChange}
         />
       </Form>
+      <p className='error'>{createEventError}</p>
     </Modal.Content>
     <Modal.Actions>
-      <p>{createEventError}</p>
-      <Button basic color='red'>
+      <Button basic color='red' onClick={handleModalOpenClose}>
         <Icon name='remove' /> Cancel
       </Button>
       <Button color='green' onClick={handleCreateEvent}>

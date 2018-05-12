@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import EventCard from './EventCard.jsx';
+
 //import sidebar
 //import event cards
 
@@ -14,10 +15,13 @@ export default class Dashboard extends Component {
 
   render() {
     return(
-      <div className="dashboard grid">
-        <div className="event-cards">eventcards
-        <EventCard />
-        <EventCard />
+      <div>
+        <div className="event-cards">
+        {this.props.events.map((event, i) => {
+          return(
+              <EventCard title={event.title} location={event.location} key={i}/>
+          )
+        })}
         </div>
       </div>
     )

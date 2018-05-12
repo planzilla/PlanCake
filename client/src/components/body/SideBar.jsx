@@ -5,7 +5,7 @@ import CreateEvent from './CreateEvent.jsx';
 export default class SideBar extends Component {
   constructor(props) {
     super(props);
-    this.state = { activeIndex: 0 };
+    this.state = { activeIndex: -1 };
     this.handleClick = this.handleClick.bind(this);
   }
 
@@ -24,12 +24,14 @@ export default class SideBar extends Component {
         <CreateEvent
           handleCreateEvent={this.props.handleCreateEvent}
           handleInputChange={this.props.handleInputChange}
+          handleModalOpenClose={this.props.handleModalOpenClose}
           createEventError={this.props.createEventError}
+          createEventModalOpen={this.props.createEventModalOpen}
         />
         <Accordion>
-          {this.props.events
-            ? this.props.events.map((event, i) => {
-              return (<div key={i}>
+          {this.props.events.map((event, i) => {
+            return (
+              <div key={i}>
                 <Accordion.Title active={activeIndex === i} index={i} onClick={this.handleClick}>
                   <Icon name='dropdown' />
                   <b>{event.title}</b>
@@ -40,8 +42,7 @@ export default class SideBar extends Component {
                 </p>
                 </Accordion.Content>
               </div>)
-            })
-            : null}
+          })}
         </Accordion>
       </div>
     )
