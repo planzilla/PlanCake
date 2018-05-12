@@ -17,7 +17,7 @@ const CreateEvent = ({ handleCreateEvent, handleInputChange, handleCreateEventMo
             id='form-input-control-title'
             control={Input}
             label='Title'
-            placeholder='Title'
+            placeholder='Annual Camping Trip'
             name='createEventTitle'
             onChange={handleInputChange}
           />
@@ -25,7 +25,7 @@ const CreateEvent = ({ handleCreateEvent, handleInputChange, handleCreateEventMo
             id='form-input-control-location'
             control={Input}
             label='Location'
-            placeholder='Location'
+            placeholder='Yosemite National Park'
             name='createEventLocation'
             onChange={handleInputChange}
           />
@@ -34,7 +34,7 @@ const CreateEvent = ({ handleCreateEvent, handleInputChange, handleCreateEventMo
           id='form-textarea-control-invite'
           control={TextArea}
           label='Invite Friends'
-          placeholder='Enter email addresses'
+          placeholder='Example@domain.com, John@abc.com, ...'
           name='createEventEmails'
           onChange={handleInputChange}
         />

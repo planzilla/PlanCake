@@ -18,7 +18,7 @@ const AddTopic = ({ handleAddTopicModalOpenClose, addTopicModalOpen, eventId }) 
     </Modal.Header>
     <Modal.Content>
       <Form >
-        <Form.Input label='Topic' placeholder='Transportation' />
+        <Form.Input label='Topic' placeholder='Activities' />
         <Message
           error
           header='Action Forbidden'
