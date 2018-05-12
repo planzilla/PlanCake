@@ -8,7 +8,6 @@ module.exports = (sequelize, DataTypes) => {
     // associations can be defined here
     // TODO: Might need to change this later
     Board.belongsTo(models.Event, {
-      through: 'EventBoard',
       foreignKey: 'EventId'
     });
   };

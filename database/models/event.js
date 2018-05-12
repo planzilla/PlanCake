@@ -10,6 +10,9 @@ module.exports = (sequelize, DataTypes) => {
       through: 'EventUser',
       foreignKey: 'EventId'
     });
+    Event.hasMany(models.Board, {
+      foreignKey: 'EventId'
+    })
   };
   return Event;
 };

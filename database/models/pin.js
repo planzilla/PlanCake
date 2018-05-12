@@ -1,20 +1,20 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var Link = sequelize.define('Link', {
+  var Pin = sequelize.define('Pin', {
     text: DataTypes.STRING,
-    userId: DataTypes.INTEGER,
-    boardId: DataTypes.INTEGER,
+    UserId: DataTypes.INTEGER,
+    BoardId: DataTypes.INTEGER,
     voteCount: DataTypes.INTEGER
   }, {});
-  Link.associate = function(models) {
+  Pin.associate = function(models) {
     // associations can be defined here
     // TODO: Might need to change this later
-    Link.belongsTo(models.Board, {
-      foreignKey: 'links' 
+    Pin.belongsTo(models.Board, {
+      foreignKey: 'BoardId' 
     });
-    Link.belongsTo(models.User), {
+    Pin.belongsTo(models.User), {
       foreignKey: 'UserId'
     }
   };
-  return Link;
+  return Pin;
 };

@@ -13,6 +13,9 @@ module.exports = (sequelize, DataTypes) => {
       through: 'EventUser',
       foreignKey: 'UserId'
     });
+    User.hasMany(models.Pin, {
+      foreignKey: 'UserId'
+    })
   };
   return User;
 };
