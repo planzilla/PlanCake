@@ -38,7 +38,7 @@ const AddTopic = ({ handleInputChange, handleAddTopic, handleAddTopicModalOpenCl
         }
     </Modal.Content>
     <Modal.Actions>
-      <Button color='green' onClick={handleAddTopic} inverted>
+      <Button color='green' onClick={(e) => {handleAddTopic(e, eventId)}} inverted>
         <Icon name='checkmark' /> Add
         </Button>
     </Modal.Actions>

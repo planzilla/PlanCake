@@ -8,7 +8,6 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   Pin.associate = function(models) {
     // associations can be defined here
-    // TODO: Might need to change this later
     Pin.belongsTo(models.Board, {
       foreignKey: 'BoardId' 
     });

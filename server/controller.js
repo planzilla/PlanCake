@@ -39,7 +39,6 @@ get.userEvents = (req, res) => {
   })
   .then(data => {
     let eventArr = data.map((item) => {return item.dataValues.Event.dataValues});
-    console.log(eventArr);
     res.json(eventArr);
   })
   .catch(error => {
@@ -53,6 +52,16 @@ get.userEvents = (req, res) => {
 
 
 /* -------- POST REQUESTS --------- */
+
+post.addTopicBoard = (req, res) => {
+  const query = {
+    eventId: req.body.eventId,
+    title: req.body.addTopicTitle
+  }
+
+  console.log('addtopicboard query', query)
+  
+}
 
 post.addUserToEvent = (event, user, res) => {
   const query = {

@@ -57,14 +57,17 @@ export default class LoggedInView extends Component {
     this.setState({ addTopicModalOpen: openCloseState });
   }
 
-  handleAddTopic(event) {
+  handleAddTopic(event, eventId) {
     event.preventDefault();
     if (this.state.addTopicTitle === '') {
       this.setState({
         addTopicError: 'Please insert a discussion topic.'
       })
     } else {
-
+      axios.post('/api/addTopicBoard', {
+        eventId: eventId,
+        addTopicTitle: this.state.addTopicTitle
+      })
     }
   }
 
@@ -91,7 +94,6 @@ export default class LoggedInView extends Component {
         createEventLocation: this.state.createEventLocation
       })
       .then((data) => { 
-        console.log('data line 30 logginedinview', data)
         axios.get('/api/userEvents')
           .then(result => {
             this.setState({events: result.data});
