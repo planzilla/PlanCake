@@ -27,9 +27,9 @@ export default class SideBar extends Component {
           createEventError={this.props.createEventError}
         />
         <Accordion>
-          {this.props.events
-            ? this.props.events.map((event, i) => {
-              return (<div key={i}>
+          {this.props.events.map((event, i) => {
+            return (
+              <div key={i}>
                 <Accordion.Title active={activeIndex === i} index={i} onClick={this.handleClick}>
                   <Icon name='dropdown' />
                   <b>{event.title}</b>
@@ -40,8 +40,7 @@ export default class SideBar extends Component {
                 </p>
                 </Accordion.Content>
               </div>)
-            })
-            : null}
+          })}
         </Accordion>
       </div>
     )

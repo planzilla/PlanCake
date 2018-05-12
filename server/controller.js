@@ -49,6 +49,9 @@ get.userEvents = (req, res) => {
   });
 }
 
+/* -------- PATCH REQUESTS --------- */
+
+
 /* -------- POST REQUESTS --------- */
 
 post.addUserToEvent = (event, user, res) => {

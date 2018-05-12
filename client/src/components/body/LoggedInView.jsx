@@ -69,7 +69,9 @@ export default class LoggedInView extends Component {
           createEventError={this.state.createEventError}
           events={this.state.events}
         />
-        <Dashboard />
+        <Dashboard 
+          events={this.state.events}
+        />
       </div>
    )}
 }
