@@ -14,17 +14,19 @@ export default class LoggedInView extends Component {
         createdAt: '',
         updatedAt: ''
       }],
+      addTopicTitle: '',
+      addTopicModalOpen: false,
       createEventTitle: '',
       createEventLocation: '',
       createEventEmails: '',
       createEventError: '',
       createEventModalOpen: false,
-      addTopicModalOpen: false
     };
-    this.handleCreateEvent = this.handleCreateEvent.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleCreateEventModalOpenClose = this.handleCreateEventModalOpenClose.bind(this);
     this.handleAddTopicModalOpenClose = this.handleAddTopicModalOpenClose.bind(this);
+    this.handleAddTopic = this.handleAddTopic.bind(this);
+    this.handleCreateEventModalOpenClose = this.handleCreateEventModalOpenClose.bind(this);
+    this.handleCreateEvent = this.handleCreateEvent.bind(this);
     this.clearAllCreateEventInfo = this.clearAllCreateEventInfo.bind(this);
   }
 
@@ -34,22 +36,6 @@ export default class LoggedInView extends Component {
       .then(result => this.setState({events: result.data}));
   }
 
-  handleInputChange(event) {
-    this.setState({ [event.target.name]: event.target.value })
-  }
-  
-  handleCreateEventModalOpenClose(event) {
-    let openCloseState = !this.state.createEventModalOpen;
-    this.clearAllCreateEventInfo();
-    this.setState({ createEventModalOpen: openCloseState });
-  }
-
-  handleAddTopicModalOpenClose(event) {
-    let openCloseState = !this.state.addTopicModalOpen;
-    this.clearAllCreateEventInfo();
-    this.setState({ addTopicModalOpen: openCloseState });
-  }
-
   clearAllCreateEventInfo() {
     this.setState({
       createEventTitle: '',
@@ -57,6 +43,29 @@ export default class LoggedInView extends Component {
       createEventEmails: '',
       createEventError: '',
     })
+  }
+
+  handleInputChange(event) {
+    this.setState({ [event.target.name]: event.target.value })
+  }
+
+  /* -------------- AddTopic -------------- */
+  handleAddTopicModalOpenClose(event) {
+    let openCloseState = !this.state.addTopicModalOpen;
+    this.clearAllCreateEventInfo();
+    this.setState({ addTopicModalOpen: openCloseState });
+  }
+
+  handleAddTopic(event) {
+    event.preventDefault();
+    console.log(this.state.addTopicTitle)
+  }
+
+  /* ----------- CreateEvent ------------- */
+  handleCreateEventModalOpenClose(event) {
+    let openCloseState = !this.state.createEventModalOpen;
+    this.clearAllCreateEventInfo();
+    this.setState({ createEventModalOpen: openCloseState });
   }
 
   handleCreateEvent(event) {
@@ -69,7 +78,7 @@ export default class LoggedInView extends Component {
       this.setState({
         createEventError: 'Please insert an event location.'
       })
-    }else {
+    } else {
       axios.post('/api/createEvent', {
         createEventTitle: this.state.createEventTitle,
         createEventLocation: this.state.createEventLocation
@@ -95,14 +104,15 @@ export default class LoggedInView extends Component {
    return (
     <div className="dashboard grid">
         <SideBar
-          handleCreateEvent={this.handleCreateEvent}
+          events={this.state.events}
           handleInputChange={this.handleInputChange}
-          handleCreateEventModalOpenClose={this.handleCreateEventModalOpenClose}
+          handleAddTopic={this.handleAddTopic}
           handleAddTopicModalOpenClose={this.handleAddTopicModalOpenClose}
+          addTopicModalOpen={this.state.addTopicModalOpen}
+          handleCreateEvent={this.handleCreateEvent}
+          handleCreateEventModalOpenClose={this.handleCreateEventModalOpenClose}
           createEventError={this.state.createEventError}
           createEventModalOpen={this.state.createEventModalOpen}
-          events={this.state.events}
-          addTopicModalOpen={this.state.addTopicModalOpen}
         />
         <Dashboard 
           events={this.state.events}

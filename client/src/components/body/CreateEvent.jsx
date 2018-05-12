@@ -9,7 +9,7 @@ const CreateEvent = ({ handleCreateEvent, handleInputChange, handleCreateEventMo
     size='tiny'
     closeIcon
   >
-    <Modal.Header>Create an Event <Icon name="map" /></Modal.Header>
+    <Modal.Header><Icon name="map" />  Create an Event </Modal.Header>
     <Modal.Content>
       <Form>
         <Form.Group widths='equal'>
@@ -50,7 +50,7 @@ const CreateEvent = ({ handleCreateEvent, handleInputChange, handleCreateEventMo
       }
     </Modal.Content>
     <Modal.Actions>
-      <Button color='green' onClick={handleCreateEventModalOpenClose} inverted>
+      <Button color='green' onClick={handleCreateEvent} inverted>
         <Icon name='checkmark' /> Create
       </Button>
     </Modal.Actions>

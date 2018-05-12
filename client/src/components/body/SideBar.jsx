@@ -23,8 +23,8 @@ export default class SideBar extends Component {
     return (
       <div className="sidebar">
         <CreateEvent
-          handleCreateEvent={this.props.handleCreateEvent}
           handleInputChange={this.props.handleInputChange}
+          handleCreateEvent={this.props.handleCreateEvent}
           handleCreateEventModalOpenClose={this.props.handleCreateEventModalOpenClose}
           createEventError={this.props.createEventError}
           createEventModalOpen={this.props.createEventModalOpen}
@@ -41,9 +41,11 @@ export default class SideBar extends Component {
                   {
                     activeIndex === i
                       ? <AddTopic
-                        handleAddTopicModalOpenClose={this.props.handleAddTopicModalOpenClose}
-                        addTopicModalOpen={this.props.addTopicModalOpen}
-                        eventId={event.id}
+                          handleInputChange={this.props.handleInputChange}
+                          handleAddTopic={this.props.handleAddTopic}
+                          handleAddTopicModalOpenClose={this.props.handleAddTopicModalOpenClose}
+                          addTopicModalOpen={this.props.addTopicModalOpen}
+                          eventId={event.id}
                         />
                       : null
                   }

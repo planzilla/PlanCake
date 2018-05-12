@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { Button, Icon, Modal, Form, Message } from 'semantic-ui-react';
 
-const AddTopic = ({ handleAddTopicModalOpenClose, addTopicModalOpen, eventId }) => (
+const AddTopic = ({ handleInputChange, handleAddTopic, handleAddTopicModalOpenClose, addTopicModalOpen, eventId }) => (
   <Modal
     trigger={
       <Button onClick={handleAddTopicModalOpenClose}>
-        <Icon name='plus' />Discussion
+        <Icon name='plus' />
+        Discussion
       </Button>
     }
     open={addTopicModalOpen}
@@ -14,11 +15,16 @@ const AddTopic = ({ handleAddTopicModalOpenClose, addTopicModalOpen, eventId }) 
     closeIcon
   >
     <Modal.Header>
-      Add a Discussion Topic  <Icon name='chat' />
+    <Icon name='chat' />  Add a Discussion Topic  
     </Modal.Header>
     <Modal.Content>
       <Form >
-        <Form.Input label='Topic' placeholder='Activities' />
+        <Form.Input 
+          label='Topic'
+          placeholder='Activities' 
+          name='addTopicTitle' 
+          onChange={handleInputChange}
+        />
         <Message
           error
           header='Action Forbidden'
@@ -27,7 +33,7 @@ const AddTopic = ({ handleAddTopicModalOpenClose, addTopicModalOpen, eventId }) 
       </Form>
     </Modal.Content>
     <Modal.Actions>
-      <Button color='green' onClick={handleAddTopicModalOpenClose} inverted>
+      <Button color='green' onClick={handleAddTopic} inverted>
         <Icon name='checkmark' /> Add
         </Button>
     </Modal.Actions>
