@@ -38,11 +38,17 @@ export default class SideBar extends Component {
                   <b>{event.title}</b>
                 </Accordion.Title>
                 <Accordion.Content active={activeIndex === i}>
-                    <AddTopic 
-                      handleAddTopicModalOpenClose={this.props.handleAddTopicModalOpenClose}
-                      addTopicModalOpen={this.props.addTopicModalOpen}
-                      eventId={event.id}
-                    />
+                  {
+                    activeIndex === i
+                      ? <AddTopic
+                        handleAddTopicModalOpenClose={this.props.handleAddTopicModalOpenClose}
+                        addTopicModalOpen={this.props.addTopicModalOpen}
+                        eventId={event.id}
+                        />
+                      : null
+                  }
+                  <p>Activities</p>
+                  <p>Flights</p>
                 </Accordion.Content>
               </div>)
           })}
