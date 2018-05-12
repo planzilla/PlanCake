@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Accordion, Icon } from 'semantic-ui-react'
 import CreateEvent from './CreateEvent.jsx';
+import AddTopic from './AddTopic.jsx';
 
 export default class SideBar extends Component {
   constructor(props) {
@@ -24,7 +25,7 @@ export default class SideBar extends Component {
         <CreateEvent
           handleCreateEvent={this.props.handleCreateEvent}
           handleInputChange={this.props.handleInputChange}
-          handleModalOpenClose={this.props.handleModalOpenClose}
+          handleCreateEventModalOpenClose={this.props.handleCreateEventModalOpenClose}
           createEventError={this.props.createEventError}
           createEventModalOpen={this.props.createEventModalOpen}
         />
@@ -37,9 +38,11 @@ export default class SideBar extends Component {
                   <b>{event.title}</b>
                 </Accordion.Title>
                 <Accordion.Content active={activeIndex === i}>
-                  <p>
-                    Create a topic board
-                </p>
+                    <AddTopic 
+                      handleAddTopicModalOpenClose={this.props.handleAddTopicModalOpenClose}
+                      addTopicModalOpen={this.props.addTopicModalOpen}
+                      eventId={event.id}
+                    />
                 </Accordion.Content>
               </div>)
           })}

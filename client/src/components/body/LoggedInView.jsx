@@ -18,11 +18,13 @@ export default class LoggedInView extends Component {
       createEventLocation: '',
       createEventEmails: '',
       createEventError: '',
-      createEventModalOpen: false
+      createEventModalOpen: false,
+      addTopicModalOpen: false
     };
     this.handleCreateEvent = this.handleCreateEvent.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleModalOpenClose = this.handleModalOpenClose.bind(this);
+    this.handleCreateEventModalOpenClose = this.handleCreateEventModalOpenClose.bind(this);
+    this.handleAddTopicModalOpenClose = this.handleAddTopicModalOpenClose.bind(this);
     this.clearAllCreateEventInfo = this.clearAllCreateEventInfo.bind(this);
   }
 
@@ -36,10 +38,16 @@ export default class LoggedInView extends Component {
     this.setState({ [event.target.name]: event.target.value })
   }
   
-  handleModalOpenClose () {
+  handleCreateEventModalOpenClose(event) {
     let openCloseState = !this.state.createEventModalOpen;
     this.clearAllCreateEventInfo();
-    this.setState({ createEventModalOpen: openCloseState })
+    this.setState({ createEventModalOpen: openCloseState });
+  }
+
+  handleAddTopicModalOpenClose(event) {
+    let openCloseState = !this.state.addTopicModalOpen;
+    this.clearAllCreateEventInfo();
+    this.setState({ addTopicModalOpen: openCloseState });
   }
 
   clearAllCreateEventInfo() {
@@ -71,7 +79,7 @@ export default class LoggedInView extends Component {
         axios.get('/api/userEvents')
           .then(result => {
             this.setState({events: result.data});
-            this.handleModalOpenClose();
+            this.handleCreateEventModalOpenClose();
           });
         // TODO: redirect to new board
       })
@@ -89,10 +97,12 @@ export default class LoggedInView extends Component {
         <SideBar
           handleCreateEvent={this.handleCreateEvent}
           handleInputChange={this.handleInputChange}
-          handleModalOpenClose={this.handleModalOpenClose}
+          handleCreateEventModalOpenClose={this.handleCreateEventModalOpenClose}
+          handleAddTopicModalOpenClose={this.handleAddTopicModalOpenClose}
           createEventError={this.state.createEventError}
           createEventModalOpen={this.state.createEventModalOpen}
           events={this.state.events}
+          addTopicModalOpen={this.state.addTopicModalOpen}
         />
         <Dashboard 
           events={this.state.events}
