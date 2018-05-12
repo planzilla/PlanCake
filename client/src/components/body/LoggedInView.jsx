@@ -37,7 +37,7 @@ export default class LoggedInView extends Component {
   }
   
   handleModalOpenClose () {
-    let openCloseState = !this.state.createEventModalOpen
+    let openCloseState = !this.state.createEventModalOpen;
     this.clearAllCreateEventInfo();
     this.setState({ createEventModalOpen: openCloseState })
   }
