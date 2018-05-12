@@ -16,6 +16,7 @@ export default class LoggedInView extends Component {
       }],
       addTopicTitle: '',
       addTopicModalOpen: false,
+      addTopicError: '',
       createEventTitle: '',
       createEventLocation: '',
       createEventEmails: '',
@@ -58,7 +59,13 @@ export default class LoggedInView extends Component {
 
   handleAddTopic(event) {
     event.preventDefault();
-    console.log(this.state.addTopicTitle)
+    if (this.state.addTopicTitle === '') {
+      this.setState({
+        addTopicError: 'Please insert a discussion topic.'
+      })
+    } else {
+
+    }
   }
 
   /* ----------- CreateEvent ------------- */
@@ -109,10 +116,11 @@ export default class LoggedInView extends Component {
           handleAddTopic={this.handleAddTopic}
           handleAddTopicModalOpenClose={this.handleAddTopicModalOpenClose}
           addTopicModalOpen={this.state.addTopicModalOpen}
+          addTopicError={this.state.addTopicError}
           handleCreateEvent={this.handleCreateEvent}
           handleCreateEventModalOpenClose={this.handleCreateEventModalOpenClose}
-          createEventError={this.state.createEventError}
           createEventModalOpen={this.state.createEventModalOpen}
+          createEventError={this.state.createEventError}
         />
         <Dashboard 
           events={this.state.events}

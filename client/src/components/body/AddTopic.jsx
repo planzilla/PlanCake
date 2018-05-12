@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Icon, Modal, Form, Message } from 'semantic-ui-react';
 
-const AddTopic = ({ handleInputChange, handleAddTopic, handleAddTopicModalOpenClose, addTopicModalOpen, eventId }) => (
+const AddTopic = ({ handleInputChange, handleAddTopic, handleAddTopicModalOpenClose, addTopicModalOpen, addTopicError, eventId }) => (
   <Modal
     trigger={
       <Button onClick={handleAddTopicModalOpenClose}>
@@ -15,22 +15,27 @@ const AddTopic = ({ handleInputChange, handleAddTopic, handleAddTopicModalOpenCl
     closeIcon
   >
     <Modal.Header>
-    <Icon name='chat' />  Add a Discussion Topic  
+      <Icon name='chat' />  Add a Discussion Topic
     </Modal.Header>
     <Modal.Content>
-      <Form >
-        <Form.Input 
+      <Form>
+        <Form.Input
           label='Topic'
-          placeholder='Activities' 
-          name='addTopicTitle' 
+          placeholder='Activities'
+          name='addTopicTitle'
           onChange={handleInputChange}
         />
-        <Message
-          error
-          header='Action Forbidden'
-          content='You can only sign up for an account once with a given e-mail address.'
-        />
-      </Form>
+        </Form>
+        {
+          addTopicError !== ''
+            ?
+            <Message
+              error
+              header='Error'
+              content={addTopicError}
+            />
+            : null
+        }
     </Modal.Content>
     <Modal.Actions>
       <Button color='green' onClick={handleAddTopic} inverted>

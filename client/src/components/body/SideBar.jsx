@@ -45,6 +45,7 @@ export default class SideBar extends Component {
                           handleAddTopic={this.props.handleAddTopic}
                           handleAddTopicModalOpenClose={this.props.handleAddTopicModalOpenClose}
                           addTopicModalOpen={this.props.addTopicModalOpen}
+                          addTopicError={this.props.addTopicError}
                           eventId={event.id}
                         />
                       : null

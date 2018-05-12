@@ -43,7 +43,7 @@ const CreateEvent = ({ handleCreateEvent, handleInputChange, handleCreateEventMo
         createEventError !== ''
           ? <Message
             error
-            header='There was an error.'
+            header='Error'
             content={createEventError}
           />
           : null
