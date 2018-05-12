@@ -15,7 +15,7 @@ export default class Dashboard extends Component {
 
   render() {
     return(
-      <div className="dashboard grid">
+      <div>
         <div className="event-cards">
         {this.props.events.map((event, i) => {
           return(
