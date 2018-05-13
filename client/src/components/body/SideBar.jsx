@@ -34,7 +34,7 @@ export default class SideBar extends Component {
           {this.props.topicBoards.map((board, j) => {
             if (board.EventId == event.id) {
               return (
-                <div>
+                <div key={j}>
                   <a>{board.title}</a>
                   <br />
                 </div>
