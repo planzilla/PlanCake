@@ -14,6 +14,13 @@ export default class LoggedInView extends Component {
         createdAt: '',
         updatedAt: ''
       }],
+      topicBoards: [{
+        id: null,
+        EventId: null,
+        title: null,
+        createdAt: null,
+        updatedAt: null
+      }],
       addTopicTitle: '',
       addTopicModalOpen: false,
       addTopicError: '',
@@ -35,11 +42,11 @@ export default class LoggedInView extends Component {
   componentDidMount() {
     axios.get('/api/userEvents')
       .then(({ data }) => {
-        this.setState({events: data})
+        this.setState({events: data});
         let eventIdsStr = data.map((event) => event.id).toString();
         return axios.get(`/api/topicBoards?eventIds=${eventIdsStr}`)
       .then(({ data }) => {
-        console.log('inhen of gettopicboards', data)
+        this.setState({topicBoards: data});
       })
       });
   }
@@ -124,6 +131,7 @@ export default class LoggedInView extends Component {
     <div className="dashboard grid">
         <SideBar
           events={this.state.events}
+          topicBoards={this.state.topicBoards}
           handleInputChange={this.handleInputChange}
           handleAddTopic={this.handleAddTopic}
           handleAddTopicModalOpenClose={this.handleAddTopicModalOpenClose}

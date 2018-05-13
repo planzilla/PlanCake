@@ -8,6 +8,7 @@ export default class SideBar extends Component {
     super(props);
     this.state = { activeIndex: -1 };
     this.handleClick = this.handleClick.bind(this);
+    this.renderEvents = this.renderEvents.bind(this);
   }
 
   handleClick(e, titleProps) {
@@ -16,6 +17,33 @@ export default class SideBar extends Component {
     const newIndex = activeIndex === index ? -1 : index
 
     this.setState({ activeIndex: newIndex })
+  }
+
+  renderEvents(event, activeIndex, i) {
+    if (activeIndex === i) {
+      return (
+        <div>
+          <AddTopic
+            handleInputChange={this.props.handleInputChange}
+            handleAddTopic={this.props.handleAddTopic}
+            handleAddTopicModalOpenClose={this.props.handleAddTopicModalOpenClose}
+            addTopicModalOpen={this.props.addTopicModalOpen}
+            addTopicError={this.props.addTopicError}
+            eventId={event.id}
+          />
+          {this.props.topicBoards.map((board, j) => {
+            if (board.EventId == event.id) {
+              return (
+                <div>
+                  <a>{board.title}</a>
+                  <br />
+                </div>
+              )
+            }
+          })}
+        </div>
+      )
+    }
   }
 
   render() {
@@ -38,20 +66,7 @@ export default class SideBar extends Component {
                   <b>{event.title}</b>
                 </Accordion.Title>
                 <Accordion.Content active={activeIndex === i}>
-                  {
-                    activeIndex === i
-                      ? <AddTopic
-                          handleInputChange={this.props.handleInputChange}
-                          handleAddTopic={this.props.handleAddTopic}
-                          handleAddTopicModalOpenClose={this.props.handleAddTopicModalOpenClose}
-                          addTopicModalOpen={this.props.addTopicModalOpen}
-                          addTopicError={this.props.addTopicError}
-                          eventId={event.id}
-                        />
-                      : null
-                  }
-                  <p>Activities</p>
-                  <p>Flights</p>
+                  {this.renderEvents(event, activeIndex, i)}
                 </Accordion.Content>
               </div>)
           })}
