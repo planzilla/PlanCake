@@ -2,8 +2,12 @@ import React, { Component } from 'react';
 import SideBar from './SideBar.jsx';
 import Dashboard from './Dashboard.jsx';
 import axios from 'axios';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { fetchPosts } from '../actions.js';
 
-export default class LoggedInView extends Component {
+export class LoggedInView extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -40,11 +44,24 @@ export default class LoggedInView extends Component {
   }
 
   // load user events and info
+  // componentDidMount() {
+  //   axios.get('/api/userEvents')
+  //     .then(result => this.setState({events: result.data}));
+  // }
   componentDidMount() {
-    axios.get('/api/userEvents')
-      .then(({ data }) => {
-        this.setState({ events: data });
-      });
+    fetchPosts();
+    console.log('this.props', this.props);
+    
+  }
+
+  handleInputChange(event) {
+    this.setState({ [event.target.name]: event.target.value })
+  }
+  
+  handleModalOpenClose () {
+    let openCloseState = !this.state.createEventModalOpen;
+    this.clearAllCreateEventInfo();
+    this.setState({ createEventModalOpen: openCloseState })
   }
 
   clearAllCreateEventInfo() {
@@ -134,7 +151,6 @@ export default class LoggedInView extends Component {
     return (
       <div className="dashboard grid">
         <SideBar
-          events={this.state.events}
           topicBoards={this.state.topicBoards}
           handleInputChange={this.handleInputChange}
           handleAddTopic={this.handleAddTopic}
@@ -146,11 +162,23 @@ export default class LoggedInView extends Component {
           createEventModalOpen={this.state.createEventModalOpen}
           createEventError={this.state.createEventError}
           handleClickEventTitle={this.handleClickEventTitle}
+          events={this.props.posts}
         />
-        <Dashboard
-          events={this.state.events}
+        <Dashboard 
+          events={this.props.posts}
         />
       </div>
     )
   }
 }
+
+// LoggedInView.propTypes = {
+//   fetchPosts: PropTypes.func.isRequired,
+//   posts: PropTypes.array.isRequired
+// };
+
+const mapStateToProps = state => ({
+  posts: state.posts.items
+})
+
+export default connect(mapStateToProps, { fetchPosts })(LoggedInView); 
