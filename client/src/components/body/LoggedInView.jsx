@@ -3,8 +3,9 @@ import SideBar from './SideBar.jsx';
 import Dashboard from './Dashboard.jsx';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { fetchPosts } from '../actions.js';
+import { Provider, connect } from 'react-redux';
+import { fetchPosts } from '../../actions/postActions.js';
+import store from '../../store';
 
 export class LoggedInView extends Component {
 
@@ -49,10 +50,21 @@ export class LoggedInView extends Component {
   //     .then(result => this.setState({events: result.data}));
   // }
   componentDidMount() {
-    fetchPosts();
-    console.log('this.props', this.props);
+    this.props.fetchPosts();
+
     
   }
+
+/*
+componentWillReceiveProps(nextProps) {
+  if (nextProps.newPost) {
+    this.props.posts.unshift(nextProps.newPost);
+  }
+}
+
+
+
+*/
 
   handleInputChange(event) {
     this.setState({ [event.target.name]: event.target.value })
@@ -148,8 +160,10 @@ export class LoggedInView extends Component {
   }
 
   render() {
-    return (
-      <div className="dashboard grid">
+    console.log('this.props', this.props);
+    console.log('state', this.state);
+   return (
+    <div className="dashboard grid">
         <SideBar
           topicBoards={this.state.topicBoards}
           handleInputChange={this.handleInputChange}
@@ -165,7 +179,7 @@ export class LoggedInView extends Component {
           events={this.props.posts}
         />
         <Dashboard 
-          events={this.props.posts}
+          events={this.state.events}
         />
       </div>
     )
@@ -174,11 +188,13 @@ export class LoggedInView extends Component {
 
 // LoggedInView.propTypes = {
 //   fetchPosts: PropTypes.func.isRequired,
-//   posts: PropTypes.array.isRequired
+//   events: PropTypes.array.isRequired,
+//   newPost: PropTypes.object
 // };
 
 const mapStateToProps = state => ({
-  posts: state.posts.items
-})
-
+  events: state.posts.events,
+  newEvent: state.posts.event
+});
+// console.log('after map:', this.props);
 export default connect(mapStateToProps, { fetchPosts })(LoggedInView); 

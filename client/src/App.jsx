@@ -30,6 +30,7 @@ export default class App extends Component {
   }
 
   render() {
+    console.log('app.jsx props', this.props);
     return (
       <div className="splash grid">
       <Link to="/loggedinview">logged in!</Link>
