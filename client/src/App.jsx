@@ -17,19 +17,16 @@ export default class App extends Component {
           lastName: null,
           email: null,
           username: null,
+          createdAt: null,
+          updatedAt: null
         }
     }
 
     this.setUser = this.setUser.bind(this);
-
-    axios.get('/api/user')
-    .then((result) => 
-      this.setState({userData: result.data}));
   }
 
   setUser(obj) {
-    // this.setState(obj);
-    // console.log(obj)
+    this.setState({userData: obj});
   }
 
   render() {

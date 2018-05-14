@@ -1,5 +1,5 @@
-var User = require('./User.js');
-var Event = require('./Event.js');
+var User = require('./user.js');
+var Event = require('./event.js');
 
 'use strict';
 module.exports = (sequelize, DataTypes) => {

@@ -1,14 +1,15 @@
 import React from 'react';
-import { Button, Header, Icon, Image, Modal, Form, Input, TextArea } from 'semantic-ui-react';
+import { Button, Header, Icon, Image, Modal, Form, Input, TextArea, Message } from 'semantic-ui-react';
 
-const CreateEvent = ({ handleCreateEvent, handleInputChange, handleModalOpenClose, createEventError, createEventModalOpen }) => (
-  <Modal 
-    trigger={<Button onClick={handleModalOpenClose}>Create an Event</Button>} 
+const CreateEvent = ({ handleCreateEvent, handleInputChange, handleCreateEventModalOpenClose, createEventError, createEventModalOpen }) => (
+  <Modal
+    trigger={<Button onClick={handleCreateEventModalOpenClose}>Create an Event</Button>}
     open={createEventModalOpen}
-    onClose={handleModalOpenClose}
+    onClose={handleCreateEventModalOpenClose}
+    size='tiny'
     closeIcon
-    >
-    <Modal.Header>Create an Event</Modal.Header>
+  >
+    <Modal.Header><Icon name="map" />  Create an Event </Modal.Header>
     <Modal.Content>
       <Form>
         <Form.Group widths='equal'>
@@ -16,7 +17,7 @@ const CreateEvent = ({ handleCreateEvent, handleInputChange, handleModalOpenClos
             id='form-input-control-title'
             control={Input}
             label='Title'
-            placeholder='Title'
+            placeholder='Annual Camping Trip'
             name='createEventTitle'
             onChange={handleInputChange}
           />
@@ -24,7 +25,7 @@ const CreateEvent = ({ handleCreateEvent, handleInputChange, handleModalOpenClos
             id='form-input-control-location'
             control={Input}
             label='Location'
-            placeholder='Location'
+            placeholder='Yosemite National Park'
             name='createEventLocation'
             onChange={handleInputChange}
           />
@@ -33,18 +34,23 @@ const CreateEvent = ({ handleCreateEvent, handleInputChange, handleModalOpenClos
           id='form-textarea-control-invite'
           control={TextArea}
           label='Invite Friends'
-          placeholder='Enter email addresses'
+          placeholder='Example@domain.com, John@abc.com, ...'
           name='createEventEmails'
           onChange={handleInputChange}
         />
       </Form>
-      <p className='error'>{createEventError}</p>
+      {
+        createEventError !== ''
+          ? <Message
+            error
+            header='Error'
+            content={createEventError}
+          />
+          : null
+      }
     </Modal.Content>
     <Modal.Actions>
-      <Button basic color='red' onClick={handleModalOpenClose}>
-        <Icon name='remove' /> Cancel
-      </Button>
-      <Button color='green' onClick={handleCreateEvent}>
+      <Button color='green' onClick={handleCreateEvent} inverted>
         <Icon name='checkmark' /> Create
       </Button>
     </Modal.Actions>
