@@ -148,11 +148,8 @@ export class LoggedInView extends Component {
 
   render() {
     if (this.state.events.length === 0) {
-      // render loading state
       return '...loading??';
     } else {
-      console.log('this.props.events.data: ', this.props.events.data);
-      
    return (
       <div className="dashboard grid">
           <SideBar
