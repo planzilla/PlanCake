@@ -48,7 +48,7 @@ export default class SideBar extends Component {
   render() {
     const { activeIndex } = this.state;
 
-    if (!this.props.events) {
+    if (!this.props.events.data) {
       return 'loading!!';
     } else {
       return (
