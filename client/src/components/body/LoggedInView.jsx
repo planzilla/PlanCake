@@ -36,18 +36,14 @@ export default class LoggedInView extends Component {
     this.handleCreateEventModalOpenClose = this.handleCreateEventModalOpenClose.bind(this);
     this.handleCreateEvent = this.handleCreateEvent.bind(this);
     this.clearAllCreateEventInfo = this.clearAllCreateEventInfo.bind(this);
+    this.handleClickEventTitle = this.handleClickEventTitle.bind(this);
   }
 
   // load user events and info
   componentDidMount() {
     axios.get('/api/userEvents')
       .then(({ data }) => {
-        this.setState({events: data});
-        let eventIdsStr = data.map((event) => event.id).toString();
-        return axios.get(`/api/topicBoards?eventIds=${eventIdsStr}`)
-      .then(({ data }) => {
-        this.setState({topicBoards: data});
-      })
+        this.setState({ events: data });
       });
   }
 
@@ -60,19 +56,27 @@ export default class LoggedInView extends Component {
     })
   }
 
-  handleInputChange(event) {
-    this.setState({ [event.target.name]: event.target.value })
+  handleInputChange(e) {
+    this.setState({ [e.target.name]: e.target.value })
+  }
+
+  handleClickEventTitle(event) {
+    this.setState({topicBoards: []});
+    axios.get(`/api/topicBoards?EventId=${event.id}`)
+      .then(({ data }) => {
+        this.setState({ topicBoards: data });
+      })
   }
 
   /* -------------- AddTopic -------------- */
-  handleAddTopicModalOpenClose(event) {
+  handleAddTopicModalOpenClose() {
     let openCloseState = !this.state.addTopicModalOpen;
     this.clearAllCreateEventInfo();
     this.setState({ addTopicModalOpen: openCloseState });
   }
 
-  handleAddTopic(event, eventId) {
-    event.preventDefault();
+  handleAddTopic(e, eventId) {
+    e.preventDefault();
     if (this.state.addTopicTitle === '') {
       this.setState({
         addTopicError: 'Please insert a discussion topic.'
@@ -82,21 +86,21 @@ export default class LoggedInView extends Component {
         eventId: eventId,
         addTopicTitle: this.state.addTopicTitle
       })
-      .then((data) => {
-        this.handleAddTopicModalOpenClose();
-      })
+        .then((data) => {
+          this.handleAddTopicModalOpenClose();
+        })
     }
   }
 
   /* ----------- CreateEvent ------------- */
-  handleCreateEventModalOpenClose(event) {
+  handleCreateEventModalOpenClose() {
     let openCloseState = !this.state.createEventModalOpen;
     this.clearAllCreateEventInfo();
     this.setState({ createEventModalOpen: openCloseState });
   }
 
-  handleCreateEvent(event) {
-    event.preventDefault();
+  handleCreateEvent(e) {
+    e.preventDefault();
     if (this.state.createEventTitle === '') {
       this.setState({
         createEventError: 'Please insert an event title.'
@@ -110,25 +114,25 @@ export default class LoggedInView extends Component {
         createEventTitle: this.state.createEventTitle,
         createEventLocation: this.state.createEventLocation
       })
-      .then((data) => { 
-        axios.get('/api/userEvents')
-          .then(result => {
-            this.setState({events: result.data});
-            this.handleCreateEventModalOpenClose();
+        .then((data) => {
+          axios.get('/api/userEvents')
+            .then(result => {
+              this.setState({ events: result.data });
+              this.handleCreateEventModalOpenClose();
+            });
+          // TODO: redirect to new board
+        })
+        .catch((err) => {
+          this.setState({
+            createEventError: 'An error occurred. Please try again.'
           });
-        // TODO: redirect to new board
-      })
-      .catch((err) => {
-        this.setState({
-          createEventError: 'An error occurred. Please try again.'
-        });
-      })
+        })
     }
   }
 
   render() {
-   return (
-    <div className="dashboard grid">
+    return (
+      <div className="dashboard grid">
         <SideBar
           events={this.state.events}
           topicBoards={this.state.topicBoards}
@@ -141,10 +145,12 @@ export default class LoggedInView extends Component {
           handleCreateEventModalOpenClose={this.handleCreateEventModalOpenClose}
           createEventModalOpen={this.state.createEventModalOpen}
           createEventError={this.state.createEventError}
+          handleClickEventTitle={this.handleClickEventTitle}
         />
-        <Dashboard 
+        <Dashboard
           events={this.state.events}
         />
       </div>
-   )}
+    )
+  }
 }
