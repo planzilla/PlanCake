@@ -167,10 +167,10 @@ export class LoggedInView extends Component {
             createEventModalOpen={this.state.createEventModalOpen}
             createEventError={this.state.createEventError}
             handleClickEventTitle={this.handleClickEventTitle}
-            events={this.props.posts}
+            events={this.props.events.data}
           />
           <Dashboard 
-            events={this.props.events}
+            events={this.props.events.data}
           />
         </div>
       )

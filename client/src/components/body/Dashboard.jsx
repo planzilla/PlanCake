@@ -12,13 +12,13 @@ export default class Dashboard extends Component {
   }
 
   render() {
-    if (!this.props.events.data) {
+    if (!this.props.events) {
       return 'loading';
     } else {
       return(
         <div>
           <div className="event-cards">
-          {this.props.events.data.map((event, i) => {
+          {this.props.events.map((event, i) => {
             return(
                 <EventCard title={event.title} location={event.location} key={i}/>
             )
