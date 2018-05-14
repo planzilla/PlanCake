@@ -88,6 +88,10 @@ export default class LoggedInView extends Component {
       })
         .then((data) => {
           this.handleAddTopicModalOpenClose();
+          axios.get(`/api/topicBoards?EventId=${eventId}`)
+          .then(({ data }) => {
+            this.setState({ topicBoards: data });
+          })
         })
     }
   }
