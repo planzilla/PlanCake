@@ -3,9 +3,8 @@ import SideBar from './SideBar.jsx';
 import Dashboard from './Dashboard.jsx';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import { Provider, connect } from 'react-redux';
+import { connect } from 'react-redux';
 import { fetchPosts } from '../../actions/postActions.js';
-import store from '../../store';
 
 export class LoggedInView extends Component {
 
@@ -51,20 +50,20 @@ export class LoggedInView extends Component {
   // }
   componentDidMount() {
     this.props.fetchPosts();
-
-    
   }
 
-/*
-componentWillReceiveProps(nextProps) {
-  if (nextProps.newPost) {
-    this.props.posts.unshift(nextProps.newPost);
-  }
-}
 
+  // componentDidUpdate(nextProps) {
+  //   if (nextProps.newPost) {
+  //     this.props.posts.unshift(nextProps.newPost);
+  //   }
+  // }
 
-
-*/
+  // static getDerivedStateFromProps(nextProps, prevState) {
+  //   if (nextProps.isReady) {
+      
+  //   }
+  // }
 
   handleInputChange(event) {
     this.setState({ [event.target.name]: event.target.value })
@@ -160,29 +159,34 @@ componentWillReceiveProps(nextProps) {
   }
 
   render() {
-    console.log('this.props', this.props);
-    console.log('state', this.state);
+    if (this.state.events.length === 0) {
+      // render loading state
+      return '...loading??';
+    } else {
+      console.log('this.props.events.data: ', this.props.events.data);
+      
    return (
-    <div className="dashboard grid">
-        <SideBar
-          topicBoards={this.state.topicBoards}
-          handleInputChange={this.handleInputChange}
-          handleAddTopic={this.handleAddTopic}
-          handleAddTopicModalOpenClose={this.handleAddTopicModalOpenClose}
-          addTopicModalOpen={this.state.addTopicModalOpen}
-          addTopicError={this.state.addTopicError}
-          handleCreateEvent={this.handleCreateEvent}
-          handleCreateEventModalOpenClose={this.handleCreateEventModalOpenClose}
-          createEventModalOpen={this.state.createEventModalOpen}
-          createEventError={this.state.createEventError}
-          handleClickEventTitle={this.handleClickEventTitle}
-          events={this.props.posts}
-        />
-        <Dashboard 
-          events={this.state.events}
-        />
-      </div>
-    )
+      <div className="dashboard grid">
+          <SideBar
+            topicBoards={this.state.topicBoards}
+            handleInputChange={this.handleInputChange}
+            handleAddTopic={this.handleAddTopic}
+            handleAddTopicModalOpenClose={this.handleAddTopicModalOpenClose}
+            addTopicModalOpen={this.state.addTopicModalOpen}
+            addTopicError={this.state.addTopicError}
+            handleCreateEvent={this.handleCreateEvent}
+            handleCreateEventModalOpenClose={this.handleCreateEventModalOpenClose}
+            createEventModalOpen={this.state.createEventModalOpen}
+            createEventError={this.state.createEventError}
+            handleClickEventTitle={this.handleClickEventTitle}
+            events={this.props.posts}
+          />
+          <Dashboard 
+            events={this.props.events}
+          />
+        </div>
+      )
+    }
   }
 }
 
