@@ -7,24 +7,25 @@ const initialState = {
     title: '',
     location: '',
     createdAt: '',
-    updatedAt: ''
+    updatedAt: '',
   },
-}
+};
 
 const events = (state = initialState, action) => {
   switch (action.type) {
-    case FETCH_POSTS: 
+    case FETCH_POSTS:
       return {
-        ...state, 
-        events: action.payload };
+        ...state,
+        events: action.payload,
+      };
     case NEW_POST:
       return {
         ...state,
-        event: action.payload
+        event: action.payload,
       };
     default:
       return state;
   }
-}
+};
 
 export default events;

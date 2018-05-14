@@ -5,20 +5,19 @@ import { FETCH_POSTS, NEW_POST } from './types';
 // const NEW_POST = 'NEW_POST';
 
 export function fetchPosts() {
-  return function(dispatch) {
-    // api call from comp did mount
+  return function (dispatch) {
     axios.get('/api/userEvents')
-    .then(result => dispatch({
-      type: FETCH_POSTS,
-      payload: result
-    }));
+      .then(result => dispatch({
+        type: FETCH_POSTS,
+        payload: result,
+      }));
   };
 }
 
-export const createPost = (postData) => dispatch => {
+export const createPost = postData => (dispatch) => {
   axios.post('/api/event')
-  .then(result => dispatch({
-    type: NEW_POST,
-    payload: result
-  }))
-}
+    .then(result => dispatch({
+      type: NEW_POST,
+      payload: result,
+    }));
+};

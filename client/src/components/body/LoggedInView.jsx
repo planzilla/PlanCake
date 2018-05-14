@@ -48,22 +48,10 @@ export class LoggedInView extends Component {
   //   axios.get('/api/userEvents')
   //     .then(result => this.setState({events: result.data}));
   // }
+  
   componentDidMount() {
     this.props.fetchPosts();
   }
-
-
-  // componentDidUpdate(nextProps) {
-  //   if (nextProps.newPost) {
-  //     this.props.posts.unshift(nextProps.newPost);
-  //   }
-  // }
-
-  // static getDerivedStateFromProps(nextProps, prevState) {
-  //   if (nextProps.isReady) {
-      
-  //   }
-  // }
 
   handleInputChange(event) {
     this.setState({ [event.target.name]: event.target.value })
@@ -190,6 +178,7 @@ export class LoggedInView extends Component {
   }
 }
 
+// for redux but doesnt play along nicely so commented
 // LoggedInView.propTypes = {
 //   fetchPosts: PropTypes.func.isRequired,
 //   events: PropTypes.array.isRequired,
@@ -200,5 +189,5 @@ const mapStateToProps = state => ({
   events: state.posts.events,
   newEvent: state.posts.event
 });
-// console.log('after map:', this.props);
+
 export default connect(mapStateToProps, { fetchPosts })(LoggedInView); 
