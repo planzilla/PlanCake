@@ -12,7 +12,6 @@ export default class SideBar extends Component {
   }
 
   handleClick(e, titleProps, event) {
-    console.log('event: ', event);
     const { index } = titleProps;
     const { activeIndex } = this.state;
     const newIndex = activeIndex === index ? -1 : index;
