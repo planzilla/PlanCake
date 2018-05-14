@@ -22,7 +22,6 @@ get.logout = (req, res) => {
 };
 
 get.topicBoards = (req, res) => {
-  // let query = req.query.eventIds.split(',').map(id => { return { EventId: id } })
   return db.Board.findAll({
     where: req.query
   })
