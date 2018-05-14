@@ -2,8 +2,12 @@ import React, { Component } from 'react';
 import SideBar from './SideBar.jsx';
 import Dashboard from './Dashboard.jsx';
 import axios from 'axios';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { fetchPosts } from '../../actions/postActions.js';
 
-export default class LoggedInView extends Component {
+export class LoggedInView extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
@@ -40,11 +44,23 @@ export default class LoggedInView extends Component {
   }
 
   // load user events and info
+  // componentDidMount() {
+  //   axios.get('/api/userEvents')
+  //     .then(result => this.setState({events: result.data}));
+  // }
+  
   componentDidMount() {
-    axios.get('/api/userEvents')
-      .then(({ data }) => {
-        this.setState({ events: data });
-      });
+    this.props.fetchPosts();
+  }
+
+  handleInputChange(event) {
+    this.setState({ [event.target.name]: event.target.value })
+  }
+  
+  handleModalOpenClose () {
+    let openCloseState = !this.state.createEventModalOpen;
+    this.clearAllCreateEventInfo();
+    this.setState({ createEventModalOpen: openCloseState })
   }
 
   clearAllCreateEventInfo() {
@@ -135,26 +151,44 @@ export default class LoggedInView extends Component {
   }
 
   render() {
-    return (
+    if (this.state.events.length === 0) {
+      return '...loading??';
+    } else {
+   return (
       <div className="dashboard grid">
-        <SideBar
-          events={this.state.events}
-          topicBoards={this.state.topicBoards}
-          handleInputChange={this.handleInputChange}
-          handleAddTopic={this.handleAddTopic}
-          handleAddTopicModalOpenClose={this.handleAddTopicModalOpenClose}
-          addTopicModalOpen={this.state.addTopicModalOpen}
-          addTopicError={this.state.addTopicError}
-          handleCreateEvent={this.handleCreateEvent}
-          handleCreateEventModalOpenClose={this.handleCreateEventModalOpenClose}
-          createEventModalOpen={this.state.createEventModalOpen}
-          createEventError={this.state.createEventError}
-          handleClickEventTitle={this.handleClickEventTitle}
-        />
-        <Dashboard
-          events={this.state.events}
-        />
-      </div>
-    )
+          <SideBar
+            topicBoards={this.state.topicBoards}
+            handleInputChange={this.handleInputChange}
+            handleAddTopic={this.handleAddTopic}
+            handleAddTopicModalOpenClose={this.handleAddTopicModalOpenClose}
+            addTopicModalOpen={this.state.addTopicModalOpen}
+            addTopicError={this.state.addTopicError}
+            handleCreateEvent={this.handleCreateEvent}
+            handleCreateEventModalOpenClose={this.handleCreateEventModalOpenClose}
+            createEventModalOpen={this.state.createEventModalOpen}
+            createEventError={this.state.createEventError}
+            handleClickEventTitle={this.handleClickEventTitle}
+            events={this.props.events.data}
+          />
+          <Dashboard 
+            events={this.props.events.data}
+          />
+        </div>
+      )
+    }
   }
 }
+
+// for redux but doesnt play along nicely so commented
+// LoggedInView.propTypes = {
+//   fetchPosts: PropTypes.func.isRequired,
+//   events: PropTypes.array.isRequired,
+//   newPost: PropTypes.object
+// };
+
+const mapStateToProps = state => ({
+  events: state.posts.events,
+  newEvent: state.posts.event
+});
+
+export default connect(mapStateToProps, { fetchPosts })(LoggedInView); 

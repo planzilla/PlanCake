@@ -21,3 +21,5 @@ database.json
 /__tests__
 
 /coverage
+
+/client/src/components/store.js

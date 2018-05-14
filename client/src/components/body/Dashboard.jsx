@@ -1,29 +1,31 @@
 import React, { Component } from 'react';
 import EventCard from './EventCard.jsx';
-
-//import sidebar
-//import event cards
+import { fetchPosts } from '../../actions/postActions.js';
+import { connect } from 'react-redux';
 
 export default class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      
     }
   }
 
-
   render() {
-    return(
-      <div>
-        <div className="event-cards">
-        {this.props.events.map((event, i) => {
-          return(
-              <EventCard title={event.title} location={event.location} key={i}/>
-          )
-        })}
+    if (!this.props.events) {
+      return 'loading';
+    } else {
+      return(
+        <div>
+          <div className="event-cards">
+          {this.props.events.map((event, i) => {
+            return(
+                <EventCard title={event.title} location={event.location} key={i}/>
+            )
+          })}
+          </div>
         </div>
-      </div>
-    )
+      )
+    }
   }
 }
