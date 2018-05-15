@@ -36,10 +36,8 @@ export default class SideBar extends Component {
           />
           {this.props.topicBoards.map((board, j) => {
               return (
-                <div key={j}>
-                  <Link to={`/events/${this.props.id}`} component={ EventSummary }>
-                    <a>{board.title}</a>
-                  </Link>
+                <div key={j}>                
+                  <a>{board.title}</a>
                   <br />
                 </div>
               )
@@ -71,7 +69,9 @@ export default class SideBar extends Component {
                 <div key={i}>
                   <Accordion.Title active={activeIndex === i} index={i} onClick={(e, titleProps) => {this.handleClick(e, titleProps, event)}}>
                     <Icon name='dropdown' />
-                    <b>{event.title}</b>
+                    <Link to={`/events/${this.props.id}`} component={ EventSummary }>
+                      <b>{event.title}</b>
+                    </Link>
                   </Accordion.Title>
                   <Accordion.Content active={activeIndex === i}>
                     {this.renderEvents(event, activeIndex, i)}

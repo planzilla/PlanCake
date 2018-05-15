@@ -7,7 +7,14 @@ export default class EventSummary extends Component {
   }
 
   render() {
-    <h1>event summary</h1>
+    console.log(this.props);
+    return (
+      <div>
+      {/* <h1>{this.props.title}</h1>
+      <h5>{this.props.location}</h5> */}
+      hi
+      </div>
+    )
   }
 
 

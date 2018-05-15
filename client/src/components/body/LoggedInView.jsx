@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Link, Switch } from 'react-router-dom';
 import axios from 'axios';
+import NavBar from '../header/NavBar.jsx';
 import SideBar from './SideBar.jsx';
 import Dashboard from './Dashboard.jsx';
 import PropTypes from 'prop-types';
@@ -55,6 +56,13 @@ export class LoggedInView extends Component {
     this.props.fetchPosts();
   }
 
+  // componentWillReceiveProps(nextProps) {
+  //   if (this.props.events !== nextProps.events) {
+  //     this.props.fetchPosts();
+  //   }
+  // }
+
+
   handleInputChange(event) {
     this.setState({ [event.target.name]: event.target.value })
   }
@@ -78,13 +86,21 @@ export class LoggedInView extends Component {
     this.setState({ [e.target.name]: e.target.value })
   }
 
+  /* --------------- EventSummary ------------*/
+
   handleClickEventTitle(event) {
     this.setState({topicBoards: []});
+    console.log('event id is: ', event);
     axios.get(`/api/topicBoards?EventId=${event.id}`)
       .then(({ data }) => {
         this.setState({ topicBoards: data });
+        console.log('called topic boards', this.state.topicBoards);
       })
   }
+
+  
+
+
 
   /* -------------- AddTopic -------------- */
   handleAddTopicModalOpenClose() {
@@ -135,20 +151,10 @@ export class LoggedInView extends Component {
       this.props.createPost({
         createEventTitle: this.state.createEventTitle,
         createEventLocation: this.state.createEventLocation
-      })
-        .then((data) => {
-          axios.get('/api/userEvents')
-            .then(result => {
-              this.setState({ events: result.data });
-              this.handleCreateEventModalOpenClose();
-            });
-          // TODO: redirect to new board
-        })
-        .catch((err) => {
-          this.setState({
-            createEventError: 'An error occurred. Please try again.'
-          });
-        })
+      });
+
+        this.handleCreateEventModalOpenClose();
+
     }
   }
 
@@ -158,6 +164,8 @@ export class LoggedInView extends Component {
     } else {
       return (
         <BrowserRouter>
+        <div className="splash grid">
+          <NavBar setUser={this.setUser} />
           <div className="dashboard grid">
           <SideBar
             topicBoards={this.state.topicBoards}
@@ -174,10 +182,23 @@ export class LoggedInView extends Component {
             events={this.props.events.data}
           />
 
-          <Route path="/loggedinview" render={() => <Dashboard events={this.props.events.data} /> } />
-          <Route path="/events" component={ Dashboard } />
-          <Link to="/events" component={ EventSummary }>events here</Link>
+          <Route path="/loggedinview" render={() => 
+            <Dashboard 
+              events={this.props.events.data} 
+              handleClickEventTitle={this.handleClickEventTitle}
+              
+              /> } />
+          <Route path="/events/:id" render={() => 
+            <EventSummary 
+              events={this.props.events.data} 
+              
+            /> 
+          } />
+
+          <Link to="/loggedinview">events here</Link>
+          <Link to="/events/:eventId">eventpage</Link>
           
+        </div>
         </div>
         </BrowserRouter>
       )

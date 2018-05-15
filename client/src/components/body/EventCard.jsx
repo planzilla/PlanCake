@@ -3,10 +3,25 @@ import { Card, Icon } from 'semantic-ui-react';
 import { Route, Link } from 'react-router-dom';
 import EventSummary from './EventSummary.jsx';
 
-const EventCard = ({ id, title, location }) => (
+export default class EventCard extends Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+  
+  // = ({ id, title, location }) => {
+  
+
+  handleClick(event) {
+    // console.log('id in eventcard is: ', id);
+    this.props.handleClickEventTitle(event);
+  }
+
+  render() {  
+  return (
   <Card fluid color='teal'>
-    <Link to={`/events/${id}`} component={ EventSummary }>
-      <Card.Content header={title} />
+    <Link to={`/events/${this.props.id}`}>
+      <Card.Content header={this.props.title} onClick={() => this.handleClick(this.props.event)} />
     </Link>
     <Card.Content>
       <p><b>ToDo</b></p>
@@ -17,11 +32,14 @@ const EventCard = ({ id, title, location }) => (
     </Card.Content>
     <Card.Content extra>
       <Icon name='map pin' />
-      {location}
+      {this.props.location}
     </Card.Content>
-    <Route path={`/events/:eventId`} component={ EventSummary } />
+    {/* <Route path={`/events`} render={() => <EventSummary /> } /> */}
   </Card>
 
-)
+  )
+  }
+}
 
-export default EventCard;
+// export default EventCard;
+// onClick={() => this.handleClickEventTitle(event)}

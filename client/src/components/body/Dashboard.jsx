@@ -20,7 +20,14 @@ export default class Dashboard extends Component {
           <div className="event-cards">
           {this.props.events.map((event, i) => {
             return(
-                <EventCard title={event.title} location={event.location} id={event.id} key={i}/>
+                <EventCard 
+                  event={event}
+                  title={event.title} 
+                  location={event.location} 
+                  id={event.id} 
+                  key={i} 
+                  handleClickEventTitle={this.props.handleClickEventTitle}  
+                />
             )
           })}
           </div>
