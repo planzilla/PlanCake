@@ -16,17 +16,19 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-const mailOptions = {
-  from: 'Christina <plancake.co@gmail.com>',
-  to: 'christina.elaine.yuen@gmail.com',
-  subject: 'nodemailer test',
-  text: 'hello world'
-}
+module.exports.transporter = transporter;
 
-transporter.sendMail(mailOptions, function(err, res) {
-  if (err) {
-    console.log('err', err);
-  } else {
-    console.log('email is sent')
-  }
-})
+// const mailOptions = {
+//   from: 'Christina <plancake.co@gmail.com>',
+//   to: 'christina.elaine.yuen@gmail.com',
+//   subject: 'nodemailer test',
+//   text: 'hello world'
+// }
+
+// transporter.sendMail(mailOptions, function(err, res) {
+//   if (err) {
+//     console.log('err', err);
+//   } else {
+//     console.log('email is sent')
+//   }
+// })
