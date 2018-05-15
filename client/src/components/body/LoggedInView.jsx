@@ -56,12 +56,6 @@ export class LoggedInView extends Component {
   handleInputChange(event) {
     this.setState({ [event.target.name]: event.target.value })
   }
-  
-  handleModalOpenClose () {
-    let openCloseState = !this.state.createEventModalOpen;
-    this.clearAllCreateEventInfo();
-    this.setState({ createEventModalOpen: openCloseState })
-  }
 
   clearAllCreateEventInfo() {
     this.setState({
