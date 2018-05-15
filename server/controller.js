@@ -131,13 +131,15 @@ post.login = (req, res, next) => {
 };
 
 post.sendEmailInvites = (req, res) => {
-  console.log('in sendemailinvites', req.body);
-  transporter.sendMail(template('celaineys@gmail.com'), (err, res) => {
-    if (err) {
-      console.log(err)
-    } else {
-      console.log('email was sent');
-    }
+  let emailsArr = req.body.validatedEmails;
+  emailsArr.forEach((email) => {
+    transporter.sendMail(template(email), (err, res) => {
+      if (err) {
+        console.log(err);
+        res.status(500);
+        res.end();
+      } 
+    })
   })
   res.end();
 };

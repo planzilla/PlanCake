@@ -166,7 +166,6 @@ export class LoggedInView extends Component {
       }
     }
 
-    // this.postCreateEvent();
     axios.post('/api/sendEmailInvites', { validatedEmails: validatedEmails })
       .then(() => {
         this.postCreateEvent();
