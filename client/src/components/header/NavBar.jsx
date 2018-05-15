@@ -4,6 +4,7 @@ import Signup from './SignUp.jsx';
 import Modal from 'react-modal';
 import axios from 'axios';
 import Logout from './Logout.jsx';
+import Inbox from './Inbox.jsx';
 
 export default class NavBar extends Component {
   constructor(props) {
@@ -54,6 +55,7 @@ export default class NavBar extends Component {
   render() {
     return(
       <div className="header grid">
+        <Inbox />
         <div className="login jsas">
           {this.state.view === 'logout' ? null : <h3 className="jsas" onClick={this.handleModal.bind(this)}>Login</h3>}
           <Modal

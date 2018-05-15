@@ -136,10 +136,11 @@ post.sendEmailInvites = (req, res) => {
     transporter.sendMail(template(email), (err, res) => {
       if (err) {
         console.log(err);
-        res.status(500);
-        res.end();
+        // res.status(500);
+        // res.end();
       } 
     })
+    // promisfy all, or bluebird queue 
   })
   res.end();
 };
