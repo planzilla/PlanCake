@@ -29,7 +29,10 @@ module.exports = {
           key: 'id'
         }
       },
-      seen: {
+      seenStatus: {
+        type: Sequelize.BOOLEAN
+      },
+      emailStatus: {
         type: Sequelize.BOOLEAN
       },
       createdAt: {
