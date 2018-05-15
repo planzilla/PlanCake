@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { BrowserRouter, Route, Link, Switch } from 'react-router-dom';
+import axios from 'axios';
 import SideBar from './SideBar.jsx';
 import Dashboard from './Dashboard.jsx';
-import axios from 'axios';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchPosts } from '../../actions/postActions.js';
+import EventSummary from './EventSummary.jsx';
 
 export class LoggedInView extends Component {
 
@@ -154,8 +156,9 @@ export class LoggedInView extends Component {
     if (this.state.events.length === 0) {
       return '...loading??';
     } else {
-   return (
-      <div className="dashboard grid">
+      return (
+        <BrowserRouter>
+          <div className="dashboard grid">
           <SideBar
             topicBoards={this.state.topicBoards}
             handleInputChange={this.handleInputChange}
@@ -170,10 +173,13 @@ export class LoggedInView extends Component {
             handleClickEventTitle={this.handleClickEventTitle}
             events={this.props.events.data}
           />
-          <Dashboard 
-            events={this.props.events.data}
-          />
+
+          <Route path="/loggedinview" render={() => <Dashboard events={this.props.events.data} /> } />
+          <Route path="/events" component={ Dashboard } />
+          <Link to="/events" component={ EventSummary }>events here</Link>
+          
         </div>
+        </BrowserRouter>
       )
     }
   }

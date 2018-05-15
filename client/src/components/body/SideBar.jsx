@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { Route, Link } from 'react-router-dom';
 import { Accordion, Icon } from 'semantic-ui-react'
 import CreateEvent from './CreateEvent.jsx';
 import AddTopic from './AddTopic.jsx';
+import EventSummary from './EventSummary.jsx';
 
 export default class SideBar extends Component {
   constructor(props) {
@@ -35,12 +37,15 @@ export default class SideBar extends Component {
           {this.props.topicBoards.map((board, j) => {
               return (
                 <div key={j}>
-                  <a>{board.title}</a>
+                  <Link to={`/events/${this.props.id}`} component={ EventSummary }>
+                    <a>{board.title}</a>
+                  </Link>
                   <br />
                 </div>
               )
             }
           )}
+          <Route path={`/events/:eventId`} component={ EventSummary } />
         </div>
       )
     }
@@ -56,7 +61,7 @@ export default class SideBar extends Component {
           <CreateEvent
             handleCreateEvent={this.props.handleCreateEvent}
             handleInputChange={this.props.handleInputChange}
-            handleModalOpenClose={this.props.handleModalOpenClose}
+            handleCreateEventModalOpenClose={this.props.handleCreateEventModalOpenClose}
             createEventError={this.props.createEventError}
             createEventModalOpen={this.props.createEventModalOpen}
           />

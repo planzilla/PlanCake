@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
-import { Card, Icon } from 'semantic-ui-react'
+import { Card, Icon } from 'semantic-ui-react';
+import { Route, Link } from 'react-router-dom';
+import EventSummary from './EventSummary.jsx';
 
-const EventCard = ({ title, location }) => (
+const EventCard = ({ id, title, location }) => (
   <Card fluid color='teal'>
-    <Card.Content header={title} />
+    <Link to={`/events/${id}`} component={ EventSummary }>
+      <Card.Content header={title} />
+    </Link>
     <Card.Content>
       <p><b>ToDo</b></p>
       <ul>
@@ -15,7 +19,9 @@ const EventCard = ({ title, location }) => (
       <Icon name='map pin' />
       {location}
     </Card.Content>
+    <Route path={`/events/:eventId`} component={ EventSummary } />
   </Card>
+
 )
 
 export default EventCard;
