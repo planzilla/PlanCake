@@ -15,7 +15,7 @@ export function fetchPosts() {
 }
 
 export const createPost = postData => (dispatch) => {
-  axios.post('/api/event')
+  axios.post('/api/createEvent', postData)
     .then(result => dispatch({
       type: NEW_POST,
       payload: result,

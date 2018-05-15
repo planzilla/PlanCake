@@ -5,7 +5,7 @@ import SideBar from './SideBar.jsx';
 import Dashboard from './Dashboard.jsx';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchPosts } from '../../actions/postActions.js';
+import { fetchPosts, createPost } from '../../actions/postActions.js';
 import EventSummary from './EventSummary.jsx';
 
 export class LoggedInView extends Component {
@@ -132,7 +132,7 @@ export class LoggedInView extends Component {
         createEventError: 'Please insert an event location.'
       })
     } else {
-      axios.post('/api/createEvent', {
+      this.props.createPost({
         createEventTitle: this.state.createEventTitle,
         createEventLocation: this.state.createEventLocation
       })
@@ -197,4 +197,4 @@ const mapStateToProps = state => ({
   newEvent: state.posts.event
 });
 
-export default connect(mapStateToProps, { fetchPosts })(LoggedInView); 
+export default connect(mapStateToProps, { fetchPosts, createPost })(LoggedInView); 
