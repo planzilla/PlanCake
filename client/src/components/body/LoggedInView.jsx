@@ -102,12 +102,6 @@ export class LoggedInView extends Component {
     }
   }
 
-  /* ----------- Send Emails ------------- */
-  sendEmailInvites() {
-    console.log(this.state.createEventEmails);
-  }
-
-
   /* ----------- CreateEvent ------------- */
   handleCreateEventModalOpenClose() {
     let openCloseState = !this.state.createEventModalOpen;
@@ -125,28 +119,56 @@ export class LoggedInView extends Component {
       this.setState({
         createEventError: 'Please insert an event location.'
       })
+    } else if (this.state.createEventEmails === '') {
+      this.postCreateEvent();
     } else {
       this.sendEmailInvites();
-      axios.post('/api/createEvent', {
-        createEventTitle: this.state.createEventTitle,
-        createEventLocation: this.state.createEventLocation
-      })
-        .then((data) => {
-          axios.get('/api/userEvents')
-            .then(result => {
-              this.setState({ events: result.data });
-              this.handleCreateEventModalOpenClose();
-            });
-          // TODO: redirect to new board
-        })
-        .catch((err) => {
-          this.setState({
-            createEventError: 'An error occurred. Please try again.'
-          });
-        })
     }
   }
 
+  postCreateEvent() {
+    console.log('in postCreateEvent');
+    axios.post('/api/createEvent', {
+      createEventTitle: this.state.createEventTitle,
+      createEventLocation: this.state.createEventLocation
+    })
+      .then((data) => {
+        axios.get('/api/userEvents')
+          .then(result => {
+            this.setState({ events: result.data });
+            this.handleCreateEventModalOpenClose();
+          });
+        // TODO: redirect to new board
+      })
+      .catch((err) => {
+        this.setState({
+          createEventError: 'An error occurred. Please try again.'
+        });
+      })
+  }
+
+  sendEmailInvites() {
+    // Validate Emails 
+    let unvalidatedEmails = this.state.createEventEmails.split(', ');
+    let validatedEmails = [];
+    let validator = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    for (var i = 0; i < unvalidatedEmails.length; i++) {
+      let email = unvalidatedEmails[i].trim();
+      if (validator.test(email)) {
+        validatedEmails.push(email);
+      } else {
+        this.setState({
+          createEventError: 'Please insert valid email addresses.'
+        })
+        return;
+      }
+    }
+    
+    this.postCreateEvent();
+    axios.post('/api/sendEmailInvites')
+      .then(() => {console.log('finished post request')})
+  }
 
   /* ----------- Render ------------- */
   

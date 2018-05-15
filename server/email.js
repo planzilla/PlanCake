@@ -16,7 +16,7 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-module.exports.transporter = transporter;
+module.exports = transporter;
 
 // const mailOptions = {
 //   from: 'Christina <plancake.co@gmail.com>',
