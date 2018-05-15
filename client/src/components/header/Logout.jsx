@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const Logout = (props) => (
     <Link to="/">
-      <h3 onClick={props.logout}>Logout</h3>
+      <h3 className="logout-nav" onClick={props.logout}>Logout</h3>
     </Link>
 )
 

@@ -54,28 +54,31 @@ export default class NavBar extends Component {
   render() {
     return(
       <div className="header grid">
-        <div className="login jsas">
-          {this.state.view === 'logout' ? null : <h3 className="jsas" onClick={this.handleModal.bind(this)}>Login</h3>}
+      <img className="logo jsas" src="plancake2.png" alt="plancake2.png"/>
+        <div className="nav-links">
+          <h3>About Us</h3>
+          <h3>How It Works</h3>
+          {this.state.view === 'logout' ? null : <h3 onClick={this.handleModal.bind(this)}>Login</h3>}
+        {this.state.status === 'authenticated' 
+        ? <Logout  logout={this.logout} /> : null}
+        </div>
           <Modal
             isOpen={this.state.modalIsOpen}
-          >
+            >
             {this.state.view === 'login' 
             ? <Login 
-                handleView={this.handleView}
-                handleModal={this.handleModal}
-                sendLogin={this.sendLogin}
-                setUser={this.props.setUser}
-                authenticate={this.authenticate}
-              /> 
-              : <Signup 
-                  handleModal={this.handleModal}
-                  sendLogin={this.sendLogin}
-                  setUser={this.props.setUser}
-              />}
+            handleView={this.handleView}
+            handleModal={this.handleModal}
+            sendLogin={this.sendLogin}
+            setUser={this.props.setUser}
+            authenticate={this.authenticate}
+            /> 
+            : <Signup 
+            handleModal={this.handleModal}
+            sendLogin={this.sendLogin}
+            setUser={this.props.setUser}
+            />}
           </Modal>
-          {this.state.status === 'authenticated' 
-          ? <Logout logout={this.logout} /> : null}
-        </div>
       </div>
     )
   }

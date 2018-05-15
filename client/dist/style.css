@@ -9,7 +9,8 @@
 }
 
 body{
-  font-family: "Open Sans",'Helvetica Neue', Arial";
+  display: flex;
+  justify-content: center;
 }
 
 #app{
@@ -17,7 +18,6 @@ body{
   display: flex;
   justify-content: center;
   max-width: 1260px;
-  margin: auto;
 }
 
 .splash{
@@ -38,11 +38,6 @@ body{
   display: grid;
 }
 
-.full-height-width{
-  height: 100vh;
-  width: 90vw;
-}
-
 .jsas{
   justify-self: center;
   align-self: center;
@@ -52,10 +47,6 @@ body{
 /***     App     ***/
 /*******************/
 
-
-/* need to change grid area for body
-so that nav bar is transparent (opacity) */
-
 .body{
   grid-area: 2 / 1 / 12 / 13;
   grid-template-columns: 1fr;
@@ -63,14 +54,13 @@ so that nav bar is transparent (opacity) */
 }
 
 .body img{
-  grid-row: 1;
-  width: 100%;
-  height: 40%;
+  z-index: -1;
+  grid-area: 1 / 1 / 2 / 2;
   opacity: .9;
-  border-radius: 4px;
   overflow: hidden;
-  width: 1150px;
-  height: 700px;
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
 }
 
 .body .about-us{
@@ -83,9 +73,7 @@ so that nav bar is transparent (opacity) */
 .header{
   grid-area: 1 / 1 / 1 / 13;
   grid-template-columns: repeat(6, 1fr);
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
-  background-color: rgb(16, 193, 206);
+  background-color: rgb(255, 255, 255);
 }
 
 .footer{
@@ -95,6 +83,16 @@ so that nav bar is transparent (opacity) */
 /*******************/
 /***    header   ***/
 /*******************/
+
+.header div h3{
+  font-family: 'Delius', cursive;
+}
+
+.logo{
+  grid-area: 1 / 1 / 2 / 3;
+  width: auto;
+  height: 90%;
+}
 
 .header .img{
   grid-column-start: 1;
@@ -110,10 +108,21 @@ so that nav bar is transparent (opacity) */
   max-width: 200px;
 }
 
-.login{
-  grid-column: 6;
-  width: 100%;
-  height: 100%;
+.nav-links{
+  grid-area: 1 / 4 / 2 / 7;
+  display: flex;
+  justify-content: space-around;
+}
+
+.nav-links h3{
+  margin: auto;
+}
+
+ .logout-nav{
+   display: flex;
+  margin: auto;
+  color: black;
+  justify-content: space-around;
 }
 
 .modal a{
@@ -123,24 +132,18 @@ so that nav bar is transparent (opacity) */
   transition: all .3s ease-in-out;
 }
 
-.header div:hover{
-  background-color: rgba(248, 199, 142, 0.952);
+.header div h3:hover{
+  color: rgb(209, 201, 171);
+}
+
+.header div{
+  color: rgb(0, 0, 0);
+  align-self: center;
+  width: 100%;
 }
 
 /*******************/
 /*** splash-body ***/
-/*******************/
-
-/* .body img{
-  width: 100%;
-  height: 40%;
-  opacity: .9;
-  grid-row: 1;
-  border-radius: 4px;
-} */
-
-/*******************/
-/** how-it-works ***/
 /*******************/
 
 .how-it-works{
@@ -158,19 +161,11 @@ so that nav bar is transparent (opacity) */
   grid-row: 3;
 }
 
-/*******************/
-/***  about-us   ***/
-/*******************/
-
 .about-us{
   grid-template-columns: repeat(3, 1fr); 
   grid-template-rows: .25fr repeat(2, 1fr);
   grid-gap: 2em
 }
-
-/*******************/
-/*** dashbo-body ***/
-/*******************/
 
 .sidebar{
   grid-area: 1 / 1 / 4 / 2;
@@ -182,7 +177,7 @@ so that nav bar is transparent (opacity) */
 }
 
 /*******************/
-/***    modal    ***/
+/***  BoardView  ***/
 /*******************/
 
 .error{
@@ -190,4 +185,35 @@ so that nav bar is transparent (opacity) */
   color: #db2828;
 }
 
+.chat-view{
+  grid-column: 2;
+  grid-template-rows: repeat(4, 1fr);
+  height: 100%;
+}
 
+.chat-form{
+  grid-row: 4;
+  padding: 3px;
+  bottom: 0;
+  width: 60%;
+  height: auto;
+}
+
+.chat-form input{
+  border-color: black;
+  padding: 10px;
+  width: 90%;
+  margin-right: .5%;
+}
+
+.chat-form button{
+  width: 9%;
+  background: rgb(130, 224, 255);
+  border: none;
+  padding: 10px;
+}
+
+#messages { list-style-type: none; margin: 0; padding: 0; }
+#messages li { padding: 5px 10px; }
+#messages li:nth-child(odd) { background: #eee; }
+#messages { margin-bottom: 40px }

@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import EventCard from './EventCard.jsx';
 import { fetchPosts } from '../../actions/postActions.js';
 import { connect } from 'react-redux';
+import Test from '../header/test.jsx';
+import Demo from './BoardView.jsx';
+//import sidebar
+//import event cards
 
 export default class Dashboard extends Component {
   constructor(props) {
