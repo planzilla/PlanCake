@@ -48,7 +48,7 @@ export class LoggedInView extends Component {
   //   axios.get('/api/userEvents')
   //     .then(result => this.setState({events: result.data}));
   // }
-  
+
   componentDidMount() {
     this.props.fetchPosts();
   }
@@ -67,7 +67,7 @@ export class LoggedInView extends Component {
   }
 
   handleClickEventTitle(event) {
-    this.setState({topicBoards: []});
+    this.setState({ topicBoards: [] });
     axios.get(`/api/topicBoards?EventId=${event.id}`)
       .then(({ data }) => {
         this.setState({ topicBoards: data });
@@ -95,9 +95,9 @@ export class LoggedInView extends Component {
         .then((data) => {
           this.handleAddTopicModalOpenClose();
           axios.get(`/api/topicBoards?EventId=${eventId}`)
-          .then(({ data }) => {
-            this.setState({ topicBoards: data });
-          })
+            .then(({ data }) => {
+              this.setState({ topicBoards: data });
+            })
         })
     }
   }
@@ -122,6 +122,7 @@ export class LoggedInView extends Component {
     } else if (this.state.createEventEmails === '') {
       this.postCreateEvent();
     } else {
+      // Validates emails and then sends emails and creates the event
       this.sendEmailInvites();
     }
   }
@@ -164,20 +165,27 @@ export class LoggedInView extends Component {
         return;
       }
     }
-    
-    this.postCreateEvent();
-    axios.post('/api/sendEmailInvites')
-      .then(() => {console.log('finished post request')})
+
+    // this.postCreateEvent();
+    axios.post('/api/sendEmailInvites', { validatedEmails: validatedEmails })
+      .then(() => {
+        this.postCreateEvent();
+      })
+      .catch((err) => {
+        this.setState({
+          createEventError: 'An error occurred. Please try again.'
+        });
+      })
   }
 
   /* ----------- Render ------------- */
-  
+
   render() {
     if (this.state.events.length === 0) {
       return '...loading??';
     } else {
-   return (
-      <div className="dashboard grid">
+      return (
+        <div className="dashboard grid">
           <SideBar
             topicBoards={this.state.topicBoards}
             handleInputChange={this.handleInputChange}
@@ -192,7 +200,7 @@ export class LoggedInView extends Component {
             handleClickEventTitle={this.handleClickEventTitle}
             events={this.props.events.data}
           />
-          <Dashboard 
+          <Dashboard
             events={this.props.events.data}
           />
         </div>

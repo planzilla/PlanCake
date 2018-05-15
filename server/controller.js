@@ -2,7 +2,7 @@ const db = require('../database/models/index.js');
 const passport = require('./middleware/passport.js');
 const Promise = require('bluebird');
 const bodyParser = require('body-parser');
-const transporter = require('./email.js');
+const { transporter, template } = require('./email.js');
 
 const post = {};
 const get = {};
@@ -131,7 +131,14 @@ post.login = (req, res, next) => {
 };
 
 post.sendEmailInvites = (req, res) => {
-  console.log('in sendemailinvites');
+  console.log('in sendemailinvites', req.body);
+  transporter.sendMail(template('celaineys@gmail.com'), (err, res) => {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log('email was sent');
+    }
+  })
   res.end();
 };
 

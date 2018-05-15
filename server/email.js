@@ -16,7 +16,6 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-module.exports = transporter;
 
 // const mailOptions = {
 //   from: 'Christina <plancake.co@gmail.com>',
@@ -25,10 +24,24 @@ module.exports = transporter;
 //   text: 'hello world'
 // }
 
+const template = (email) => {
+  return {
+    from: 'PlanCake Co <plancake.co@gmail.com>',
+    to: email,
+    subject: 'You\'ve been invited to a PlanCake event!',
+    text: 'Please click here to join the event planning :)',
+    html: '<b>Please click here to join the event planning :)</b> <br/> <button> Link </Button>'
+  }
+}
+
+
 // transporter.sendMail(mailOptions, function(err, res) {
-//   if (err) {
-//     console.log('err', err);
-//   } else {
-//     console.log('email is sent')
-//   }
-// })
+//     if (err) {
+//         console.log('err', err);
+//       } else {
+//           console.log('email is sent')
+//         }
+//       })
+
+module.exports.transporter = transporter;
+module.exports.template = template;
