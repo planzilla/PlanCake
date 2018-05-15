@@ -66,10 +66,6 @@ export class LoggedInView extends Component {
     })
   }
 
-  handleInputChange(e) {
-    this.setState({ [e.target.name]: e.target.value })
-  }
-
   handleClickEventTitle(event) {
     this.setState({topicBoards: []});
     axios.get(`/api/topicBoards?EventId=${event.id}`)
@@ -106,6 +102,12 @@ export class LoggedInView extends Component {
     }
   }
 
+  /* ----------- Send Emails ------------- */
+  sendEmailInvites() {
+    console.log(this.state.createEventEmails);
+  }
+
+
   /* ----------- CreateEvent ------------- */
   handleCreateEventModalOpenClose() {
     let openCloseState = !this.state.createEventModalOpen;
@@ -124,6 +126,7 @@ export class LoggedInView extends Component {
         createEventError: 'Please insert an event location.'
       })
     } else {
+      this.sendEmailInvites();
       axios.post('/api/createEvent', {
         createEventTitle: this.state.createEventTitle,
         createEventLocation: this.state.createEventLocation
@@ -144,6 +147,9 @@ export class LoggedInView extends Component {
     }
   }
 
+
+  /* ----------- Render ------------- */
+  
   render() {
     if (this.state.events.length === 0) {
       return '...loading??';
