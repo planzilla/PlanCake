@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Card, Icon } from 'semantic-ui-react';
 
 export default class EventSummary extends Component {
   constructor(props) {
@@ -7,13 +8,21 @@ export default class EventSummary extends Component {
   }
 
   render() {
-    console.log(this.props);
     return (
-      <div>
-      {/* <h1>{this.props.title}</h1>
-      <h5>{this.props.location}</h5> */}
-      hi
-      </div>
+      <Card fluid color="teal">
+        <Card.Content header={this.props.event.title} />
+        <Card.Content>
+          <h5>{this.props.event.location}</h5>
+
+
+
+        </Card.Content>
+        <Card.Content extra>
+          <Icon name='map pin' />
+          {this.props.event.location}
+        </Card.Content>
+
+      </Card>
     )
   }
 

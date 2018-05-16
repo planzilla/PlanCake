@@ -14,6 +14,7 @@ export class LoggedInView extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      currentEvent: {},
       events: [{
         id: '',
         title: '',
@@ -90,13 +91,17 @@ export class LoggedInView extends Component {
 
   handleClickEventTitle(event) {
     this.setState({topicBoards: []});
-    console.log('event id is: ', event);
+    this.setState({currentEvent: event});
+    // console.log('event id is: ', event);
     axios.get(`/api/topicBoards?EventId=${event.id}`)
       .then(({ data }) => {
         this.setState({ topicBoards: data });
-        console.log('called topic boards', this.state.topicBoards);
+        // console.log('called topic boards', this.state.topicBoards);
       })
   }
+
+  
+
 
   
 
@@ -190,7 +195,8 @@ export class LoggedInView extends Component {
               /> } />
           <Route path="/events/:id" render={() => 
             <EventSummary 
-              events={this.props.events.data} 
+              topicBoards={this.state.topicBoards}  
+              event={this.state.currentEvent} 
               
             /> 
           } />
