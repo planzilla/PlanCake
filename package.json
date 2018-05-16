@@ -49,7 +49,6 @@
     "react-chat-window": "^1.0.8",
     "react-dom": "^16.3.2",
     "react-highlight.js": "^1.0.7",
-    "react-modal": "^3.4.4",
     "react-redux": "^5.0.7",
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
@@ -59,9 +58,9 @@
     "semantic-ui-react": "^0.80.0",
     "sequelize": "^4.37.6",
     "sequelize-cli": "^4.0.0",
-    "xoauth2": "^1.2.0",
     "socket.io": "^2.1.0",
-    "socket.io-client": "^2.1.0"
+    "socket.io-client": "^2.1.0",
+    "xoauth2": "^1.2.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",

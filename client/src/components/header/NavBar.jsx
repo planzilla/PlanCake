@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Login from './Login.jsx';
 import Signup from './SignUp.jsx';
-import Modal from 'react-modal';
 import axios from 'axios';
 import Logout from './Logout.jsx';
 import Inbox from './Inbox.jsx';
@@ -22,7 +21,7 @@ export default class NavBar extends Component {
   }
 
   componentDidMount() {
-    Modal.setAppElement('body');
+    // Modal.setAppElement('body');
   }
 
   handleModal() {
@@ -57,22 +56,20 @@ export default class NavBar extends Component {
           <h3>How It Works</h3>
           {this.props.view === 'dashboard' ? <Logout  logout={this.logout} /> : <h3 onClick={this.handleModal.bind(this)}>Login</h3>}
         </div>
-          <Modal
-            isOpen={this.state.modalIsOpen}
-            >
             {this.state.navView === 'login' 
             ? <Login 
             handleModal={this.handleModal}
             sendLogin={this.sendLogin}
             setUser={this.props.setUser}
             handleView={this.handleView}
+            modalIsOpen={this.state.modalIsOpen}
             /> 
             : <Signup 
             handleModal={this.handleModal}
             sendLogin={this.sendLogin}
             setUser={this.props.setUser}
+            modalIsOpen={this.state.modalIsOpen}            
             />}
-          </Modal>
       </div>
     )
   }
