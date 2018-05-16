@@ -15,7 +15,6 @@ class SignUp extends Component {
       email: null,
       firstName: null,
       lastName: null,
-      failedSignUp: ''
     }
     
     this.handleChange = this.handleChange.bind(this);
@@ -23,23 +22,24 @@ class SignUp extends Component {
   }
 
   handleChange(e) {
-    this.setState(
-        {
-            [e.target.name]: e.target.value
-        }
-    )
+    this.setState({
+      [e.target.name]: e.target.value
+    });
   }
 
   handleSignup(credentials) {
-     return axios.post('/api/signup', credentials)
+    return axios.post('/api/signup', credentials)
       .then(() => {
-        this.props.setUser(this.state);
-        this.props.handleModal();
-        this.props.handleView('logout');
-        this.props.sendLogin(this.state);
+        this.props.sendLogin(this.state)
+           .then(data => {
+              this.props.handleModal();
+              this.props.handleView('logout');
+              this.props.history.push('/loggedinview');
+              return data;
+            })
       })
-      .catch(err => {
-        console.error(err);
+      .catch(() => {
+        this.props.handleError('An error occurred. Please try again.')
       })
   }
 
@@ -87,24 +87,24 @@ class SignUp extends Component {
           <Form.Input
               label='Password'
               placeholder='Ex: Smoothie123!'
-              name="username"
+              name="password"
               type="text"
               onChange={this.handleChange}
           />
           </Form>
           {
-            this.state.failedSignUp !== ''
+            this.props.error !== ''
               ?
               <Message
                 error
                 header='Error'
-                content={this.state.failedSignUp}
+                content={this.props.error}
               />
               : null
           }
         </Modal.Content>
         <Modal.Actions>
-          <Button color='green' onClick={this.handleSignup} inverted>
+          <Button color='green' onClick={() => {this.handleSignup(this.state)}} inverted>
             <Icon name='sign in' /> Sign Up
           </Button>
         </Modal.Actions>

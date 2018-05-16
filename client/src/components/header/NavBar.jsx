@@ -11,16 +11,28 @@ export default class NavBar extends Component {
     this.state = {
       modalIsOpen: false,
       navView: 'login',
+      error: ''
     }
 
     this.handleModal = this.handleModal.bind(this);
     this.handleView = this.handleView.bind(this);
     this.sendLogin = this.sendLogin.bind(this);
     this.logout = this.logout.bind(this);
+    this.handleError = this.handleError.bind(this);
+  }
+
+  handleError(errorMsg) {
+    this.setState({error: errorMsg})
   }
 
   handleModal() {
-    this.setState({modalIsOpen: !this.state.modalIsOpen})
+    if (!this.state.modalIsOpen) {
+      this.handleView('login')
+    }
+    this.setState({
+      modalIsOpen: !this.state.modalIsOpen,
+      error: ''
+    })
   }
 
   handleView(view) {
@@ -58,12 +70,17 @@ export default class NavBar extends Component {
             setUser={this.props.setUser}
             handleView={this.handleView}
             modalIsOpen={this.state.modalIsOpen}
+            error={this.state.error}
+            handleError={this.handleError}
             /> 
             : <Signup 
             handleModal={this.handleModal}
             sendLogin={this.sendLogin}
             setUser={this.props.setUser}
-            modalIsOpen={this.state.modalIsOpen}            
+            modalIsOpen={this.state.modalIsOpen}
+            error={this.state.error}
+            handleError={this.handleError}
+            handleView={this.handleView}         
             />}
       </div>
     )

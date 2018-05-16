@@ -176,11 +176,16 @@ post.sendEmailInvites = (req, res) => {
 };
 
 post.signup = (req, res) => {
-  db.saveUser(req.body)
+  return db.saveUser(req.body)
     .then(() => {
-      res.status(302);
+      res.status(200);
       res.end();
-    });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send(err.status);
+      res.end();
+    })
 };
 
 module.exports.get = get;

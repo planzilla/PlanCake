@@ -27,15 +27,15 @@ class Login extends Component {
   handleLogin(e) {
     this.props.sendLogin(this.state)
       .then(data => {
-        this.handleModal();
+        this.props.handleModal();
         this.props.handleView('logout');
         this.props.history.push('/loggedinview');
         return data;
       })
       .then(({ data }) => this.props.setUser(data))
-      .catch(err => this.setState({
-        failedLogin: 'Incorrect username or password.'
-      }));
+      .catch(err => {
+        this.props.handleError('Incorrect username or password');
+      });
   }
 
   render() {
@@ -66,13 +66,13 @@ class Login extends Component {
               onChange={this.handleChange}
             />
           </Form>
-          {
-            this.state.failedLogin !== ''
+          { 
+            this.props.error !== ''
               ?
               <Message
                 error
                 header='Error'
-                content={this.state.failedLogin}
+                content={this.props.error}
               />
               : null
           }
