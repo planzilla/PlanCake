@@ -42,7 +42,6 @@ export default class SideBar extends Component {
               )
             }
           )}
-          {/* <Route path={`/events/:eventId`} component={ EventSummary } /> */}
         </div>
       )
     }
