@@ -11,17 +11,12 @@ export default class NavBar extends Component {
     this.state = {
       modalIsOpen: false,
       navView: 'login',
-      // status: 'not authenticated',
     }
 
     this.handleModal = this.handleModal.bind(this);
     this.handleView = this.handleView.bind(this);
     this.sendLogin = this.sendLogin.bind(this);
     this.logout = this.logout.bind(this);
-  }
-
-  componentDidMount() {
-    // Modal.setAppElement('body');
   }
 
   handleModal() {

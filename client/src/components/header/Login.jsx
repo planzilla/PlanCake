@@ -11,26 +11,16 @@ class Login extends Component {
     this.state = {
       username: null,
       password: null,
-      failedLogin: '',
-      modalIsOpen: false,
     }
 
     this.handleChange = this.handleChange.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
     this.sendLogin = this.props.sendLogin.bind(this);
-    this.handleModal = this.handleModal.bind(this);
   }
 
   handleChange(e) {
     this.setState({ 
       [e.target.name]: e.target.value,
-    })
-  }
-
-  handleModal() {
-    this.setState({
-      modalIsOpen: !this.state.modalIsOpen,
-      failedLogin: ''
     })
   }
 
@@ -51,13 +41,8 @@ class Login extends Component {
   render() {
     return (
       <Modal
-        trigger={
-          <Button onClick={this.handleModal}>
-            Login
-          </Button>
-        }
-        open={this.state.modalIsOpen}
-        onClose={this.handleModal}
+        open={this.props.modalIsOpen}
+        onClose={this.props.handleModal}
         size='mini'
         closeIcon
       >
