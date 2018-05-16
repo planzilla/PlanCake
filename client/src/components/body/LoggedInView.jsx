@@ -8,7 +8,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchPosts, createPost } from '../../actions/postActions.js';
 import EventSummary from './EventSummary.jsx';
-
 import TopicBoardView from './BoardView.jsx'
 import ContactInfo from '../footer/ContactInfo.jsx';
 
@@ -138,6 +137,7 @@ export class LoggedInView extends Component {
       this.setState({
         createEventError: 'Please insert an event location.'
       });
+    // *-----if redux-----* //
     // } else {
     //   this.props.createPost({
     //     createEventTitle: this.state.createEventTitle,
@@ -200,28 +200,6 @@ export class LoggedInView extends Component {
     })
   }
 
-  // /* -----------     View    ------------- */
-  // handleBodyView(e, view) {
-  //   this.setState({ view: view })
-  // }
-
-  // renderView() {
-  //   if (this.state.view === 'dashboard') {
-  //     return (
-  //       <Dashboard 
-  //       events={this.props.events.data}
-  //       />
-  //     )
-  //   } else if (this.state.view === 'topicboardview') {
-  //     return (
-  //       <TopicBoardView 
-  //       userData={this.props.userData}
-  //       />
-  //     )
-  //   }
-  // }
-
-
   /* ----------- Render ------------- */
 
   render() {
@@ -245,18 +223,14 @@ export class LoggedInView extends Component {
             createEventError={this.state.createEventError}
             handleClickEventTitle={this.handleClickEventTitle}
             events={this.state.events}
-            // handleBodyView={this.handleBodyView}
           />
 
-        {/* {this.renderView()} */}
         <div className="placeholder">placeholder</div>
-
 
           <Route path="/loggedinview" render={() => 
             <Dashboard 
               events={this.state.events} 
               handleClickEventTitle={this.handleClickEventTitle}
-              
               /> } />
           <Route path="/events/:id" render={() => 
             <EventSummary 
@@ -271,8 +245,8 @@ export class LoggedInView extends Component {
             /> }
           />
 
-          {/* <Link to="/loggedinview">events here</Link>
-          <Link to="/events/:eventId">eventpage</Link> */}
+          <Link to="/loggedinview">events here</Link>
+          <Link to="/events/:eventId">eventpage</Link>
           <ContactInfo />
           </div>
         </BrowserRouter>
@@ -280,10 +254,6 @@ export class LoggedInView extends Component {
     }
   }
 }
-
-// {this.renderView()}
-//           <div className="placeholder"></div>
-//           <ContactInfo />
 
 // for redux but doesnt play along nicely so commented
 // LoggedInView.propTypes = {
