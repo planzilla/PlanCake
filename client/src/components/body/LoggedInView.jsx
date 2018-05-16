@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
+import { BrowserRouter, Route, Link, Switch } from 'react-router-dom';
 import axios from 'axios';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import NavBar from '../header/NavBar.jsx';
 import SideBar from './SideBar.jsx';
 import Dashboard from './Dashboard.jsx';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { fetchPosts, createPost } from '../../actions/postActions.js';
+import EventSummary from './EventSummary.jsx';
 import TopicBoardView from './BoardView.jsx'
-import NavBar from '../header/NavBar.jsx';
 import ContactInfo from '../footer/ContactInfo.jsx';
-import { fetchPosts } from '../../actions/postActions.js';
 
 export class LoggedInView extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
+      currentEvent: {},
       events: [{
         id: '',
         title: '',
@@ -45,14 +48,24 @@ export class LoggedInView extends Component {
     this.handleCreateEvent = this.handleCreateEvent.bind(this);
     this.clearAllCreateEventInfo = this.clearAllCreateEventInfo.bind(this);
     this.handleClickEventTitle = this.handleClickEventTitle.bind(this);
-    this.handleBodyView = this.handleBodyView.bind(this);
     this.getInvites = this.getInvites.bind(this);
   }
 
   componentDidMount() {
-    this.props.fetchPosts();
+    // this.props.fetchPosts();
+    axios.get('/api/userEvents')
+      .then(result => {
+        this.setState({ events: result.data });
+      });
     this.getInvites();
   }
+
+  // componentWillReceiveProps(nextProps) {
+  //   if (this.props.events !== nextProps.events) {
+  //     this.props.fetchPosts();
+  //   }
+  // }
+
 
   handleInputChange(event) {
     this.setState({ [event.target.name]: event.target.value })
@@ -67,8 +80,12 @@ export class LoggedInView extends Component {
     })
   }
 
+  /* --------------- EventSummary ------------*/
+
   handleClickEventTitle(event) {
     this.setState({ topicBoards: [] });
+    this.setState({ currentEvent: event });
+    // console.log('event id is: ', event);
     axios.get(`/api/topicBoards?EventId=${event.id}`)
       .then(({ data }) => {
         this.setState({ topicBoards: data });
@@ -119,7 +136,13 @@ export class LoggedInView extends Component {
     } else if (this.state.createEventLocation === '') {
       this.setState({
         createEventError: 'Please insert an event location.'
-      })
+      });
+    // *-----if redux-----* //
+    // } else {
+    //   this.props.createPost({
+    //     createEventTitle: this.state.createEventTitle,
+    //     createEventLocation: this.state.createEventLocation
+    //   })
     } else if (this.state.createEventEmails === '') {
       this.postCreateEvent();
     } else {
@@ -177,28 +200,6 @@ export class LoggedInView extends Component {
     })
   }
 
-  /* -----------     View    ------------- */
-  handleBodyView(e, view) {
-    this.setState({ view: view })
-  }
-
-  renderView() {
-    if (this.state.view === 'dashboard') {
-      return (
-        <Dashboard
-          events={this.props.events.data}
-        />
-      )
-    } else if (this.state.view === 'topicboardview') {
-      return (
-        <TopicBoardView
-          userData={this.props.userData}
-        />
-      )
-    }
-  }
-
-
   /* ----------- Render ------------- */
 
   render() {
@@ -206,8 +207,9 @@ export class LoggedInView extends Component {
       return '...loading??';
     } else {
       return (
-        <div className="dashboard grid">
-          <NavBar view={this.state.view} />
+        <BrowserRouter>
+          <div className="dashboard grid">
+          <NavBar setUser={this.setUser} view={this.state.view} />
           <SideBar
             topicBoards={this.state.topicBoards}
             handleInputChange={this.handleInputChange}
@@ -220,13 +222,34 @@ export class LoggedInView extends Component {
             createEventModalOpen={this.state.createEventModalOpen}
             createEventError={this.state.createEventError}
             handleClickEventTitle={this.handleClickEventTitle}
-            events={this.props.events.data}
-            handleBodyView={this.handleBodyView}
+            events={this.state.events}
           />
-          {this.renderView()}
-          <div className="placeholder"></div>
+
+        <div className="placeholder">placeholder</div>
+
+          <Route path="/loggedinview" render={() => 
+            <Dashboard 
+              events={this.state.events} 
+              handleClickEventTitle={this.handleClickEventTitle}
+              /> } />
+          <Route path="/events/:id" render={() => 
+            <EventSummary 
+              topicBoards={this.state.topicBoards}  
+              event={this.state.currentEvent} 
+            /> } 
+          />
+          <Route path="/board/:id" render={() => 
+            <TopicBoardView
+              topicBoards={this.state.topicBoards}
+              userData={this.props.userData}
+            /> }
+          />
+
+          <Link to="/loggedinview">events here</Link>
+          <Link to="/events/:eventId">eventpage</Link>
           <ContactInfo />
-        </div>
+          </div>
+        </BrowserRouter>
       )
     }
   }
@@ -244,4 +267,4 @@ const mapStateToProps = state => ({
   newEvent: state.posts.event
 });
 
-export default connect(mapStateToProps, { fetchPosts })(LoggedInView); 
+export default connect(mapStateToProps, { fetchPosts, createPost })(LoggedInView); 

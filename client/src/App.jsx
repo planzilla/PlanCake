@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Route, Link, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Link, Switch } from 'react-router-dom';
 import axios from 'axios';
 import SplashPage from './components/body/SplashPage.jsx';
 import NavBar from './components/header/NavBar.jsx';
 import ContactInfo from './components/footer/ContactInfo.jsx';
 import LoggedInView from './components/body/LoggedInView.jsx';
+import EventSummary from './components/body/EventSummary.jsx';
 
 export default class App extends Component {
   constructor(props) {
