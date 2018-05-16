@@ -68,9 +68,9 @@ export class LoggedInView extends Component {
   handleClickEventTitle(event) {
     this.setState({ topicBoards: [] });
     axios.get(`/api/topicBoards?EventId=${event.id}`)
-    .then(({ data }) => {
-      this.setState({ topicBoards: data });
-    });
+      .then(({ data }) => {
+        this.setState({ topicBoards: data });
+      });
   }
 
   /* -------------- AddTopic -------------- */
@@ -91,13 +91,13 @@ export class LoggedInView extends Component {
         eventId: eventId,
         addTopicTitle: this.state.addTopicTitle
       })
-      .then((data) => {
-        this.handleAddTopicModalOpenClose();
-        axios.get(`/api/topicBoards?EventId=${eventId}`)
-        .then(({ data }) => {
-          this.setState({ topicBoards: data });
+        .then((data) => {
+          this.handleAddTopicModalOpenClose();
+          axios.get(`/api/topicBoards?EventId=${eventId}`)
+            .then(({ data }) => {
+              this.setState({ topicBoards: data });
+            });
         });
-      });
     }
   }
 
@@ -122,18 +122,18 @@ export class LoggedInView extends Component {
       this.postCreateEvent();
     } else {
       let emails = this.state.createEventEmails.split(', ');
-      this.validatedEmails(emails) 
-        ? this.sendEmailInvites(emails) 
+      this.validatedEmails(emails)
+        ? this.postCreateEvent().then(() => {this.sendEmailInvites(emails)})
         : this.setState({ createEventError: 'Please insert valid email addresses.' })
     }
   }
 
   postCreateEvent() {
-    axios.post('/api/createEvent', {
+    return axios.post('/api/createEvent', {
       createEventTitle: this.state.createEventTitle,
       createEventLocation: this.state.createEventLocation
     })
-      .then((data) => {
+      .then(({ data }) => {
         axios.get('/api/userEvents')
           .then(result => {
             this.setState({ events: result.data });
@@ -147,18 +147,13 @@ export class LoggedInView extends Component {
       })
   }
 
-  sendEmailInvites(emails) {
-      axios.post('/api/sendEmailInvites', { validatedEmails: emails })
-      .then(() => {
-        this.postCreateEvent();
-      })
-      .catch((err) => {
-        this.setState({
-          createEventError: 'An error occurred. Please try again.'
-        });
-      })
+  sendEmailInvites(emails, data) {
+    return axios.post('/api/sendEmailInvites', {
+      validatedEmails: emails,
+      event: data
+    })
   }
-    
+
   validatedEmails(emails) {
     let validator = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     for (var i = 0; i < emails.length; i++) {
@@ -179,14 +174,14 @@ export class LoggedInView extends Component {
   renderView() {
     if (this.state.view === 'dashboard') {
       return (
-        <Dashboard 
-        events={this.props.events.data}
+        <Dashboard
+          events={this.props.events.data}
         />
       )
     } else if (this.state.view === 'topicboardview') {
       return (
-        <TopicBoardView 
-        userData={this.props.userData}
+        <TopicBoardView
+          userData={this.props.userData}
         />
       )
     }
@@ -201,7 +196,7 @@ export class LoggedInView extends Component {
     } else {
       return (
         <div className="dashboard grid">
-          <NavBar view={this.state.view}/>
+          <NavBar view={this.state.view} />
           <SideBar
             topicBoards={this.state.topicBoards}
             handleInputChange={this.handleInputChange}

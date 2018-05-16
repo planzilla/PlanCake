@@ -133,19 +133,19 @@ post.login = (req, res, next) => {
 post.addInvite = (email, userData, event, emailStatus, res) => {
   const query = {
     email: email,
-    UserId: userData.id || null,
+    UserId: userData,
     EventId: event.id,
     seenStatus: false,
     emailStatus: emailStatus
   }
-
+  console.log('add invite event.id', event.id)
   return db.Invite.create(query);
 }
 
 post.sendEmailInvites = (req, res) => {
   let emails = req.body.validatedEmails;
   let validator = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  
+
   for (var i = 0; i < emails.length; i++) {
     let email = emails[i].trim();
     if (!validator.test(email)) {
@@ -153,25 +153,25 @@ post.sendEmailInvites = (req, res) => {
       res.end();
     }
   }
-  
+
   emails.forEach((email) => {
     var userData;
-    db.User.findOne({ where: {email: email}})
+    db.User.findOne({ where: { email: email } })
       .then(res => {
         console.log('res in forreach', res)
-        userData = res.dataValues;
+        userData = res ? res.dataValues : null;
+        transporter.sendMail(template(email), (err, res) => {
+          if (err) {
+            console.log(err);
+            post.addInvite(email, userData, req.body.event, false, res);
+          } else {
+            post.addInvite(email, userData, req.body.event, true, res);
+          }
+        })
       })
-      .catch(err => {console.log(err)}) 
-
-    transporter.sendMail(template(email), (err, res) => {
-      if (err) {
-        console.log(err);
-        post.addInvite(email, userData, event, false, res);
-      } else {
-        post.addInvite(email, userData, event, true, res);
-      }
-    })
+      .catch(err => { console.log(err) })
   })
+
   res.end();
 };
 
