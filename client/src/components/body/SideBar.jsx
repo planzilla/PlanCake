@@ -34,7 +34,7 @@ export default class SideBar extends Component {
           {this.props.topicBoards.map((board, j) => {
               return (
                 <div key={j}>
-                  <a>{board.title}</a>
+                  <a onClick={(e) => { this.props.handleBodyView(e, 'topicboardview') }}>{board.title}</a>
                   <br />
                 </div>
               )

@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import SideBar from './SideBar.jsx';
-import Dashboard from './Dashboard.jsx';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import SideBar from './SideBar.jsx';
+import Dashboard from './Dashboard.jsx';
+import TopicBoardView from './BoardView.jsx'
+import NavBar from '../header/NavBar.jsx';
+import ContactInfo from '../footer/ContactInfo.jsx';
 import { fetchPosts } from '../../actions/postActions.js';
 
 export class LoggedInView extends Component {
@@ -33,6 +36,7 @@ export class LoggedInView extends Component {
       createEventEmails: '',
       createEventError: '',
       createEventModalOpen: false,
+      view: 'dashboard',
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleAddTopicModalOpenClose = this.handleAddTopicModalOpenClose.bind(this);
@@ -41,13 +45,8 @@ export class LoggedInView extends Component {
     this.handleCreateEvent = this.handleCreateEvent.bind(this);
     this.clearAllCreateEventInfo = this.clearAllCreateEventInfo.bind(this);
     this.handleClickEventTitle = this.handleClickEventTitle.bind(this);
+    this.handleBodyView = this.handleBodyView.bind(this);
   }
-
-  // load user events and info
-  // componentDidMount() {
-  //   axios.get('/api/userEvents')
-  //     .then(result => this.setState({events: result.data}));
-  // }
 
   componentDidMount() {
     this.props.fetchPosts();
@@ -69,9 +68,9 @@ export class LoggedInView extends Component {
   handleClickEventTitle(event) {
     this.setState({ topicBoards: [] });
     axios.get(`/api/topicBoards?EventId=${event.id}`)
-      .then(({ data }) => {
-        this.setState({ topicBoards: data });
-      })
+    .then(({ data }) => {
+      this.setState({ topicBoards: data });
+    });
   }
 
   /* -------------- AddTopic -------------- */
@@ -86,19 +85,19 @@ export class LoggedInView extends Component {
     if (this.state.addTopicTitle === '') {
       this.setState({
         addTopicError: 'Please insert a discussion topic.'
-      })
+      });
     } else {
       axios.post('/api/addTopicBoard', {
         eventId: eventId,
         addTopicTitle: this.state.addTopicTitle
       })
-        .then((data) => {
-          this.handleAddTopicModalOpenClose();
-          axios.get(`/api/topicBoards?EventId=${eventId}`)
-            .then(({ data }) => {
-              this.setState({ topicBoards: data });
-            })
-        })
+      .then((data) => {
+        this.handleAddTopicModalOpenClose();
+        axios.get(`/api/topicBoards?EventId=${eventId}`)
+        .then(({ data }) => {
+          this.setState({ topicBoards: data });
+        });
+      });
     }
   }
 
@@ -114,7 +113,7 @@ export class LoggedInView extends Component {
     if (this.state.createEventTitle === '') {
       this.setState({
         createEventError: 'Please insert an event title.'
-      })
+      });
     } else if (this.state.createEventLocation === '') {
       this.setState({
         createEventError: 'Please insert an event location.'
@@ -140,7 +139,6 @@ export class LoggedInView extends Component {
             this.setState({ events: result.data });
             this.handleCreateEventModalOpenClose();
           });
-        // TODO: redirect to new board
       })
       .catch((err) => {
         this.setState({
@@ -163,8 +161,8 @@ export class LoggedInView extends Component {
         return;
       }
     }
-
-    axios.post('/api/sendEmailInvites', { validatedEmails: emails })
+    
+      axios.post('/api/sendEmailInvites', { validatedEmails: emails })
       .then(() => {
         this.postCreateEvent();
       })
@@ -174,6 +172,30 @@ export class LoggedInView extends Component {
         });
       })
   }
+    
+
+
+  /* -----------     View    ------------- */
+  handleBodyView(e, view) {
+    this.setState({ view: view })
+  }
+
+  renderView() {
+    if (this.state.view === 'dashboard') {
+      return (
+        <Dashboard 
+        events={this.props.events.data}
+        />
+      )
+    } else if (this.state.view === 'topicboardview') {
+      return (
+        <TopicBoardView 
+        userData={this.props.userData}
+        />
+      )
+    }
+  }
+
 
   /* ----------- Render ------------- */
 
@@ -183,6 +205,7 @@ export class LoggedInView extends Component {
     } else {
       return (
         <div className="dashboard grid">
+          <NavBar view={this.state.view}/>
           <SideBar
             topicBoards={this.state.topicBoards}
             handleInputChange={this.handleInputChange}
@@ -196,10 +219,11 @@ export class LoggedInView extends Component {
             createEventError={this.state.createEventError}
             handleClickEventTitle={this.handleClickEventTitle}
             events={this.props.events.data}
+            handleBodyView={this.handleBodyView}
           />
-          <Dashboard
-            events={this.props.events.data}
-          />
+          {this.renderView()}
+          <div className="placeholder"></div>
+          <ContactInfo />
         </div>
       )
     }

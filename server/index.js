@@ -1,4 +1,9 @@
 const express = require('express');
+const http = require('http');
+
+const app = express();
+const server = http.createServer(app);
+
 const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -8,7 +13,10 @@ const session = require('./middleware/session.js');
 const loggedOutRedirect = require('./middleware/loggedOutRedirect.js');
 const router = require('./routes/routes.js');
 
-const app = express();
+const PORT = process.env.PORT || 3000;
+
+const io = require('socket.io').listen(server);
+
 const reactApp = express.static(path.join(__dirname, '/../client/dist'));
 
 app.use(bodyParser.json());
@@ -23,10 +31,18 @@ app.use(loggedOutRedirect);
 app.use(router);
 app.get('*', express.static(`${__dirname}/../client/dist`));
 
-// reactRoutes.forEach(route => app.use(route, reactApp));
+io.on('connection', (socket) => {
+  console.log('New client connected');
+  socket.on('chatMessage', (message) => {
+    console.log('Server message is:', message);
+    io.emit('chatMessage', message);
+  });
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+  socket.emit('chatMessage', 'connected'); //  emits `connected` to chatMessage
+});
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => { console.log(`listening to port ${PORT}!`); });
 
-
+server.listen(PORT, () => { console.log(`Listening on port ${PORT}`); });
 module.exports = app;
