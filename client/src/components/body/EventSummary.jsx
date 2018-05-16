@@ -9,6 +9,7 @@ export default class EventSummary extends Component {
 
   render() {
     return (
+      <div>
       <Card fluid color="teal">
         <Card.Content header={this.props.event.title} />
         <Card.Content>
@@ -21,8 +22,8 @@ export default class EventSummary extends Component {
           <Icon name='map pin' />
           {this.props.event.location}
         </Card.Content>
-
       </Card>
+      </div>
     )
   }
 

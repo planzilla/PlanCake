@@ -9,6 +9,9 @@ import { connect } from 'react-redux';
 import { fetchPosts, createPost } from '../../actions/postActions.js';
 import EventSummary from './EventSummary.jsx';
 
+import TopicBoardView from './BoardView.jsx'
+import ContactInfo from '../footer/ContactInfo.jsx';
+
 export class LoggedInView extends Component {
 
   constructor(props) {
@@ -37,6 +40,7 @@ export class LoggedInView extends Component {
       createEventEmails: '',
       createEventError: '',
       createEventModalOpen: false,
+      view: 'dashboard',
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleAddTopicModalOpenClose = this.handleAddTopicModalOpenClose.bind(this);
@@ -45,14 +49,9 @@ export class LoggedInView extends Component {
     this.handleCreateEvent = this.handleCreateEvent.bind(this);
     this.clearAllCreateEventInfo = this.clearAllCreateEventInfo.bind(this);
     this.handleClickEventTitle = this.handleClickEventTitle.bind(this);
+    // this.handleBodyView = this.handleBodyView.bind(this);
   }
 
-  // load user events and info
-  // componentDidMount() {
-  //   axios.get('/api/userEvents')
-  //     .then(result => this.setState({events: result.data}));
-  // }
-  
   componentDidMount() {
     this.props.fetchPosts();
   }
@@ -94,10 +93,9 @@ export class LoggedInView extends Component {
     this.setState({currentEvent: event});
     // console.log('event id is: ', event);
     axios.get(`/api/topicBoards?EventId=${event.id}`)
-      .then(({ data }) => {
-        this.setState({ topicBoards: data });
-        // console.log('called topic boards', this.state.topicBoards);
-      })
+    .then(({ data }) => {
+      this.setState({ topicBoards: data });
+    });
   }
 
   
@@ -119,19 +117,19 @@ export class LoggedInView extends Component {
     if (this.state.addTopicTitle === '') {
       this.setState({
         addTopicError: 'Please insert a discussion topic.'
-      })
+      });
     } else {
       axios.post('/api/addTopicBoard', {
         eventId: eventId,
         addTopicTitle: this.state.addTopicTitle
       })
-        .then((data) => {
-          this.handleAddTopicModalOpenClose();
-          axios.get(`/api/topicBoards?EventId=${eventId}`)
-          .then(({ data }) => {
-            this.setState({ topicBoards: data });
-          })
-        })
+      .then((data) => {
+        this.handleAddTopicModalOpenClose();
+        axios.get(`/api/topicBoards?EventId=${eventId}`)
+        .then(({ data }) => {
+          this.setState({ topicBoards: data });
+        });
+      });
     }
   }
 
@@ -147,21 +145,51 @@ export class LoggedInView extends Component {
     if (this.state.createEventTitle === '') {
       this.setState({
         createEventError: 'Please insert an event title.'
-      })
+      });
     } else if (this.state.createEventLocation === '') {
       this.setState({
         createEventError: 'Please insert an event location.'
-      })
+      });
     } else {
       this.props.createPost({
         createEventTitle: this.state.createEventTitle,
         createEventLocation: this.state.createEventLocation
+      })
+      .then((data) => {
+        axios.get('/api/userEvents')
+          .then(result => {
+            this.setState({ events: result.data });
+            this.handleCreateEventModalOpenClose();
+          });
+      })
+      .catch((err) => {
+        this.setState({
+          createEventError: 'An error occurred. Please try again.'
+        });
       });
-
-        this.handleCreateEventModalOpenClose();
-
     }
   }
+
+  // /* -----------     View    ------------- */
+  // handleBodyView(e, view) {
+  //   this.setState({ view: view })
+  // }
+
+  // renderView() {
+  //   if (this.state.view === 'dashboard') {
+  //     return (
+  //       <Dashboard 
+  //       events={this.props.events.data}
+  //       />
+  //     )
+  //   } else if (this.state.view === 'topicboardview') {
+  //     return (
+  //       <TopicBoardView 
+  //       userData={this.props.userData}
+  //       />
+  //     )
+  //   }
+  // }
 
   render() {
     if (this.state.events.length === 0) {
@@ -170,7 +198,7 @@ export class LoggedInView extends Component {
       return (
         <BrowserRouter>
         <div className="splash grid">
-          <NavBar setUser={this.setUser} />
+          <NavBar setUser={this.setUser} view={this.state.view} />
           <div className="dashboard grid">
           <SideBar
             topicBoards={this.state.topicBoards}
@@ -185,7 +213,12 @@ export class LoggedInView extends Component {
             createEventError={this.state.createEventError}
             handleClickEventTitle={this.handleClickEventTitle}
             events={this.props.events.data}
+            handleBodyView={this.handleBodyView}
           />
+
+        {/* {this.renderView()} */}
+        {/* <div className="placeholder"></div> */}
+
 
           <Route path="/loggedinview" render={() => 
             <Dashboard 
@@ -197,20 +230,29 @@ export class LoggedInView extends Component {
             <EventSummary 
               topicBoards={this.state.topicBoards}  
               event={this.state.currentEvent} 
-              
-            /> 
-          } />
+            /> } 
+          />
+          <Route path="/board/:id" render={() => 
+            <TopicBoardView
+              topicBoards={this.state.topicBoards}
+              userData={this.props.userData}
+            /> }
+          />
 
-          <Link to="/loggedinview">events here</Link>
-          <Link to="/events/:eventId">eventpage</Link>
-          
-        </div>
+          {/* <Link to="/loggedinview">events here</Link>
+          <Link to="/events/:eventId">eventpage</Link> */}
+          <ContactInfo />
+          </div>
         </div>
         </BrowserRouter>
       )
     }
   }
 }
+
+// {this.renderView()}
+//           <div className="placeholder"></div>
+//           <ContactInfo />
 
 // for redux but doesnt play along nicely so commented
 // LoggedInView.propTypes = {

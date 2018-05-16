@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Link, Switch } from 'react-router-dom';
 import axios from 'axios';
+import SplashPage from './components/body/SplashPage.jsx';
 import NavBar from './components/header/NavBar.jsx';
-import SplashPage from './components/body/SplashPage.jsx'
+import ContactInfo from './components/footer/ContactInfo.jsx';
 import LoggedInView from './components/body/LoggedInView.jsx';
 import EventSummary from './components/body/EventSummary.jsx';
 
@@ -32,9 +33,23 @@ export default class App extends Component {
   render() {
     return (
         <Switch>
-          <Route exact path="/" component={ SplashPage } />
-          <Route path="/loggedinview" render={() => <LoggedInView userData={this.state.userData} /> } />
-          {/* <Route path={`/events/${eventId}`} render={() => <EventSummary userData={this.state.userData} /> } /> */}
+
+          <Route 
+            exact path="/" 
+            render={() => 
+            <SplashPage 
+            setUser={this.setUser}
+            />}
+          />
+
+          <Route 
+            exact path="/loggedinview" 
+            render={() => 
+            <LoggedInView  
+            userData={ this.state.userData }
+            />} 
+          />
+
         </Switch>
     )
   }
