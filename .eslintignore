@@ -23,3 +23,5 @@ database.json
 /coverage
 
 /client/src/components/store.js
+
+_emailPrivate.js
