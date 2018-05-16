@@ -134,6 +134,7 @@ export class LoggedInView extends Component {
       createEventLocation: this.state.createEventLocation
     })
       .then((data) => {
+        console.log('data lin 137', data)
         axios.get('/api/userEvents')
           .then(result => {
             this.setState({ events: result.data });
@@ -150,15 +151,12 @@ export class LoggedInView extends Component {
 
   sendEmailInvites() {
     // Validate Emails 
-    let unvalidatedEmails = this.state.createEventEmails.split(', ');
-    let validatedEmails = [];
+    let emails = this.state.createEventEmails.split(', ');
     let validator = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-    for (var i = 0; i < unvalidatedEmails.length; i++) {
-      let email = unvalidatedEmails[i].trim();
-      if (validator.test(email)) {
-        validatedEmails.push(email);
-      } else {
+    for (var i = 0; i < emails.length; i++) {
+      let email = emails[i].trim();
+      if (!validator.test(email)) {
         this.setState({
           createEventError: 'Please insert valid email addresses.'
         })
@@ -166,7 +164,7 @@ export class LoggedInView extends Component {
       }
     }
 
-    axios.post('/api/sendEmailInvites', { validatedEmails: validatedEmails })
+    axios.post('/api/sendEmailInvites', { validatedEmails: emails })
       .then(() => {
         this.postCreateEvent();
       })

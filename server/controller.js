@@ -130,17 +130,47 @@ post.login = (req, res, next) => {
   })(req, res, next);
 };
 
+post.addInvite = (email, userData, event, emailStatus, res) => {
+  const query = {
+    email: email,
+    UserId: userData.id || null,
+    EventId: event.id,
+    seenStatus: false,
+    emailStatus: emailStatus
+  }
+
+  return db.Invite.create(query);
+}
+
 post.sendEmailInvites = (req, res) => {
-  let emailsArr = req.body.validatedEmails;
-  emailsArr.forEach((email) => {
+  let emails = req.body.validatedEmails;
+  let validator = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  
+  for (var i = 0; i < emails.length; i++) {
+    let email = emails[i].trim();
+    if (!validator.test(email)) {
+      res.status(422);
+      res.end();
+    }
+  }
+  
+  emails.forEach((email) => {
+    var userData;
+    db.User.findOne({ where: {email: email}})
+      .then(res => {
+        console.log('res in forreach', res)
+        userData = res.dataValues;
+      })
+      .catch(err => {console.log(err)}) 
+
     transporter.sendMail(template(email), (err, res) => {
       if (err) {
         console.log(err);
-        // res.status(500);
-        // res.end();
-      } 
+        post.addInvite(email, userData, event, false, res);
+      } else {
+        post.addInvite(email, userData, event, true, res);
+      }
     })
-    // promisfy all, or bluebird queue 
   })
   res.end();
 };
