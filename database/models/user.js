@@ -15,7 +15,10 @@ module.exports = (sequelize, DataTypes) => {
     });
     User.hasMany(models.Pin, {
       foreignKey: 'UserId'
-    })
+    });
+    User.hasMany(models.Invite, {
+      foreignKey: 'UserId'
+    });
   };
   return User;
 };

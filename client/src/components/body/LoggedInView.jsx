@@ -49,11 +49,12 @@ export class LoggedInView extends Component {
     this.handleCreateEvent = this.handleCreateEvent.bind(this);
     this.clearAllCreateEventInfo = this.clearAllCreateEventInfo.bind(this);
     this.handleClickEventTitle = this.handleClickEventTitle.bind(this);
-    // this.handleBodyView = this.handleBodyView.bind(this);
+    this.getInvites = this.getInvites.bind(this);
   }
 
   componentDidMount() {
     this.props.fetchPosts();
+    this.getInvites();
   }
 
   // componentWillReceiveProps(nextProps) {
@@ -66,12 +67,6 @@ export class LoggedInView extends Component {
   handleInputChange(event) {
     this.setState({ [event.target.name]: event.target.value })
   }
-  
-  handleModalOpenClose () {
-    let openCloseState = !this.state.createEventModalOpen;
-    this.clearAllCreateEventInfo();
-    this.setState({ createEventModalOpen: openCloseState })
-  }
 
   clearAllCreateEventInfo() {
     this.setState({
@@ -82,28 +77,17 @@ export class LoggedInView extends Component {
     })
   }
 
-  handleInputChange(e) {
-    this.setState({ [e.target.name]: e.target.value })
-  }
-
   /* --------------- EventSummary ------------*/
 
   handleClickEventTitle(event) {
-    this.setState({topicBoards: []});
-    this.setState({currentEvent: event});
+    this.setState({ topicBoards: [] });
+    this.setState({ currentEvent: event });
     // console.log('event id is: ', event);
     axios.get(`/api/topicBoards?EventId=${event.id}`)
-    .then(({ data }) => {
-      this.setState({ topicBoards: data });
-    });
+      .then(({ data }) => {
+        this.setState({ topicBoards: data });
+      });
   }
-
-  
-
-
-  
-
-
 
   /* -------------- AddTopic -------------- */
   handleAddTopicModalOpenClose() {
@@ -123,13 +107,13 @@ export class LoggedInView extends Component {
         eventId: eventId,
         addTopicTitle: this.state.addTopicTitle
       })
-      .then((data) => {
-        this.handleAddTopicModalOpenClose();
-        axios.get(`/api/topicBoards?EventId=${eventId}`)
-        .then(({ data }) => {
-          this.setState({ topicBoards: data });
+        .then((data) => {
+          this.handleAddTopicModalOpenClose();
+          axios.get(`/api/topicBoards?EventId=${eventId}`)
+            .then(({ data }) => {
+              this.setState({ topicBoards: data });
+            });
         });
-      });
     }
   }
 
@@ -150,13 +134,31 @@ export class LoggedInView extends Component {
       this.setState({
         createEventError: 'Please insert an event location.'
       });
+    // } else {
+    //   this.props.createPost({
+    //     createEventTitle: this.state.createEventTitle,
+    //     createEventLocation: this.state.createEventLocation
+    //   })
+    } else if (this.state.createEventEmails === '') {
+      this.postCreateEvent();
     } else {
-      this.props.createPost({
-        createEventTitle: this.state.createEventTitle,
-        createEventLocation: this.state.createEventLocation
-      })
-      .then((data) => {
-        axios.get('/api/userEvents')
+      let emails = this.state.createEventEmails.split(', ');
+      this.validatedEmails(emails)
+        ? this.postCreateEvent(emails)
+        : this.setState({ createEventError: 'Please insert valid email addresses.' })
+    }
+  }
+
+  postCreateEvent(emails) {
+    return axios.post('/api/createEvent', {
+      createEventTitle: this.state.createEventTitle,
+      createEventLocation: this.state.createEventLocation
+    })
+      .then(({ data }) => {
+        if (emails) {
+          this.sendEmailInvites(emails, data);
+        }
+        return axios.get('/api/userEvents')
           .then(result => {
             this.setState({ events: result.data });
             this.handleCreateEventModalOpenClose();
@@ -166,8 +168,32 @@ export class LoggedInView extends Component {
         this.setState({
           createEventError: 'An error occurred. Please try again.'
         });
-      });
+      })
+  }
+
+  validatedEmails(emails) {
+    let validator = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    for (var i = 0; i < emails.length; i++) {
+      let email = emails[i].trim();
+      if (!validator.test(email)) {
+        return false;
+      }
     }
+    return true;
+  }
+
+  /* ------------- Invites --------------- */
+  getInvites(){
+    return axios.get('/api/invites')
+      .then(() => {console.log('in getinvites then')})
+      .catch(err => {console.log('err in get invites', err)})
+  }
+
+  sendEmailInvites(emails, data) {
+    return axios.post('/api/sendEmailInvites', {
+      validatedEmails: emails,
+      event: data
+    })
   }
 
   // /* -----------     View    ------------- */
@@ -190,6 +216,9 @@ export class LoggedInView extends Component {
   //     )
   //   }
   // }
+
+
+  /* ----------- Render ------------- */
 
   render() {
     if (this.state.events.length === 0) {

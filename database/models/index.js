@@ -60,7 +60,41 @@ Object.keys(db).forEach(modelName => {
 
 Promise.promisifyAll(bcrypt);
 
+/*----------- db functions --------- */
+
+db.addEvent = (title, location) => {
+  const query = {
+    title: title,
+    location: location
+  }
+
+  return db.Event.create(query);
+}
+
+db.addInvite = (email, userData, event, emailStatus) => {
+  const query = {
+    email: email,
+    UserId: userData,
+    EventId: event.EventId,
+    seenStatus: false,
+    emailStatus: emailStatus
+  }
+  
+  return db.Invite.create(query);
+}
+
+db.addUserToEvent = (event, user) => {
+  const query = {
+    EventId: event.id,
+    UserId: user.id
+  }
+
+  return db.EventUser.create(query);
+}
+
 db.fetchUser = (username) =>  db.User.findOne({ where: {username: username}});
+
+db.fetchUserByEmail = (email) => db.User.findOne({ where: { email: email } });
 
 db.saveUser = (obj) => {
   return db.fetchUser(obj.username)
