@@ -85,8 +85,7 @@ export class LoggedInView extends Component {
   handleClickEventTitle(event) {
     this.setState({ topicBoards: [] });
     this.setState({ currentEvent: event });
-    // console.log('event id is: ', event);
-    axios.get(`/api/topicBoards?EventId=${event.id}`)
+    axios.get(`/api/topicBoard?EventId=${event.id}`)
       .then(({ data }) => {
         this.setState({ topicBoards: data });
       });
@@ -112,7 +111,7 @@ export class LoggedInView extends Component {
       })
         .then((data) => {
           this.handleAddTopicModalOpenClose();
-          axios.get(`/api/topicBoards?EventId=${eventId}`)
+          axios.get(`/api/topicBoard?EventId=${eventId}`)
             .then(({ data }) => {
               this.setState({ topicBoards: data });
             });

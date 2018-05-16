@@ -92,6 +92,17 @@ db.addUserToEvent = (event, user) => {
   return db.EventUser.create(query);
 }
 
+db.fetchEventsByEvenId = (eventIdArr) => db.Event.findAll({
+  where: {
+    $or : eventIdArr
+  },
+  order: [
+    ['createdAt', 'DESC'],
+  ],
+})
+
+db.fetchInvitesByEmail = (email) => db.Invite.findAll({ where: {email: email } });
+
 db.fetchUser = (username) =>  db.User.findOne({ where: {username: username}});
 
 db.fetchUserByEmail = (email) => db.User.findOne({ where: { email: email } });

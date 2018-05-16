@@ -27,7 +27,7 @@ get.logout = (req, res) => {
   res.redirect('/');
 };
 
-get.topicBoards = (req, res) => {
+get.topicBoard = (req, res) => {
   return db.Board.findAll({
     where: req.query
   })

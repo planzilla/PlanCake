@@ -10,7 +10,7 @@ router.get('/api/logout', controller.get.logout);
 // EVENT RELATED ROUTES
 // router.patch('/api/vote', controller.patch.vote);
 router.get('/api/userEvents', controller.get.userEvents);
-router.get('/api/topicBoards', controller.get.topicBoards);
+router.get('/api/topicBoard', controller.get.topicBoard);
 router.post('/api/createEvent', controller.post.createEvent);
 
 // router.post('/api/addUserToEvent', controller.post.addUserToEvent);
