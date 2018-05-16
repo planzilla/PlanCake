@@ -12,7 +12,6 @@ export default class SideBar extends Component {
   }
 
   handleClick(e, titleProps, event) {
-    console.log('event: ', event);
     const { index } = titleProps;
     const { activeIndex } = this.state;
     const newIndex = activeIndex === index ? -1 : index;
@@ -56,7 +55,7 @@ export default class SideBar extends Component {
           <CreateEvent
             handleCreateEvent={this.props.handleCreateEvent}
             handleInputChange={this.props.handleInputChange}
-            handleModalOpenClose={this.props.handleModalOpenClose}
+            handleCreateEventModalOpenClose={this.props.handleCreateEventModalOpenClose}
             createEventError={this.props.createEventError}
             createEventModalOpen={this.props.createEventModalOpen}
           />

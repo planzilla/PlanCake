@@ -55,12 +55,6 @@ export class LoggedInView extends Component {
   handleInputChange(event) {
     this.setState({ [event.target.name]: event.target.value })
   }
-  
-  handleModalOpenClose () {
-    let openCloseState = !this.state.createEventModalOpen;
-    this.clearAllCreateEventInfo();
-    this.setState({ createEventModalOpen: openCloseState })
-  }
 
   clearAllCreateEventInfo() {
     this.setState({
@@ -71,16 +65,12 @@ export class LoggedInView extends Component {
     })
   }
 
-  handleInputChange(e) {
-    this.setState({ [e.target.name]: e.target.value })
-  }
-
   handleClickEventTitle(event) {
-    this.setState({topicBoards: []});
+    this.setState({ topicBoards: [] });
     axios.get(`/api/topicBoards?EventId=${event.id}`)
-    .then(({ data }) => {
-      this.setState({ topicBoards: data });
-    });
+      .then(({ data }) => {
+        this.setState({ topicBoards: data });
+      });
   }
 
   /* -------------- AddTopic -------------- */
@@ -101,13 +91,13 @@ export class LoggedInView extends Component {
         eventId: eventId,
         addTopicTitle: this.state.addTopicTitle
       })
-      .then((data) => {
-        this.handleAddTopicModalOpenClose();
-        axios.get(`/api/topicBoards?EventId=${eventId}`)
-        .then(({ data }) => {
-          this.setState({ topicBoards: data });
+        .then((data) => {
+          this.handleAddTopicModalOpenClose();
+          axios.get(`/api/topicBoards?EventId=${eventId}`)
+            .then(({ data }) => {
+              this.setState({ topicBoards: data });
+            });
         });
-      });
     }
   }
 
@@ -127,14 +117,27 @@ export class LoggedInView extends Component {
     } else if (this.state.createEventLocation === '') {
       this.setState({
         createEventError: 'Please insert an event location.'
-      });
-    } else {
-      axios.post('/api/createEvent', {
-        createEventTitle: this.state.createEventTitle,
-        createEventLocation: this.state.createEventLocation
       })
-      .then((data) => {
-        axios.get('/api/userEvents')
+    } else if (this.state.createEventEmails === '') {
+      this.postCreateEvent();
+    } else {
+      let emails = this.state.createEventEmails.split(', ');
+      this.validatedEmails(emails)
+        ? this.postCreateEvent(emails)
+        : this.setState({ createEventError: 'Please insert valid email addresses.' })
+    }
+  }
+
+  postCreateEvent(emails) {
+    return axios.post('/api/createEvent', {
+      createEventTitle: this.state.createEventTitle,
+      createEventLocation: this.state.createEventLocation
+    })
+      .then(({ data }) => {
+        if (emails) {
+          this.sendEmailInvites(emails, data);
+        }
+        return axios.get('/api/userEvents')
           .then(result => {
             this.setState({ events: result.data });
             this.handleCreateEventModalOpenClose();
@@ -144,9 +147,27 @@ export class LoggedInView extends Component {
         this.setState({
           createEventError: 'An error occurred. Please try again.'
         });
-      });
-    }
+      })
   }
+
+  sendEmailInvites(emails, data) {
+    return axios.post('/api/sendEmailInvites', {
+      validatedEmails: emails,
+      event: data
+    })
+  }
+
+  validatedEmails(emails) {
+    let validator = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    for (var i = 0; i < emails.length; i++) {
+      let email = emails[i].trim();
+      if (!validator.test(email)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
 
   /* -----------     View    ------------- */
   handleBodyView(e, view) {
@@ -156,18 +177,21 @@ export class LoggedInView extends Component {
   renderView() {
     if (this.state.view === 'dashboard') {
       return (
-        <Dashboard 
-        events={this.props.events.data}
+        <Dashboard
+          events={this.props.events.data}
         />
       )
     } else if (this.state.view === 'topicboardview') {
       return (
-        <TopicBoardView 
-        userData={this.props.userData}
+        <TopicBoardView
+          userData={this.props.userData}
         />
       )
     }
   }
+
+
+  /* ----------- Render ------------- */
 
   render() {
     if (this.state.events.length === 0) {
@@ -175,7 +199,7 @@ export class LoggedInView extends Component {
     } else {
       return (
         <div className="dashboard grid">
-          <NavBar view={this.state.view}/>
+          <NavBar view={this.state.view} />
           <SideBar
             topicBoards={this.state.topicBoards}
             handleInputChange={this.handleInputChange}

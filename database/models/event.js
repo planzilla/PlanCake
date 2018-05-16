@@ -12,7 +12,10 @@ module.exports = (sequelize, DataTypes) => {
     });
     Event.hasMany(models.Board, {
       foreignKey: 'EventId'
-    })
+    });
+    Event.hasMany(models.Invite, {
+      foreignKey: 'EventId'
+    });
   };
   return Event;
 };
