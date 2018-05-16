@@ -21,6 +21,7 @@ export default class Dashboard extends Component {
         <div className="event-cards">
           {this.props.events.map((event, i) => {
             return(
+                <div>
                 <EventCard 
                   event={event}
                   title={event.title} 
@@ -29,8 +30,11 @@ export default class Dashboard extends Component {
                   key={i} 
                   handleClickEventTitle={this.props.handleClickEventTitle}  
                 />
+                <br />
+                </div>
             )
           })}
+          
         </div>
       )
     }

@@ -53,7 +53,11 @@ export class LoggedInView extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchPosts();
+    // this.props.fetchPosts();
+    axios.get('/api/userEvents')
+      .then(result => {
+        this.setState({ events: result.data });
+      });
     this.getInvites();
   }
 
@@ -240,8 +244,8 @@ export class LoggedInView extends Component {
             createEventModalOpen={this.state.createEventModalOpen}
             createEventError={this.state.createEventError}
             handleClickEventTitle={this.handleClickEventTitle}
-            events={this.props.events.data}
-            handleBodyView={this.handleBodyView}
+            events={this.state.events}
+            // handleBodyView={this.handleBodyView}
           />
 
         {/* {this.renderView()} */}
@@ -250,7 +254,7 @@ export class LoggedInView extends Component {
 
           <Route path="/loggedinview" render={() => 
             <Dashboard 
-              events={this.props.events.data} 
+              events={this.state.events} 
               handleClickEventTitle={this.handleClickEventTitle}
               
               /> } />
