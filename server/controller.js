@@ -131,15 +131,18 @@ post.login = (req, res, next) => {
 };
 
 post.addInvite = (email, userData, event, emailStatus, res) => {
+  console.log('addinvite was called', email, userData, event, emailStatus)
   const query = {
     email: email,
     UserId: userData,
-    EventId: event.id,
+    EventId: event.EventId,
     seenStatus: false,
     emailStatus: emailStatus
   }
   console.log('add invite event.id', event.id)
-  return db.Invite.create(query);
+  return db.Invite.create(query)
+    .then(() => {console.log('added to invite table')})
+    .catch(err => {console.log(err)});
 }
 
 post.sendEmailInvites = (req, res) => {
@@ -153,19 +156,22 @@ post.sendEmailInvites = (req, res) => {
       res.end();
     }
   }
-
+  console.log('req.body', req.body)
   emails.forEach((email) => {
     var userData;
-    db.User.findOne({ where: { email: email } })
+    return db.User.findOne({ where: { email: email } })
       .then(res => {
-        console.log('res in forreach', res)
         userData = res ? res.dataValues : null;
-        transporter.sendMail(template(email), (err, res) => {
+        return transporter.sendMail(template(email), (err, res) => {
           if (err) {
             console.log(err);
-            post.addInvite(email, userData, req.body.event, false, res);
+            return post.addInvite(email, userData, req.body.event, false, res);
+            post.addInvite();
           } else {
-            post.addInvite(email, userData, req.body.event, true, res);
+            console.log('not in error', post.addInvite);
+            return post.addInvite(email, userData, req.body.event, true, res)
+              .catch(err=> {console.log(err)});
+            // post.addInvite();
           }
         })
       })

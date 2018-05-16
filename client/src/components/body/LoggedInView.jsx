@@ -123,18 +123,21 @@ export class LoggedInView extends Component {
     } else {
       let emails = this.state.createEventEmails.split(', ');
       this.validatedEmails(emails)
-        ? this.postCreateEvent().then(() => {this.sendEmailInvites(emails)})
+        ? this.postCreateEvent(emails)
         : this.setState({ createEventError: 'Please insert valid email addresses.' })
     }
   }
 
-  postCreateEvent() {
+  postCreateEvent(emails) {
     return axios.post('/api/createEvent', {
       createEventTitle: this.state.createEventTitle,
       createEventLocation: this.state.createEventLocation
     })
       .then(({ data }) => {
-        axios.get('/api/userEvents')
+        if (emails) {
+          this.sendEmailInvites(emails, data);
+        }
+        return axios.get('/api/userEvents')
           .then(result => {
             this.setState({ events: result.data });
             this.handleCreateEventModalOpenClose();
