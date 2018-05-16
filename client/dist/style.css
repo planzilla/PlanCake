@@ -29,9 +29,11 @@ body{
 }
 
 .dashboard{
-  grid-area: 2 / 1 / 12 / 13;
-  grid-template-columns: 1fr 4fr;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: .25fr repeat(11, 1fr);
   grid-gap: 0 1em;
+  height: auto;
+  width: 80vw;
 }
 
 .grid{
@@ -168,13 +170,23 @@ body{
 }
 
 .sidebar{
-  grid-area: 1 / 1 / 4 / 2;
-  background-color: rgb(42, 230, 183);
+  grid-area: 2 / 1 / auto / 3;
+  background-color: #A4DCD3;
+  border-radius: 3px;
+  min-height: 90vh;
 }
 
 .event-cards{
-  grid-area: 1 / 2 / 4 / 3;
+  grid-area: 2 / 3 / auto / 11;
 }
+
+.placeholder{
+  grid-area: 2 / 11 / auto / 13;
+  background-color: #E07F6F;
+  border-radius: 3px;
+  min-height: 90vh;
+}
+
 
 /*******************/
 /***  BoardView  ***/
@@ -185,35 +197,69 @@ body{
   color: #db2828;
 }
 
-.chat-view{
-  grid-column: 2;
-  grid-template-rows: repeat(4, 1fr);
-  height: 100%;
-}
-
 .chat-form{
-  grid-row: 4;
+  grid-row: 2;
   padding: 3px;
   bottom: 0;
-  width: 60%;
+  width: auto;
   height: auto;
 }
 
 .chat-form input{
-  border-color: black;
+  border-color: #295976;
   padding: 10px;
   width: 90%;
   margin-right: .5%;
+  border-radius: 4px;
 }
 
 .chat-form button{
   width: 9%;
-  background: rgb(130, 224, 255);
+  background: #e0e1e2 none;
   border: none;
   padding: 10px;
+  font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+  border-radius: .28571429rem;
+  color: rgba(0,0,0,.6);
+  font-weight: 700;
+  line-height: 1em;
+  font-style: normal;
 }
 
-#messages { list-style-type: none; margin: 0; padding: 0; }
-#messages li { padding: 5px 10px; }
-#messages li:nth-child(odd) { background: #eee; }
-#messages { margin-bottom: 40px }
+#messages{
+  grid-row: 1;
+  overflow: auto;
+}
+
+.user-message{
+  text-align: right;
+  margin-right: 6em;
+  margin-top: 17px;
+  margin-bottom: 17px;
+}
+
+.received-message{
+  margin-top: 17px;
+  margin-bottom: 17px;
+}
+
+.user-message span{
+  background-color: #A4DCD3;
+  padding: .4rem;
+  border-radius: 6px;
+}
+
+.received-message span{
+  background-color: #FB9C65;
+  padding: .4rem;
+  border-radius: 6px;
+}
+
+.chat{
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 50px;
+  max-height: 90vh;
+  width: auto;
+}
+
+
