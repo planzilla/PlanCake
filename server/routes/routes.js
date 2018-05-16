@@ -12,6 +12,7 @@ router.get('/api/logout', controller.get.logout);
 router.get('/api/userEvents', controller.get.userEvents);
 router.get('/api/topicBoards', controller.get.topicBoards);
 router.post('/api/createEvent', controller.post.createEvent);
+
 router.post('/api/addUserToEvent', controller.post.addUserToEvent);
 router.post('/api/addTopicBoard', controller.post.addTopicBoard);
 

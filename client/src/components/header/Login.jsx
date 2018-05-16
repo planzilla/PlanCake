@@ -25,7 +25,6 @@ class Login extends Component {
   handleLogin(e) {
     this.props.sendLogin(this.state)
     .then(data => {
-      this.props.authenticate();
       this.props.handleModal();
       this.props.handleView('logout');
       this.props.history.push('/loggedinview');
