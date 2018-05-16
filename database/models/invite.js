@@ -5,7 +5,8 @@ module.exports = (sequelize, DataTypes) => {
     UserId: DataTypes.INTEGER,
     EventId: DataTypes.INTEGER,
     seenStatus: DataTypes.BOOLEAN,
-    emailStatus: DataTypes.BOOLEAN
+    emailStatus: DataTypes.BOOLEAN,
+    joinEventStatus: DataTypes.BOOLEAN
   }, {});
   Invite.associate = function(models) {
     // associations can be defined here

@@ -35,6 +35,9 @@ module.exports = {
       emailStatus: {
         type: Sequelize.BOOLEAN
       },
+      joinEventStatus: {
+        type: Sequelize.BOOLEAN
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
