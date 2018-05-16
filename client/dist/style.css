@@ -121,7 +121,7 @@ body{
 }
 
  .logout-nav{
-   display: flex;
+  display: flex;
   margin: auto;
   color: black;
   justify-content: space-around;
