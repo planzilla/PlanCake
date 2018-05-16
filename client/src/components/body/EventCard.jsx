@@ -5,20 +5,13 @@ import { Link } from 'react-router-dom';
 export default class EventCard extends Component {
   constructor(props) {
     super(props);
-    // this.handleClick = this.handleClick.bind(this);
   }
-
-  // handleClick(event) {
-  //   this.props.handleClickEventTitle(event);
-  // }
 
   render() {  
     return (
       <Link to={`/events/${this.props.id}`}>
       <Card fluid color='teal' onClick={() => this.props.handleClickEventTitle(this.props.event)}>
-
           <Card.Content header={this.props.title} />
-
         <Card.Content>
           <p><b>ToDo</b></p>
           <ul>
