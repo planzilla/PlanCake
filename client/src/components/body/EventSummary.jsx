@@ -9,7 +9,7 @@ export default class EventSummary extends Component {
 
   render() {
     return (
-      <div>
+      <div className="event-cards">
       <Card fluid color="teal">
         <Card.Content header={this.props.event.title} />
         <Card.Content>

@@ -5,7 +5,7 @@ import { FETCH_POSTS, NEW_POST } from './types';
 // const NEW_POST = 'NEW_POST';
 
 export function fetchPosts() {
-  return function (dispatch) {
+  return function (dispatch) {  //eslint-disable-line
     axios.get('/api/userEvents')
       .then(result => dispatch({
         type: FETCH_POSTS,

@@ -197,9 +197,8 @@ export class LoggedInView extends Component {
     } else {
       return (
         <BrowserRouter>
-        <div className="splash grid">
-          <NavBar setUser={this.setUser} view={this.state.view} />
           <div className="dashboard grid">
+          <NavBar setUser={this.setUser} view={this.state.view} />
           <SideBar
             topicBoards={this.state.topicBoards}
             handleInputChange={this.handleInputChange}
@@ -217,7 +216,7 @@ export class LoggedInView extends Component {
           />
 
         {/* {this.renderView()} */}
-        {/* <div className="placeholder"></div> */}
+        <div className="placeholder">placeholder</div>
 
 
           <Route path="/loggedinview" render={() => 
@@ -243,7 +242,6 @@ export class LoggedInView extends Component {
           <Link to="/events/:eventId">eventpage</Link> */}
           <ContactInfo />
           </div>
-        </div>
         </BrowserRouter>
       )
     }
