@@ -86,23 +86,8 @@ post.addTopicBoard = (req, res) => {
     })
 }
 
-// post.addUserToEvent = (event, user, res) => {
-  // const query = {
-  //   EventId: event.id,
-  //   UserId: user.id
-  // }
-
-  // return db.EventUser.create(query);
-  // return db.addUserToEvent(dataValues, req.user)
-// }
-
 post.createEvent = (req, res) => {
-  const query = {
-    title: req.body.createEventTitle,
-    location: req.body.createEventLocation
-  }
-
-  return db.Event.create(query)
+  return db.addEvent(req.body.createEventTitle, req.body.createEventLocation)
     .then((({ dataValues }) => {
       return db.addUserToEvent(dataValues, req.user)
         .then((data) => {
@@ -150,7 +135,7 @@ post.sendEmailInvites = (req, res) => {
 
   emails.forEach((email) => {
     var userData;
-    return db.User.findOne({ where: { email: email } })
+    return db.fetchUserByEmail(email)
       .then(res => {
         userData = res ? res.dataValues : null;
         return transporter.sendMail(template(email))

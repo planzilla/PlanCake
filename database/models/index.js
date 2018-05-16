@@ -62,7 +62,16 @@ Promise.promisifyAll(bcrypt);
 
 /*----------- db functions --------- */
 
-db.addInvite = (email, userData, event, emailStatus, res) => {
+db.addEvent = (title, location) => {
+  const query = {
+    title: title,
+    location: location
+  }
+
+  return db.Event.create(query);
+}
+
+db.addInvite = (email, userData, event, emailStatus) => {
   const query = {
     email: email,
     UserId: userData,
@@ -71,11 +80,10 @@ db.addInvite = (email, userData, event, emailStatus, res) => {
     emailStatus: emailStatus
   }
   
-  return db.Invite.create(query)
-    .catch(err => { console.log(err) });
+  return db.Invite.create(query);
 }
 
-db.addUserToEvent = (event, user, res) => {
+db.addUserToEvent = (event, user) => {
   const query = {
     EventId: event.id,
     UserId: user.id
@@ -85,6 +93,8 @@ db.addUserToEvent = (event, user, res) => {
 }
 
 db.fetchUser = (username) =>  db.User.findOne({ where: {username: username}});
+
+db.fetchUserByEmail = (email) => db.User.findOne({ where: { email: email } });
 
 db.saveUser = (obj) => {
   return db.fetchUser(obj.username)
