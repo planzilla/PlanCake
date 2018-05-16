@@ -121,19 +121,19 @@ export class LoggedInView extends Component {
     } else if (this.state.createEventEmails === '') {
       this.postCreateEvent();
     } else {
-      // Validates emails and then sends emails and creates the event
-      this.sendEmailInvites();
+      let emails = this.state.createEventEmails.split(', ');
+      this.validatedEmails(emails) 
+        ? this.sendEmailInvites(emails) 
+        : this.setState({ createEventError: 'Please insert valid email addresses.' })
     }
   }
 
   postCreateEvent() {
-    console.log('in postCreateEvent');
     axios.post('/api/createEvent', {
       createEventTitle: this.state.createEventTitle,
       createEventLocation: this.state.createEventLocation
     })
       .then((data) => {
-        console.log('data lin 137', data)
         axios.get('/api/userEvents')
           .then(result => {
             this.setState({ events: result.data });
@@ -147,21 +147,7 @@ export class LoggedInView extends Component {
       })
   }
 
-  sendEmailInvites() {
-    // Validate Emails 
-    let emails = this.state.createEventEmails.split(', ');
-    let validator = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-    for (var i = 0; i < emails.length; i++) {
-      let email = emails[i].trim();
-      if (!validator.test(email)) {
-        this.setState({
-          createEventError: 'Please insert valid email addresses.'
-        })
-        return;
-      }
-    }
-    
+  sendEmailInvites(emails) {
       axios.post('/api/sendEmailInvites', { validatedEmails: emails })
       .then(() => {
         this.postCreateEvent();
@@ -173,6 +159,16 @@ export class LoggedInView extends Component {
       })
   }
     
+  validatedEmails(emails) {
+    let validator = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    for (var i = 0; i < emails.length; i++) {
+      let email = emails[i].trim();
+      if (!validator.test(email)) {
+        return false;
+      }
+    }
+    return true;
+  }
 
 
   /* -----------     View    ------------- */
