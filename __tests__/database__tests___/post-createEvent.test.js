@@ -27,3 +27,7 @@ test('Should add event to Event model', () => {
 
 afterAll(clearDatabase);
 */
+
+test('should return true', () => {
+  expect(true).toBe(true);
+});
