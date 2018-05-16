@@ -86,14 +86,15 @@ post.addTopicBoard = (req, res) => {
     })
 }
 
-post.addUserToEvent = (event, user, res) => {
-  const query = {
-    EventId: event.id,
-    UserId: user.id
-  }
+// post.addUserToEvent = (event, user, res) => {
+  // const query = {
+  //   EventId: event.id,
+  //   UserId: user.id
+  // }
 
-  return db.EventUser.create(query);
-}
+  // return db.EventUser.create(query);
+  // return db.addUserToEvent(dataValues, req.user)
+// }
 
 post.createEvent = (req, res) => {
   const query = {
@@ -103,7 +104,7 @@ post.createEvent = (req, res) => {
 
   return db.Event.create(query)
     .then((({ dataValues }) => {
-      return post.addUserToEvent(dataValues, req.user)
+      return db.addUserToEvent(dataValues, req.user)
         .then((data) => {
           res.json(data);
         })

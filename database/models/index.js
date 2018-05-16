@@ -60,6 +60,8 @@ Object.keys(db).forEach(modelName => {
 
 Promise.promisifyAll(bcrypt);
 
+/*----------- db functions --------- */
+
 db.addInvite = (email, userData, event, emailStatus, res) => {
   const query = {
     email: email,
@@ -71,6 +73,15 @@ db.addInvite = (email, userData, event, emailStatus, res) => {
   
   return db.Invite.create(query)
     .catch(err => { console.log(err) });
+}
+
+db.addUserToEvent = (event, user, res) => {
+  const query = {
+    EventId: event.id,
+    UserId: user.id
+  }
+
+  return db.EventUser.create(query);
 }
 
 db.fetchUser = (username) =>  db.User.findOne({ where: {username: username}});
