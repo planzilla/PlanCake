@@ -10,38 +10,19 @@ const transporter = nodemailer.createTransport({
   auth: {
     type: 'OAuth2',
     user: 'plancakeco@gmail.com',
-      clientId: clientDetails.clientId,
-      clientSecret: clientDetails.clientSecret,
-      refreshToken: clientDetails.refreshToken
-  }
+    clientId: clientDetails.clientId,
+    clientSecret: clientDetails.clientSecret,
+    refreshToken: clientDetails.refreshToken,
+  },
 });
 
-
-// const mailOptions = {
-//   from: 'Christina <plancake.co@gmail.com>',
-//   to: 'christina.elaine.yuen@gmail.com',
-//   subject: 'nodemailer test',
-//   text: 'hello world'
-// }
-
-const template = (email) => {
-  return {
-    from: 'PlanCake Co <plancake.co@gmail.com>',
-    to: email,
-    subject: 'You\'ve been invited to a PlanCake event!',
-    text: 'Please click here to join the event planning :)',
-    html: '<b>Please click here to join the event planning :)</b> <br/> <button> Link </Button>'
-  }
-}
-
-
-// transporter.sendMail(mailOptions, function(err, res) {
-//     if (err) {
-//         console.log('err', err);
-//       } else {
-//           console.log('email is sent')
-//         }
-//       })
+const template = email => ({
+  from: 'PlanCake Co <plancake.co@gmail.com>',
+  to: email,
+  subject: 'You\'ve been invited to a PlanCake event!',
+  text: 'Please click here to join the event planning :)',
+  html: '<b>Please click here to join the event planning :)</b> <br/> <button> Link </Button>',
+});
 
 module.exports.transporter = transporter;
 module.exports.template = template;
