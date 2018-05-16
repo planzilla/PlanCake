@@ -46,10 +46,12 @@ export class LoggedInView extends Component {
     this.clearAllCreateEventInfo = this.clearAllCreateEventInfo.bind(this);
     this.handleClickEventTitle = this.handleClickEventTitle.bind(this);
     this.handleBodyView = this.handleBodyView.bind(this);
+    this.getInvites = this.getInvites.bind(this);
   }
 
   componentDidMount() {
     this.props.fetchPosts();
+    this.getInvites();
   }
 
   handleInputChange(event) {
@@ -150,13 +152,6 @@ export class LoggedInView extends Component {
       })
   }
 
-  sendEmailInvites(emails, data) {
-    return axios.post('/api/sendEmailInvites', {
-      validatedEmails: emails,
-      event: data
-    })
-  }
-
   validatedEmails(emails) {
     let validator = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     for (var i = 0; i < emails.length; i++) {
@@ -168,6 +163,19 @@ export class LoggedInView extends Component {
     return true;
   }
 
+  /* ------------- Invites --------------- */
+  getInvites(){
+    return axios.get('/api/invites')
+      .then(() => {console.log('in getinvites then')})
+      .catch(err => {console.log('err in get invites', err)})
+  }
+
+  sendEmailInvites(emails, data) {
+    return axios.post('/api/sendEmailInvites', {
+      validatedEmails: emails,
+      event: data
+    })
+  }
 
   /* -----------     View    ------------- */
   handleBodyView(e, view) {

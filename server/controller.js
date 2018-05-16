@@ -16,6 +16,11 @@ const patch = {};
 // }
 
 /* -------- GET REQUESTS --------- */
+get.invites = (req, res) => {
+  console.log('in get invites');
+  res.end();
+}
+
 get.logout = (req, res) => {
   req.logout();
   req.session.destroy();
@@ -130,19 +135,6 @@ post.login = (req, res, next) => {
   })(req, res, next);
 };
 
-post.addInvite = (email, userData, event, emailStatus, res) => {
-  const query = {
-    email: email,
-    UserId: userData,
-    EventId: event.EventId,
-    seenStatus: false,
-    emailStatus: emailStatus
-  }
-  
-  return db.Invite.create(query)
-    .catch(err => { console.log(err) });
-}
-
 post.sendEmailInvites = (req, res) => {
   let emails = req.body.validatedEmails;
   let validator = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -162,11 +154,11 @@ post.sendEmailInvites = (req, res) => {
         userData = res ? res.dataValues : null;
         return transporter.sendMail(template(email))
           .then(() => {
-            post.addInvite(email, userData, req.body.event, true, res)
+            db.addInvite(email, userData, req.body.event, true, res)
           })
           .catch(err => {
             console.log(err);
-            post.addInvite(email, userData, req.body.event, false, res);
+            db.addInvite(email, userData, req.body.event, false, res);
           })
       })
         .catch(err => { console.log(err) })
