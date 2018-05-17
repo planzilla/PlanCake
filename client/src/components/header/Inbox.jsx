@@ -2,7 +2,10 @@ import React from 'react';
 import { Dropdown, Button } from 'semantic-ui-react';
 
 const Inbox = ({ invites, acceptInvite, ignoreInvite }) => (
-  <Dropdown icon='mail outline'>
+  <Dropdown 
+    icon='mail outline' 
+    text={invites.length ? invites.length : null}
+  >
     <Dropdown.Menu>
       {invites.length === 0
         ? <Dropdown.Item>

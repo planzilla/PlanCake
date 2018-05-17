@@ -59,14 +59,12 @@ export default class NavBar extends Component {
         <img className="logo jsas" src="plancake2.png" alt="plancake2.png" />
           {
             this.props.view === 'dashboard'
-              ? <div className="nav-links">
-                <h3>
-                  <Inbox 
+              ? <div className="nav-links-loggedIn">
+                <Inbox 
                   invites={this.props.invites} 
                   acceptInvite={this.props.acceptInvite}
                   ignoreInvite={this.props.ignoreInvite}
-                  />
-                </h3>
+                />
                 <Logout logout={this.logout} />
                 </div>
                 //TODO:NEED TO ROUTE TO PAGE INSTEAD

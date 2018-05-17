@@ -116,6 +116,12 @@ body{
   justify-content: space-around;
 }
 
+.nav-links-loggedIn{
+  grid-area: 1 / 6 / 2 / 7;
+  display: flex;
+  justify-content: space-around;
+}
+
 .nav-links h3{
   margin: auto;
 }
@@ -141,7 +147,7 @@ body{
 .header div{
   color: rgb(0, 0, 0);
   align-self: center;
-  width: 100%;
+  /* width: 100%; */ /* was messing up nav-links-loggedin*/
 }
 
 /*******************/
