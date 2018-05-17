@@ -55,7 +55,7 @@ export default class NavBar extends Component {
   // TODO need to render logout
   render() {
     return (
-      <div className="header grid">
+      <div className="header-navbar grid">
         <img className="logo jsas" src="plancakepng.png" />
           {
             this.props.view === 'dashboard'
