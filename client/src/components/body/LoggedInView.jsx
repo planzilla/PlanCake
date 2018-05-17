@@ -203,9 +203,9 @@ export class LoggedInView extends Component {
   /* ----------- Render ------------- */
 
   render() {
-    if (this.state.events.length === 0) {
-      return '...loading??';
-    } else {
+    // if (this.state.events.length === 0) {
+    //   return '...loading??';
+    // } else {
       return (
         <BrowserRouter>
           <div className="dashboard grid">
@@ -253,7 +253,7 @@ export class LoggedInView extends Component {
       )
     }
   }
-}
+// }
 
 // for redux but doesnt play along nicely so commented
 // LoggedInView.propTypes = {
