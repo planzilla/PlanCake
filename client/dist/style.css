@@ -80,7 +80,7 @@ body{
   grid-template-rows: 50px;
   background-color: rgb(255, 255, 255);
   position: fixed;
-  width: 80%;
+  width: 80vw;
   z-index: 2;
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
