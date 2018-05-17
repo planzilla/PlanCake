@@ -21,7 +21,7 @@ const template = email => ({
   to: email,
   subject: 'You\'ve been invited to a PlanCake event!',
   text: 'Please click here to join the event planning :)',
-  html: '<b>Please click here to join the event planning :)</b> <br/> <button> Link </Button>',
+  html: '<b>Please click here to join the event planning :)</b> <br/ ><br/> <a href="http://local1.plan.plancake.co"> Join Now </a>',
 });
 
 module.exports.transporter = transporter;

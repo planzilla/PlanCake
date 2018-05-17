@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Card, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import Todo from './Todo.jsx';
 
 export default class EventCard extends Component {
   constructor(props) {
@@ -13,11 +14,15 @@ export default class EventCard extends Component {
       <Card fluid color='teal' onClick={() => this.props.handleClickEventTitle(this.props.event)}>
           <Card.Content header={this.props.title} />
         <Card.Content>
-          <p><b>ToDo</b></p>
+          {/* <p><b>ToDo</b></p>
           <ul>
             <li> Book Flights </li>
             <li> Contact Airbnb Host </li>
-          </ul>
+          </ul> */}
+          <Todo 
+            todos={this.props.todos}
+            event={this.props.event}
+          />
         </Card.Content>
         <Card.Content extra>
           <Icon name='map pin' />

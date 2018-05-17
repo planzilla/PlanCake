@@ -4,6 +4,7 @@ import Signup from './SignUp.jsx';
 import axios from 'axios';
 import Logout from './Logout.jsx';
 import Inbox from './Inbox.jsx';
+import { Link } from 'react-router-dom';
 
 export default class NavBar extends Component {
   constructor(props) {
@@ -22,7 +23,7 @@ export default class NavBar extends Component {
   }
 
   handleError(errorMsg) {
-    this.setState({error: errorMsg})
+    this.setState({ error: errorMsg })
   }
 
   handleModal() {
@@ -36,52 +37,63 @@ export default class NavBar extends Component {
   }
 
   handleView(view) {
-    this.setState({navView: view})
+    this.setState({ navView: view })
   }
-  
+
   sendLogin(credentials) {
     return axios.post('/api/login', credentials)
   }
-  
+
   logout() {
     axios.get('/api/logout')
-    .then(() => {
-      this.setState({
-        status: 'not authenticated',
-        navView: 'login',
+      .then(() => {
+        this.setState({
+          status: 'not authenticated',
+        })
       })
-    })
   }
-// TODO need to render logout
+  // TODO need to render logout
   render() {
-    return(
-      <div className="header grid">
-        <Inbox />
-      <img className="logo jsas" src="plancake2.png" alt="plancake2.png"/>
-        <div className="nav-links">
-          <h3>About Us</h3>
-          <h3>How It Works</h3>
-          {this.props.username !== null ? <Logout  logout={this.logout} /> : <h3 onClick={this.handleModal.bind(this)}>Login</h3>}
-        </div>
-            {this.state.navView === 'login' 
-            ? <Login 
-            handleModal={this.handleModal}
-            sendLogin={this.sendLogin}
-            setUser={this.props.setUser}
-            handleView={this.handleView}
-            modalIsOpen={this.state.modalIsOpen}
-            error={this.state.error}
-            handleError={this.handleError}
-            /> 
-            : <Signup 
-            handleModal={this.handleModal}
-            sendLogin={this.sendLogin}
-            setUser={this.props.setUser}
-            modalIsOpen={this.state.modalIsOpen}
-            error={this.state.error}
-            handleError={this.handleError}
-            handleView={this.handleView}         
-            />}
+    return (
+      <div className="header-navbar grid">
+        <img className="logo jsas" src="plancakepng.png" />
+          {
+            this.props.username !== null
+              ? <div className="nav-links-loggedIn">
+                <Inbox 
+                  invites={this.props.invites} 
+                  acceptInvite={this.props.acceptInvite}
+                  ignoreInvite={this.props.ignoreInvite}
+                />
+                <Logout logout={this.logout} />
+                </div>
+              : <div className="nav-links">
+                <h3>About Us</h3>
+                <h3>How It Works</h3>
+                <h3 onClick={this.handleModal.bind(this)}>Login</h3>
+                </div>
+          }
+          {
+            this.state.navView === 'login'
+              ? <Login
+                handleModal={this.handleModal}
+                sendLogin={this.sendLogin}
+                setUser={this.props.setUser}
+                handleView={this.handleView}
+                modalIsOpen={this.state.modalIsOpen}
+                error={this.state.error}
+                handleError={this.handleError}
+              />
+              : <Signup
+                handleModal={this.handleModal}
+                sendLogin={this.sendLogin}
+                setUser={this.props.setUser}
+                modalIsOpen={this.state.modalIsOpen}
+                error={this.state.error}
+                handleError={this.handleError}
+                handleView={this.handleView}
+              />
+          }
       </div>
     )
   }

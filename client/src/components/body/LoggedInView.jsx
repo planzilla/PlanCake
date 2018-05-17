@@ -17,6 +17,8 @@ export class LoggedInView extends Component {
     super(props);
     this.state = {
       currentEvent: {},
+      currentTodo: {},
+      invites: [], //array of events
       events: [{
         id: '',
         title: '',
@@ -30,6 +32,15 @@ export class LoggedInView extends Component {
         title: null,
         createdAt: null,
         updatedAt: null
+      }],
+      todos: [{
+        id: null,
+        text: null,
+        completed: null,
+        EventId: null,
+        UserId: null,
+        AssignerId: null,
+        deadline: null
       }],
       addTopicTitle: '',
       addTopicModalOpen: false,
@@ -48,17 +59,29 @@ export class LoggedInView extends Component {
     this.handleCreateEvent = this.handleCreateEvent.bind(this);
     this.clearAllCreateEventInfo = this.clearAllCreateEventInfo.bind(this);
     this.handleClickEventTitle = this.handleClickEventTitle.bind(this);
-    this.getInvites = this.getInvites.bind(this);
     this.setLoggedIn = this.setLoggedIn.bind(this);
+    this.getInvitesByUserId = this.getInvitesByUserId.bind(this);
+    this.acceptInvite = this.acceptInvite.bind(this);
+    this.ignoreInvite = this.ignoreInvite.bind(this);
   }
 
   componentDidMount() {
-    // this.props.fetchPosts();
     axios.get('/api/userEvents')
       .then(result => {
         this.setState({ events: result.data });
       });
-    this.getInvites();
+      
+    axios.get('/api/todos')
+      .then(result => {
+        console.log('todos in LIV: ', result.data);
+        this.setState({ todos: result.data });
+      });
+
+    axios.get('/api/invitesByEmail')
+      .then(({ data }) => {
+        this.setState({ invites: data })
+      })
+      .catch(err => {console.log('err in get invites', err)})
   }
 
   // componentWillReceiveProps(nextProps) {
@@ -86,12 +109,12 @@ export class LoggedInView extends Component {
   handleClickEventTitle(event) {
     this.setState({ topicBoards: [] });
     this.setState({ currentEvent: event });
-    // console.log('event id is: ', event);
-    axios.get(`/api/topicBoards?EventId=${event.id}`)
+    axios.get(`/api/topicBoard?EventId=${event.id}`)
       .then(({ data }) => {
         this.setState({ topicBoards: data });
       });
   }
+
 
   /* -------------- AddTopic -------------- */
   handleAddTopicModalOpenClose() {
@@ -113,7 +136,7 @@ export class LoggedInView extends Component {
       })
         .then((data) => {
           this.handleAddTopicModalOpenClose();
-          axios.get(`/api/topicBoards?EventId=${eventId}`)
+          axios.get(`/api/topicBoard?EventId=${eventId}`)
             .then(({ data }) => {
               this.setState({ topicBoards: data });
             });
@@ -164,10 +187,10 @@ export class LoggedInView extends Component {
           this.sendEmailInvites(emails, data);
         }
         return axios.get('/api/userEvents')
-          .then(result => {
-            this.setState({ events: result.data });
-            this.handleCreateEventModalOpenClose();
-          });
+      })
+      .then(result => {
+        this.setState({ events: result.data });
+        this.handleCreateEventModalOpenClose();
       })
       .catch((err) => {
         this.setState({
@@ -188,9 +211,11 @@ export class LoggedInView extends Component {
   }
 
   /* ------------- Invites --------------- */
-  getInvites(){
-    return axios.get('/api/invites')
-      .then(() => {console.log('in getinvites then')})
+  getInvitesByUserId() {
+    return axios.get('/api/invitesByUserId')
+      .then(({ data }) => {
+        this.setState({ invites: data })
+      })
       .catch(err => {console.log('err in get invites', err)})
   }
 
@@ -199,6 +224,22 @@ export class LoggedInView extends Component {
       validatedEmails: emails,
       event: data
     })
+  }
+
+  acceptInvite(EventId) {
+    return axios.patch(`/api/acceptInvite/?EventId=${EventId}`)
+      .then(() => {
+        this.getInvitesByUserId();
+      })
+      .catch(err => { console.log(err) })
+  }
+
+  ignoreInvite(EventId) {
+    return axios.patch(`/api/ignoreInvite/?EventId=${EventId}`)
+      .then(() => {
+        this.getInvitesByUserId();
+      })
+      .catch(err => { console.log(err) })
   }
 
   /* ----------- Render ------------- */
@@ -210,13 +251,20 @@ export class LoggedInView extends Component {
   }
 
   render() {
-    if (this.state.events.length === 0) {
-      return '...loading??';
-    } else {
+    // if (this.state.events.length === 0) {
+    //   return '...loading??';
+    // } else {
       return (
         <BrowserRouter>
           <div className="dashboard grid">
-          <NavBar setUser={this.setUser} view={this.props.userData.username} />
+          <NavBar 
+            view={this.state.view}
+            invites={this.state.invites}
+            acceptInvite={this.acceptInvite}
+            ignoreInvite={this.ignoreInvite}
+            setUser={this.setUser} 
+            view={this.props.userData.username}
+            />
           <SideBar
             topicBoards={this.state.topicBoards}
             handleInputChange={this.handleInputChange}
@@ -239,11 +287,13 @@ export class LoggedInView extends Component {
             <Dashboard 
               events={this.state.events} 
               handleClickEventTitle={this.handleClickEventTitle}
+              todos={this.state.todos}
               /> } />
           <Route path="/events/:id" render={() => 
             <EventSummary 
               topicBoards={this.state.topicBoards}  
               event={this.state.currentEvent} 
+              todos={this.state.todos}
             /> } 
           />
           <Route path="/board/:id" render={() => 
@@ -262,7 +312,7 @@ export class LoggedInView extends Component {
       )
     }
   }
-}
+// }
 
 // for redux but doesnt play along nicely so commented
 // LoggedInView.propTypes = {

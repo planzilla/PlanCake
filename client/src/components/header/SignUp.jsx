@@ -88,7 +88,7 @@ class SignUp extends Component {
               label='Password'
               placeholder='Ex: Smoothie123!'
               name="password"
-              type="text"
+              type="password"
               onChange={this.handleChange}
           />
           </Form>
