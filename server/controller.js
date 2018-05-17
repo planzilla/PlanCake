@@ -145,6 +145,14 @@ post.addTopicBoard = (req, res) => {
     })
 }
 
+post.addUserToEvent = (req, res) => {
+  return db.addUserToEvent(req.body, req.user)
+    .then(() => {
+      res.end();
+    })
+    .catch(err => {console.log(err)});
+}
+
 post.createEvent = (req, res) => {
   return db.addEvent(req.body.createEventTitle, req.body.createEventLocation)
     .then((({ dataValues }) => {
