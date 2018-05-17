@@ -12,6 +12,7 @@ router.get('/api/logout', controller.get.logout);
 router.get('/api/userEvents', controller.get.userEvents);
 router.get('/api/topicBoards', controller.get.topicBoards);
 router.post('/api/createEvent', controller.post.createEvent);
+router.get('/api/todos', controller.get.todos);
 
 // router.post('/api/addUserToEvent', controller.post.addUserToEvent);
 router.post('/api/addTopicBoard', controller.post.addTopicBoard);
@@ -19,13 +20,5 @@ router.post('/api/addTopicBoard', controller.post.addTopicBoard);
 // INVITE RELATED ROUTES
 router.get('/api/invites', controller.get.invites);
 router.post('/api/sendEmailInvites', controller.post.sendEmailInvites);
-
-// router.post('/api/signup', controller.post.signup);
-
-// router.post('/api/login', controller.post.login);
-
-// router.get('/api/user', controller.get.user);
-
-// router.get('/api/logout', controller.get.logout);
 
 module.exports = router;

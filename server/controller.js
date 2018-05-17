@@ -42,7 +42,6 @@ get.topicBoards = (req, res) => {
     })
 }
 
-// Retrieve all events of user after login
 get.userEvents = (req, res) => {
   return db.EventUser.findAll({
     where: {
@@ -64,6 +63,24 @@ get.userEvents = (req, res) => {
       res.status(500);
       res.end();
     });
+}
+
+get.todos = (req, res) => {
+  return db.Todo.findAll({
+    where: {
+      UserId: req.user.id
+    }
+  })
+    .then(data => {
+      let todoArr = data.map(item => item.dataValues);
+      console.log('todoArr:', todoArr);
+      res.json(todoArr);
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(500);
+      res.end();
+    })
 }
 
 /* -------- PATCH REQUESTS --------- */
