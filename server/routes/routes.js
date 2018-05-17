@@ -17,7 +17,7 @@ router.post('/api/createEvent', controller.post.createEvent);
 router.post('/api/addTopicBoard', controller.post.addTopicBoard);
 
 // INVITE RELATED ROUTES
-router.get('/api/invites', controller.get.invites);
+router.get('/api/invitesByEmail', controller.get.invitesByEmail);
 router.post('/api/sendEmailInvites', controller.post.sendEmailInvites);
 
 // router.post('/api/signup', controller.post.signup);
