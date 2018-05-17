@@ -31,6 +31,7 @@ export class LoggedInView extends Component {
         createdAt: null,
         updatedAt: null
       }],
+      invites: [], //array of events
       addTopicTitle: '',
       addTopicModalOpen: false,
       addTopicError: '',
@@ -52,12 +53,17 @@ export class LoggedInView extends Component {
   }
 
   componentDidMount() {
-    // this.props.fetchPosts();
     axios.get('/api/userEvents')
       .then(result => {
         this.setState({ events: result.data });
       });
-    this.getInvites();
+
+    axios.get('/api/invitesByEmail')
+      .then(({ data }) => {
+        console.log('data invites', data)
+        this.setState({ invites: data })
+      })
+      .catch(err => {console.log('err in get invites', err)})
   }
 
   // componentWillReceiveProps(nextProps) {
@@ -208,7 +214,10 @@ export class LoggedInView extends Component {
       return (
         <BrowserRouter>
           <div className="dashboard grid">
-          <NavBar setUser={this.setUser} view={this.state.view} />
+          <NavBar 
+            view={this.state.view}
+            invites={this.state.invites}
+            />
           <SideBar
             topicBoards={this.state.topicBoards}
             handleInputChange={this.handleInputChange}
