@@ -17,6 +17,8 @@ export class LoggedInView extends Component {
     super(props);
     this.state = {
       currentEvent: {},
+      currentTodo: {},
+      invites: [], //array of events
       events: [{
         id: '',
         title: '',
@@ -31,7 +33,15 @@ export class LoggedInView extends Component {
         createdAt: null,
         updatedAt: null
       }],
-      invites: [], //array of events
+      todos: [{
+        id: null,
+        text: null,
+        completed: null,
+        EventId: null,
+        UserId: null,
+        AssignerId: null,
+        deadline: null
+      }],
       addTopicTitle: '',
       addTopicModalOpen: false,
       addTopicError: '',
@@ -40,7 +50,7 @@ export class LoggedInView extends Component {
       createEventEmails: '',
       createEventError: '',
       createEventModalOpen: false,
-      view: 'dashboard',
+      selected: '',
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleAddTopicModalOpenClose = this.handleAddTopicModalOpenClose.bind(this);
@@ -49,6 +59,7 @@ export class LoggedInView extends Component {
     this.handleCreateEvent = this.handleCreateEvent.bind(this);
     this.clearAllCreateEventInfo = this.clearAllCreateEventInfo.bind(this);
     this.handleClickEventTitle = this.handleClickEventTitle.bind(this);
+    this.setLoggedIn = this.setLoggedIn.bind(this);
     this.getInvitesByUserId = this.getInvitesByUserId.bind(this);
     this.acceptInvite = this.acceptInvite.bind(this);
     this.ignoreInvite = this.ignoreInvite.bind(this);
@@ -58,6 +69,12 @@ export class LoggedInView extends Component {
     axios.get('/api/userEvents')
       .then(result => {
         this.setState({ events: result.data });
+      });
+      
+    axios.get('/api/todos')
+      .then(result => {
+        console.log('todos in LIV: ', result.data);
+        this.setState({ todos: result.data });
       });
 
     axios.get('/api/invitesByEmail')
@@ -97,6 +114,7 @@ export class LoggedInView extends Component {
         this.setState({ topicBoards: data });
       });
   }
+
 
   /* -------------- AddTopic -------------- */
   handleAddTopicModalOpenClose() {
@@ -233,6 +251,12 @@ export class LoggedInView extends Component {
 
   /* ----------- Render ------------- */
 
+  /* -----------  MISC  ------------- */
+
+  setLoggedIn(selected) {
+    this.setState({ selected: selected });
+  }
+
   render() {
     // if (this.state.events.length === 0) {
     //   return '...loading??';
@@ -245,6 +269,8 @@ export class LoggedInView extends Component {
             invites={this.state.invites}
             acceptInvite={this.acceptInvite}
             ignoreInvite={this.ignoreInvite}
+            setUser={this.setUser} 
+            view={this.props.userData.username}
             />
           <SideBar
             topicBoards={this.state.topicBoards}
@@ -259,25 +285,29 @@ export class LoggedInView extends Component {
             createEventError={this.state.createEventError}
             handleClickEventTitle={this.handleClickEventTitle}
             events={this.state.events}
+            setLoggedIn={this.setLoggedIn}
           />
 
-        <div className="placeholder">placeholder</div>
+        <div className="placeholder"></div>
 
           <Route path="/loggedinview" render={() => 
             <Dashboard 
               events={this.state.events} 
               handleClickEventTitle={this.handleClickEventTitle}
+              todos={this.state.todos}
               /> } />
           <Route path="/events/:id" render={() => 
             <EventSummary 
               topicBoards={this.state.topicBoards}  
               event={this.state.currentEvent} 
+              todos={this.state.todos}
             /> } 
           />
           <Route path="/board/:id" render={() => 
             <TopicBoardView
               topicBoards={this.state.topicBoards}
               userData={this.props.userData}
+              selected={this.state.selected}
             /> }
           />
 

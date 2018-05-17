@@ -52,7 +52,7 @@ body{
 .body{
   grid-area: 2 / 1 / 12 / 13;
   grid-template-columns: 1fr;
-  grid-template-rows: 1.25fr 1fr 1fr; 
+  grid-template-rows: auto 1fr 1fr; 
 }
 
 .body img{
@@ -63,6 +63,8 @@ body{
   width: 100%;
   height: auto;
   border-radius: 4px;
+  filter: drop-shadow(0 0 10px #333);
+  
 }
 
 .body .about-us{
@@ -79,10 +81,15 @@ body{
   background-color: rgb(255, 255, 255);
   position: fixed;
   width: 80%;
+  z-index: 2;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
 }
 
 .footer{
   grid-area: 12 / 1 / 13 / 13;
+  background-color: rgb(255, 255, 255);
+  filter: drop-shadow(0 0 15px rgb(221, 219, 218));
 }
 
 /*******************/
@@ -90,7 +97,6 @@ body{
 /*******************/
 
 .header-navbar div h3{
-  /* font-family: 'Delius', cursive; */
   font-family: 'Poppins', sans-serif;
 }
 
@@ -161,7 +167,8 @@ body{
 /*******************/
 
 .how-it-works{
-  grid-row: 2;
+  font-family: 'Delius', cursive;
+  grid-row: 3;
   grid-template-rows: .25fr repeat(2, 1fr);
 }
 
@@ -175,10 +182,48 @@ body{
   grid-row: 3;
 }
 
-.about-us{
-  grid-template-columns: repeat(3, 1fr); 
-  grid-template-rows: .25fr repeat(2, 1fr);
-  grid-gap: 2em
+.about-us .about-title{
+  grid-column: 2;
+  grid-row: 1;
+  padding-top: 100px;
+  margin-top: 50px;
+}
+
+.about-us h1{
+  font-family: 'Poppins', sans-serif;
+}
+
+.about-us .brandon-pic{
+  grid-column: 1;
+  grid-row: 2;
+  filter: drop-shadow(0 0 25px rgb(114, 114, 114));
+}
+
+.about-us .christina-pic{
+  grid-column: 2;
+  grid-row: 2;
+  filter: drop-shadow(0 0 25px rgb(114, 114, 114));
+}
+
+.about-us .will-pic{
+  grid-column: 3;
+  grid-row: 2;
+  filter: drop-shadow(0 0 25px rgb(114, 114, 114));
+}
+
+.about-us .brandon-about{
+  grid-row: 3;
+  grid-column: 1;
+}
+
+.about-us .xtina-about{
+  grid-row: 3;
+  grid-column: 2;
+}
+
+.about-us .will-about{
+  grid-row: 3;
+  grid-column: 3;
 }
 
 .sidebar{
@@ -186,11 +231,17 @@ body{
   background-color: #A4DCD3;
   border-radius: 3px;
   min-height: 90vh;
+  filter: drop-shadow(0 0 10px rgb(157, 155, 155));
 }
 
 .event-cards{
   grid-area: 2 / 2 / auto / 12;
-  z-index: -1;
+  z-index: 1;
+  filter: drop-shadow(0 0 4px rgb(157, 155, 155));
+}
+
+.chat-view{
+  grid-area: 2 / 2 / auto / 12;
 }
 
 .placeholder{
@@ -198,6 +249,7 @@ body{
   background-color: #E07F6F;
   border-radius: 3px;
   min-height: 90vh;
+  filter: drop-shadow(0 0 4px rgb(157, 155, 155));
 }
 
 
@@ -260,12 +312,14 @@ body{
   background-color: #A4DCD3;
   padding: .4rem;
   border-radius: 6px;
+  box-shadow: 2px 2px rgb(213, 212, 212);
 }
 
 .received-message span{
   background-color: #FB9C65;
   padding: .4rem;
   border-radius: 6px;
+  box-shadow: 2px 2px rgb(213, 212, 212);
 }
 
 .chat{
@@ -274,5 +328,3 @@ body{
   max-height: 90vh;
   width: auto;
 }
-
-
