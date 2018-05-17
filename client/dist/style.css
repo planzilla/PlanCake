@@ -81,6 +81,9 @@ body{
   background-color: rgb(255, 255, 255);
   position: fixed;
   width: 80%;
+  z-index: 2;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
 }
 
 .footer{
@@ -228,11 +231,17 @@ body{
   background-color: #A4DCD3;
   border-radius: 3px;
   min-height: 90vh;
+  filter: drop-shadow(0 0 10px rgb(157, 155, 155));
 }
 
 .event-cards{
   grid-area: 2 / 2 / auto / 12;
-  z-index: -1;
+  z-index: 1;
+  filter: drop-shadow(0 0 4px rgb(157, 155, 155));
+}
+
+.chat-view{
+  grid-area: 2 / 2 / auto / 12;
 }
 
 .placeholder{
@@ -240,6 +249,7 @@ body{
   background-color: #E07F6F;
   border-radius: 3px;
   min-height: 90vh;
+  filter: drop-shadow(0 0 4px rgb(157, 155, 155));
 }
 
 
@@ -302,12 +312,14 @@ body{
   background-color: #A4DCD3;
   padding: .4rem;
   border-radius: 6px;
+  box-shadow: 2px 2px rgb(213, 212, 212);
 }
 
 .received-message span{
   background-color: #FB9C65;
   padding: .4rem;
   border-radius: 6px;
+  box-shadow: 2px 2px rgb(213, 212, 212);
 }
 
 .chat{
@@ -316,5 +328,3 @@ body{
   max-height: 90vh;
   width: auto;
 }
-
-

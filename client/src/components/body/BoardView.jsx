@@ -38,7 +38,7 @@ class Chat extends Component{
 
   render() {
     return (
-      <div className="event-cards chat grid">
+      <div className="chat-view chat grid">
         <div id="messages">
           {this.state.allMessages.map((message, key) => {
             if (message.includes(':')) {

@@ -281,7 +281,7 @@ export class LoggedInView extends Component {
             setLoggedIn={this.setLoggedIn}
           />
 
-        <div className="placeholder">placeholder</div>
+        <div className="placeholder"></div>
 
           <Route path="/loggedinview" render={() => 
             <Dashboard 
