@@ -17,7 +17,7 @@ export default class EventSummary extends Component {
           <h5>{this.props.event.location}</h5>
           <Todo 
             todos={this.props.todos} 
-            
+            event={this.props.event}
           />
 
 
