@@ -51,6 +51,7 @@ export class LoggedInView extends Component {
     this.handleClickEventTitle = this.handleClickEventTitle.bind(this);
     this.getInvites = this.getInvites.bind(this);
     this.acceptInvite = this.acceptInvite.bind(this);
+    this.ignoreInvite = this.ignoreInvite.bind(this);
   }
 
   componentDidMount() {
@@ -214,6 +215,15 @@ export class LoggedInView extends Component {
       .catch(err => { console.log(err) })
   }
 
+  ignoreInvite(EventId) {
+    console.log('evemtid', EventId)
+    return axios.patch(`/api/ignoreInvite/?EventId=${EventId}`)
+      .then(() => {
+        console.log('iignoredtheinvite') 
+      })
+      .catch(err => { console.log(err) })
+  }
+
   /* ----------- Render ------------- */
 
   render() {
@@ -227,6 +237,7 @@ export class LoggedInView extends Component {
             view={this.state.view}
             invites={this.state.invites}
             acceptInvite={this.acceptInvite}
+            ignoreInvite={this.ignoreInvite}
             />
           <SideBar
             topicBoards={this.state.topicBoards}

@@ -163,6 +163,16 @@ db.updateJoinEventStatusAccept = (UserId, EventId) => {
   )
 }
 
+db.updateJoinEventStatusIgnore = (UserId, EventId) => {
+  return db.Invite.update(
+    {joinEventStatus: false}, 
+    {where: {
+      UserId: UserId,
+      EventId: EventId
+    }}
+  )
+}
+
 // sequelize.sync();
 
 db.sequelize = sequelize;

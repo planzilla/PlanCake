@@ -64,6 +64,7 @@ export default class NavBar extends Component {
                   <Inbox 
                   invites={this.props.invites} 
                   acceptInvite={this.props.acceptInvite}
+                  ignoreInvite={this.props.ignoreInvite}
                   />
                 </h3>
                 <Logout logout={this.logout} />

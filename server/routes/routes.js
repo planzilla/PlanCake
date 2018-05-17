@@ -20,6 +20,7 @@ router.post('/api/addTopicBoard', controller.post.addTopicBoard);
 router.get('/api/invitesByEmail', controller.get.invitesByEmail);
 router.post('/api/sendEmailInvites', controller.post.sendEmailInvites);
 router.patch('/api/acceptInvite', controller.patch.acceptInvite);
+router.patch('/api/ignoreInvite', controller.patch.ignoreInvite);
 
 // router.post('/api/signup', controller.post.signup);
 

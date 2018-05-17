@@ -89,6 +89,15 @@ patch.acceptInvite = (req, res) => {
     .catch(err => { console.log(err) })
 }
 
+patch.ignoreInvite = (req, res) => {
+  return db.updateJoinEventStatusIgnore(req.user.id, req.query.EventId)
+    .then(() => {
+      console.log('ignored invite');
+      res.end();
+    })
+    .catch(err => { console.log(err) })
+}
+
 /* -------- POST REQUESTS --------- */
 
 post.addTopicBoard = (req, res) => {
