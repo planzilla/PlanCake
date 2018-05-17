@@ -35,7 +35,7 @@ export default class SideBar extends Component {
           />
           {this.props.topicBoards.map((board, j) => {
               return (
-                <div key={j}>
+                <div key={j} onClick={() => this.props.setLoggedIn(`${board.title}`)}>
                   <Link to={`/board/${board.id}`}>{board.title}</Link>
                   <br />
                 </div>

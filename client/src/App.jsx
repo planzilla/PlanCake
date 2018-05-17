@@ -39,6 +39,7 @@ export default class App extends Component {
             render={() => 
             <SplashPage 
             setUser={this.setUser}
+            username={this.state.userData.username}
             />}
           />
 

@@ -58,7 +58,7 @@ export default class NavBar extends Component {
       <div className="header-navbar grid">
         <img className="logo jsas" src="plancakepng.png" />
           {
-            this.props.view === 'dashboard'
+            this.props.username !== null
               ? <div className="nav-links-loggedIn">
                 <Inbox 
                   invites={this.props.invites} 
@@ -67,7 +67,6 @@ export default class NavBar extends Component {
                 />
                 <Logout logout={this.logout} />
                 </div>
-                //TODO:NEED TO ROUTE TO PAGE INSTEAD
               : <div className="nav-links">
                 <h3>About Us</h3>
                 <h3>How It Works</h3>

@@ -32,17 +32,22 @@ app.use(router);
 app.get('*', express.static(`${__dirname}/../client/dist`));
 
 io.on('connection', (socket) => {
-  console.log('New client connected');
+  let room;
+  socket.on('room', (roomname) => {
+    room = roomname;
+    io.emit('room', room);
+    socket.join(room);
+    io.sockets.in(room).emit('chatMessage', `connected to ${roomname.slice(2)}`);
+    console.log('joined room', room);
+  });
   socket.on('chatMessage', (message) => {
     console.log('Server message is:', message);
-    io.emit('chatMessage', message);
+    io.sockets.in(room).emit('chatMessage', message);
   });
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
-  socket.emit('chatMessage', 'connected'); //  emits `connected` to chatMessage
 });
-
 
 server.listen(PORT, () => { console.log(`Listening on port ${PORT}`); });
 module.exports = app;

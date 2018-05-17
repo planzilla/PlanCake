@@ -7,13 +7,15 @@ module.exports = (sequelize, DataTypes) => {
     voteCount: DataTypes.INTEGER
   }, {});
   Pin.associate = function(models) {
-    // associations can be defined here
     Pin.belongsTo(models.Board, {
       foreignKey: 'BoardId' 
     });
-    Pin.belongsTo(models.User), {
+    Pin.belongsTo(models.User, {
       foreignKey: 'UserId'
-    }
+    });
+    Pin.hasMany(models.Chat, {
+      foreignKey: 'PinId'
+    });
   };
   return Pin;
 };
