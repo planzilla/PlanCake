@@ -16,6 +16,9 @@ module.exports = (sequelize, DataTypes) => {
     Event.hasMany(models.Invite, {
       foreignKey: 'EventId'
     });
+    Event.hasMany(models.Todo, {
+      foreignKey: 'EventId'
+    });
   };
   return Event;
 };
