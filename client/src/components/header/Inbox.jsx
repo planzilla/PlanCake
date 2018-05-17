@@ -15,8 +15,7 @@ const Inbox = ({ invites, acceptInvite }) => (
             <i>{invite.location}</i>
             <br /><br />
             <Button.Group>
-              {console.log('acceptinvite', acceptInvite)}
-              <Button color='teal' onClick={acceptInvite}> Accept</Button>
+              <Button color='teal' onClick={() => acceptInvite( invite.id)}> Accept</Button>
               <Button.Or />
               <Button>Ignore</Button>
             </Button.Group>

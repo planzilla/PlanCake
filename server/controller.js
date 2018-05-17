@@ -81,8 +81,12 @@ get.userEvents = (req, res) => {
 
 /* -------- PATCH REQUESTS --------- */
 patch.acceptInvite = (req, res) => {
-  console.log('inacceptinvite');
-  res.end();
+  return db.updateJoinEventStatusAccept(req.user.id, req.query.EventId)
+    .then(() => {
+      console.log('accepted invite');
+      res.end();
+    })
+    .catch(err => { console.log(err) })
 }
 
 /* -------- POST REQUESTS --------- */

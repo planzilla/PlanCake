@@ -153,6 +153,16 @@ db.updateUserId = (UserId, InviteId) => {
   );
 }
 
+db.updateJoinEventStatusAccept = (UserId, EventId) => {
+  return db.Invite.update(
+    {joinEventStatus: true}, 
+    {where: {
+      UserId: UserId,
+      EventId: EventId
+    }}
+  )
+}
+
 // sequelize.sync();
 
 db.sequelize = sequelize;

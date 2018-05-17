@@ -205,11 +205,13 @@ export class LoggedInView extends Component {
     })
   }
 
-  acceptInvite() {
-    return axios.patch('/api/acceptInvite')
+  acceptInvite(EventId) {
+    console.log('evemtid', EventId)
+    return axios.patch(`/api/acceptInvite/?EventId=${EventId}`)
       .then(() => {
-        console.log('iacceptedzeinvite')
+        console.log('iacceptedzeinvite') 
       })
+      .catch(err => { console.log(err) })
   }
 
   /* ----------- Render ------------- */
