@@ -296,14 +296,14 @@ export class LoggedInView extends Component {
               handleClickEventTitle={this.handleClickEventTitle}
               todos={this.state.todos}
               /> } />
-          <Route path="/events/:id" render={() => 
+          <Route path="/events" render={() => 
             <EventSummary 
               topicBoards={this.state.topicBoards}  
               event={this.state.currentEvent} 
               todos={this.state.todos}
             /> } 
           />
-          <Route path="/board/:id" render={() => 
+          <Route path="/board" render={() => 
             <TopicBoardView
               topicBoards={this.state.topicBoards}
               userData={this.props.userData}
