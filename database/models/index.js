@@ -76,9 +76,7 @@ db.addInvite = (email, userData, eventId, emailStatus) => {
     email: email,
     UserId: userData ? userData.id : null,
     EventId: eventId,
-    seenStatus: false,
     emailStatus: emailStatus,
-    joinEventStatus: false,
   }
   
   return db.Invite.create(query)
@@ -103,7 +101,17 @@ db.fetchEventsByEventId = (eventIdArr) => db.Event.findAll({
   ],
 })
 
-db.fetchInvitesByEmail = (email) => db.Invite.findAll({ where: {email: email } });
+db.fetchInvitesByEmail = (email) => db.Invite.findAll({ 
+  where: {
+    email: email,
+    joinEventStatus: null
+  } 
+});
+
+db.fetchInvitesByUserId = (UserId) => db.Invite.findAll({where: {
+  UserId: UserId,
+  joinEventStatus: null
+}})
 
 db.fetchUser = (username) =>  db.User.findOne({ where: {username: username}});
 

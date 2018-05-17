@@ -49,7 +49,7 @@ export class LoggedInView extends Component {
     this.handleCreateEvent = this.handleCreateEvent.bind(this);
     this.clearAllCreateEventInfo = this.clearAllCreateEventInfo.bind(this);
     this.handleClickEventTitle = this.handleClickEventTitle.bind(this);
-    this.getInvites = this.getInvites.bind(this);
+    this.getInvitesByUserId = this.getInvitesByUserId.bind(this);
     this.acceptInvite = this.acceptInvite.bind(this);
     this.ignoreInvite = this.ignoreInvite.bind(this);
   }
@@ -193,9 +193,11 @@ export class LoggedInView extends Component {
   }
 
   /* ------------- Invites --------------- */
-  getInvites() {
-    return axios.get('/api/invites')
-      .then(() => {console.log('in getinvites then')})
+  getInvitesByUserId() {
+    return axios.get('/api/invitesByUserId')
+      .then(({ data }) => {
+        this.setState({ invites: data })
+      })
       .catch(err => {console.log('err in get invites', err)})
   }
 
@@ -207,19 +209,17 @@ export class LoggedInView extends Component {
   }
 
   acceptInvite(EventId) {
-    console.log('evemtid', EventId)
     return axios.patch(`/api/acceptInvite/?EventId=${EventId}`)
       .then(() => {
-        console.log('iacceptedzeinvite') 
+        this.getInvitesByUserId();
       })
       .catch(err => { console.log(err) })
   }
 
   ignoreInvite(EventId) {
-    console.log('evemtid', EventId)
     return axios.patch(`/api/ignoreInvite/?EventId=${EventId}`)
       .then(() => {
-        console.log('iignoredtheinvite') 
+        this.getInvitesByUserId();
       })
       .catch(err => { console.log(err) })
   }

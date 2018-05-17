@@ -34,6 +34,19 @@ get.invitesByEmail = (req, res) => {
     .catch(err => {console.log(err)})
 }
 
+get.invitesByUserId = (req, res) => {
+  return db.fetchInvitesByUserId (req.user.id)
+    .then(data => {
+      let eventsQueryArr = data.map(item => ({id: item.dataValues.EventId}))
+      return db.fetchEventsByEventId(eventsQueryArr)
+    })
+    .then(data => {
+      let EventsArr = data.map(item => item.dataValues)
+      res.json(EventsArr);
+    })
+    .catch(err => { console.log(err) })
+}
+
 get.logout = (req, res) => {
   req.logout();
   req.session.destroy();

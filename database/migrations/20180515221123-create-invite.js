@@ -30,12 +30,15 @@ module.exports = {
         }
       },
       seenStatus: {
+        defaultValue: false,
         type: Sequelize.BOOLEAN
       },
       emailStatus: {
         type: Sequelize.BOOLEAN
       },
       joinEventStatus: {
+        allowNull: true,
+        defaultValue: null,
         type: Sequelize.BOOLEAN
       },
       createdAt: {
