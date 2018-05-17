@@ -5,9 +5,11 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING
   }, {});
   Board.associate = function(models) {
-    // associations can be defined here
     Board.belongsTo(models.Event, {
       foreignKey: 'EventId'
+    });
+    Board.hasMany(models.Chat, {
+      foreignKey: 'BoardId'
     });
   };
   return Board;

@@ -61,7 +61,7 @@ export default class NavBar extends Component {
         <div className="nav-links">
           <h3>About Us</h3>
           <h3>How It Works</h3>
-          {this.props.view === 'dashboard' ? <Logout  logout={this.logout} /> : <h3 onClick={this.handleModal.bind(this)}>Login</h3>}
+          {this.props.username !== null ? <Logout  logout={this.logout} /> : <h3 onClick={this.handleModal.bind(this)}>Login</h3>}
         </div>
             {this.state.navView === 'login' 
             ? <Login 

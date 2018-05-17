@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 
 const Logout = (props) => (
-    <Link to="/">
-      <h3 className="logout-nav" onClick={props.logout}>Logout</h3>
-    </Link>
+    <a href="/" className="logout-nav">
+      <h3 onClick={props.logout}>Logout</h3>
+    </a>
 )
 
 export default Logout;

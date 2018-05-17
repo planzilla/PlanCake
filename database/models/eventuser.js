@@ -8,7 +8,6 @@ module.exports = (sequelize, DataTypes) => {
     UserId: DataTypes.INTEGER
   }, {});
   EventUser.associate = function(models) {
-    // associations can be defined here
     EventUser.belongsTo(models.Event, {
       foreignKey: 'EventId'
     });

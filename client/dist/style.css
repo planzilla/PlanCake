@@ -52,7 +52,7 @@ body{
 .body{
   grid-area: 2 / 1 / 12 / 13;
   grid-template-columns: 1fr;
-  grid-template-rows: 1.25fr 1fr 1fr; 
+  grid-template-rows: 2.25fr 1fr 1fr; 
 }
 
 .body img{
@@ -63,6 +63,8 @@ body{
   width: 100%;
   height: auto;
   border-radius: 4px;
+  filter: drop-shadow(0 0 10px #333);
+  
 }
 
 .body .about-us{
@@ -149,7 +151,8 @@ body{
 /*******************/
 
 .how-it-works{
-  grid-row: 2;
+  font-family: 'Delius', cursive;
+  grid-row: 3;
   grid-template-rows: .25fr repeat(2, 1fr);
 }
 
@@ -164,9 +167,37 @@ body{
 }
 
 .about-us{
+  grid-row: 2;
   grid-template-columns: repeat(3, 1fr); 
   grid-template-rows: .25fr repeat(2, 1fr);
   grid-gap: 2em
+}
+
+.about-us .about-title{
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.about-us h1{
+  font-family: 'Delius', cursive;
+}
+
+.about-us .brandon-pic{
+  grid-column: 1;
+  grid-row: 2;
+  filter: drop-shadow(0 0 25px rgb(114, 114, 114));
+}
+
+.about-us .christina-pic{
+  grid-column: 2;
+  grid-row: 2;
+  filter: drop-shadow(0 0 10px #333);
+}
+
+.about-us .will-pic{
+  grid-column: 3;
+  grid-row: 2;
+  filter: drop-shadow(0 0 10px #333);
 }
 
 .sidebar{

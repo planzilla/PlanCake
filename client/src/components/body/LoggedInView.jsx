@@ -39,7 +39,7 @@ export class LoggedInView extends Component {
       createEventEmails: '',
       createEventError: '',
       createEventModalOpen: false,
-      view: 'dashboard',
+      selected: '',
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleAddTopicModalOpenClose = this.handleAddTopicModalOpenClose.bind(this);
@@ -49,6 +49,7 @@ export class LoggedInView extends Component {
     this.clearAllCreateEventInfo = this.clearAllCreateEventInfo.bind(this);
     this.handleClickEventTitle = this.handleClickEventTitle.bind(this);
     this.getInvites = this.getInvites.bind(this);
+    this.setLoggedIn = this.setLoggedIn.bind(this);
   }
 
   componentDidMount() {
@@ -202,6 +203,12 @@ export class LoggedInView extends Component {
 
   /* ----------- Render ------------- */
 
+  /* -----------  MISC  ------------- */
+
+  setLoggedIn(selected) {
+    this.setState({ selected: selected });
+  }
+
   render() {
     if (this.state.events.length === 0) {
       return '...loading??';
@@ -209,7 +216,7 @@ export class LoggedInView extends Component {
       return (
         <BrowserRouter>
           <div className="dashboard grid">
-          <NavBar setUser={this.setUser} view={this.state.view} />
+          <NavBar setUser={this.setUser} view={this.props.userData.username} />
           <SideBar
             topicBoards={this.state.topicBoards}
             handleInputChange={this.handleInputChange}
@@ -223,6 +230,7 @@ export class LoggedInView extends Component {
             createEventError={this.state.createEventError}
             handleClickEventTitle={this.handleClickEventTitle}
             events={this.state.events}
+            setLoggedIn={this.setLoggedIn}
           />
 
         <div className="placeholder">placeholder</div>
@@ -242,6 +250,7 @@ export class LoggedInView extends Component {
             <TopicBoardView
               topicBoards={this.state.topicBoards}
               userData={this.props.userData}
+              selected={this.state.selected}
             /> }
           />
 

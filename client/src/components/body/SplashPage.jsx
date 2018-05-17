@@ -5,15 +5,11 @@ import ContactInfo from '../footer/ContactInfo.jsx';
 export default class SplashPage extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      view: 'login',
-    }
   }
-
   render() {
     return(
       <div className="splash grid">
-        <NavBar setUser={this.props.setUser} view={this.state.view} />
+        <NavBar setUser={this.props.setUser} username={this.props.username} />
           <div className="body grid">
             <img src="splashPhoto.jpg" alt="splashPhoto.jpg"/>
               {/* <div className="how-it-works grid"> */}
@@ -24,13 +20,13 @@ export default class SplashPage extends Component {
                 <div className="how-row2 grid">
                   <h3 className="how-pic2">image 2</h3>
                 </div>
-              </div>
+                </div>*/}
               <div className="about-us grid">
                 <h1 className="about-title jsas">About Us</h1>
-                <h3 className="brandon-pic">Engineer Pic1</h3>
-                <h3 className="christina-pic">Engineer Pic2</h3>
-                <h3 className="will-pic">Engineer Pic3</h3> */}
-              {/* </div> */}
+                <img src="BrandonSp.png" alt="BrandonSp.png" className="brandon-pic"/>
+                <img src="XtinaSp.png" alt="XtinaSp.png" className="christina-pic"/>
+                <img src="WillSp.png" alt="WillSp.png" className="will-pic"/>
+              </div>
           </div>
         <ContactInfo />
       </div>
