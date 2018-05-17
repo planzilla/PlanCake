@@ -1,24 +1,18 @@
 'use strict';
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Invites', {
+    return queryInterface.createTable('Todos', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      email: {
+      text: {
         type: Sequelize.STRING
       },
-      UserId: {
-        type: Sequelize.INTEGER,
-        onDelete: "CASCADE",
-        allowNull: true,
-        references: {
-          model: 'Users',
-          key: 'id'
-        }
+      completed: {
+        type: Sequelize.BOOLEAN
       },
       EventId: {
         type: Sequelize.INTEGER,
@@ -29,14 +23,26 @@ module.exports = {
           key: 'id'
         }
       },
-      seenStatus: {
-        type: Sequelize.BOOLEAN
+      UserId: {
+        type: Sequelize.INTEGER,
+        onDelete: "CASCADE",
+        allowNull: true,
+        references: {
+          model: 'Users',
+          key: 'id'
+        }
       },
-      emailStatus: {
-        type: Sequelize.BOOLEAN
+      AssignerId: {
+        type: Sequelize.INTEGER,
+        onDelete: "CASCADE",
+        allowNull: true,
+        references: {
+          model: 'Users',
+          key: 'id'
+        }
       },
-      joinEventStatus: {
-        type: Sequelize.BOOLEAN
+      deadline: {
+        type: Sequelize.DATE
       },
       createdAt: {
         allowNull: false,
@@ -51,6 +57,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('Invites');
+    return queryInterface.dropTable('Todos');
   }
 };
