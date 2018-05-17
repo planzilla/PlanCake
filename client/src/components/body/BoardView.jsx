@@ -15,13 +15,13 @@ class Chat extends Component{
     this.state = {
       message: '',
       allMessages: [],
-      room: 'chatMessage',
     }
 
     this.socket = io.connect();
 
     this.socket.on('connect', (message) => { //listens for socket to connect
-      console.log('boardview connection', message)
+      // console.log('boardview connection', message)
+      
     });
 
     this.input = this.input.bind(this);
