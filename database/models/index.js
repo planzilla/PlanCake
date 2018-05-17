@@ -71,10 +71,10 @@ db.addEvent = (title, location) => {
   return db.Event.create(query);
 }
 
-db.addInvite = (email, userId, eventId, emailStatus) => {
+db.addInvite = (email, userData, eventId, emailStatus) => {
   const query = {
     email: email,
-    UserId: userId,
+    UserId: userData ? userData.id : null,
     EventId: eventId,
     seenStatus: false,
     emailStatus: emailStatus,
@@ -145,6 +145,13 @@ db.saveUser = (obj) => {
     }
   })
 };
+
+db.updateUserId = (UserId, InviteId) => {
+  return db.Invite.update(
+   {UserId: UserId},
+   {where: {id: InviteId}}
+  );
+}
 
 // sequelize.sync();
 

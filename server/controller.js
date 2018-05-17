@@ -156,7 +156,7 @@ post.sendEmailInvites = (req, res) => {
         userData = res ? res.dataValues : null;
         transporter.sendMail(template(email))
           .then(() => {
-            db.addInvite(email, userData.id, req.body.event.EventId, true, res)
+            db.addInvite(email, userData, req.body.event.EventId, true, res)
           })
           .catch(err => {
             console.log(err);
