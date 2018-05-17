@@ -12,7 +12,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       completed: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       EventId: {
         type: Sequelize.INTEGER,
