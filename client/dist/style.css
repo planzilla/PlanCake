@@ -22,16 +22,16 @@ body{
 
 .splash{
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: .25fr repeat(11, 1fr);
+  grid-template-rows: 50px repeat(11, 1fr);
   grid-gap: .25em;
   height: 225vh;
   width: 80vw;
 }
 
 .dashboard{
-  grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: .25fr repeat(11, 1fr);
-  grid-gap: 0 1em;
+  grid-template-columns: 15% repeat(10, 1fr) 15%;
+  grid-template-rows: 50px repeat(11, 1fr);
+  grid-gap: 1em 1em;
   height: auto;
   width: 80vw;
 }
@@ -72,10 +72,13 @@ body{
   grid-gap: 2rem;
 }
 
-.header{
+.header-navbar{
   grid-area: 1 / 1 / 1 / 13;
   grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: 50px;
   background-color: rgb(255, 255, 255);
+  position: fixed;
+  width: 80%;
 }
 
 .footer{
@@ -86,24 +89,27 @@ body{
 /***    header   ***/
 /*******************/
 
-.header div h3{
-  font-family: 'Delius', cursive;
+.header-navbar div h3{
+  /* font-family: 'Delius', cursive; */
+  font-family: 'Poppins', sans-serif;
 }
 
 .logo{
-  grid-area: 1 / 1 / 2 / 3;
+  grid-area: 1 / 1 / 2 / 1;
   width: auto;
   height: 90%;
+  object-fit: contain;
+  padding: 5px;
 }
 
-.header .img{
+.header-navbar .img{
   grid-column-start: 1;
   grid-column-end: 3;
   height: auto;
   border: 1em;
 }
 
-.header img{
+.header-navbar img{
   width: 100%;
   height: auto;
   max-height: 50px;
@@ -112,6 +118,12 @@ body{
 
 .nav-links{
   grid-area: 1 / 4 / 2 / 7;
+  display: flex;
+  justify-content: space-around;
+}
+
+.nav-links-loggedIn{
+  grid-area: 1 / 6 / 2 / 7;
   display: flex;
   justify-content: space-around;
 }
@@ -134,14 +146,14 @@ body{
   transition: all .3s ease-in-out;
 }
 
-.header div h3:hover{
+.header-navbar div h3:hover{
   color: rgb(209, 201, 171);
 }
 
-.header div{
+.header-navbar div{
   color: rgb(0, 0, 0);
   align-self: center;
-  width: 100%;
+  /* width: 100%; */ /* was messing up nav-links-loggedin*/
 }
 
 /*******************/
@@ -170,18 +182,19 @@ body{
 }
 
 .sidebar{
-  grid-area: 2 / 1 / auto / 3;
+  grid-area: 2 / 1 / auto / 1;
   background-color: #A4DCD3;
   border-radius: 3px;
   min-height: 90vh;
 }
 
 .event-cards{
-  grid-area: 2 / 3 / auto / 11;
+  grid-area: 2 / 2 / auto / 12;
+  z-index: -1;
 }
 
 .placeholder{
-  grid-area: 2 / 11 / auto / 13;
+  grid-area: 2 / 12 / auto / 13;
   background-color: #E07F6F;
   border-radius: 3px;
   min-height: 90vh;
