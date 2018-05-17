@@ -71,16 +71,16 @@ db.addEvent = (title, location) => {
   return db.Event.create(query);
 }
 
-db.addInvite = (email, userData, event, emailStatus) => {
+db.addInvite = (email, userData, eventId, emailStatus) => {
   const query = {
     email: email,
-    UserId: userData,
-    EventId: event.EventId,
-    seenStatus: false,
-    emailStatus: emailStatus
+    UserId: userData ? userData.id : null,
+    EventId: eventId,
+    emailStatus: emailStatus,
   }
   
-  return db.Invite.create(query);
+  return db.Invite.create(query)
+    .catch(err => {console.log(err)})
 }
 
 db.addUserToEvent = (event, user) => {
@@ -91,6 +91,27 @@ db.addUserToEvent = (event, user) => {
 
   return db.EventUser.create(query);
 }
+
+db.fetchEventsByEventId = (eventIdArr) => db.Event.findAll({
+  where: {
+    $or : eventIdArr
+  },
+  order: [
+    ['createdAt', 'DESC'],
+  ],
+})
+
+db.fetchInvitesByEmail = (email) => db.Invite.findAll({ 
+  where: {
+    email: email,
+    joinEventStatus: null
+  } 
+});
+
+db.fetchInvitesByUserId = (UserId) => db.Invite.findAll({where: {
+  UserId: UserId,
+  joinEventStatus: null
+}})
 
 db.fetchUser = (username) =>  db.User.findOne({ where: {username: username}});
 
@@ -132,6 +153,33 @@ db.saveUser = (obj) => {
     }
   })
 };
+
+db.updateUserId = (UserId, InviteId) => {
+  return db.Invite.update(
+   {UserId: UserId},
+   {where: {id: InviteId}}
+  );
+}
+
+db.updateJoinEventStatusAccept = (UserId, EventId) => {
+  return db.Invite.update(
+    {joinEventStatus: true}, 
+    {where: {
+      UserId: UserId,
+      EventId: EventId
+    }}
+  )
+}
+
+db.updateJoinEventStatusIgnore = (UserId, EventId) => {
+  return db.Invite.update(
+    {joinEventStatus: false}, 
+    {where: {
+      UserId: UserId,
+      EventId: EventId
+    }}
+  )
+}
 
 // sequelize.sync();
 

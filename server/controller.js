@@ -16,9 +16,35 @@ const patch = {};
 // }
 
 /* -------- GET REQUESTS --------- */
-get.invites = (req, res) => {
-  console.log('in get invites');
-  res.end();
+get.invitesByEmail = (req, res) => {
+  return db.fetchInvitesByEmail(req.user.email)
+    .then(data => {
+      data.forEach((invite) => invite.dataValues.UserId 
+        ? null 
+        : db.updateUserId(req.user.id, invite.id))
+
+      let eventsQueryArr = data.map(item => ({id: item.dataValues.EventId}))
+      
+      return db.fetchEventsByEventId(eventsQueryArr)
+    })
+    .then(data => {
+      let EventsArr = data.map(item => item.dataValues)
+      res.json(EventsArr);
+    })
+    .catch(err => {console.log(err)})
+}
+
+get.invitesByUserId = (req, res) => {
+  return db.fetchInvitesByUserId (req.user.id)
+    .then(data => {
+      let eventsQueryArr = data.map(item => ({id: item.dataValues.EventId}))
+      return db.fetchEventsByEventId(eventsQueryArr)
+    })
+    .then(data => {
+      let EventsArr = data.map(item => item.dataValues)
+      res.json(EventsArr);
+    })
+    .catch(err => { console.log(err) })
 }
 
 get.logout = (req, res) => {
@@ -27,7 +53,7 @@ get.logout = (req, res) => {
   res.redirect('/');
 };
 
-get.topicBoards = (req, res) => {
+get.topicBoard = (req, res) => {
   return db.Board.findAll({
     where: req.query
   })
@@ -67,7 +93,23 @@ get.userEvents = (req, res) => {
 }
 
 /* -------- PATCH REQUESTS --------- */
+patch.acceptInvite = (req, res) => {
+  return db.updateJoinEventStatusAccept(req.user.id, req.query.EventId)
+    .then(() => {
+      console.log('accepted invite');
+      res.end();
+    })
+    .catch(err => { console.log(err) })
+}
 
+patch.ignoreInvite = (req, res) => {
+  return db.updateJoinEventStatusIgnore(req.user.id, req.query.EventId)
+    .then(() => {
+      console.log('ignored invite');
+      res.end();
+    })
+    .catch(err => { console.log(err) })
+}
 
 /* -------- POST REQUESTS --------- */
 
@@ -138,9 +180,9 @@ post.sendEmailInvites = (req, res) => {
     return db.fetchUserByEmail(email)
       .then(res => {
         userData = res ? res.dataValues : null;
-        return transporter.sendMail(template(email))
+        transporter.sendMail(template(email))
           .then(() => {
-            db.addInvite(email, userData, req.body.event, true, res)
+            db.addInvite(email, userData, req.body.event.EventId, true, res)
           })
           .catch(err => {
             console.log(err);
