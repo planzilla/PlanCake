@@ -28,7 +28,8 @@ export default class Dashboard extends Component {
                   location={event.location} 
                   id={event.id} 
                   key={i} 
-                  handleClickEventTitle={this.props.handleClickEventTitle}  
+                  handleClickEventTitle={this.props.handleClickEventTitle}
+                  todos={this.props.todos}
                 />
                 <br />
                 </div>

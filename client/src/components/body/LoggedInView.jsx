@@ -17,6 +17,7 @@ export class LoggedInView extends Component {
     super(props);
     this.state = {
       currentEvent: {},
+      currentTodo: {},
       events: [{
         id: '',
         title: '',
@@ -31,6 +32,15 @@ export class LoggedInView extends Component {
         createdAt: null,
         updatedAt: null
       }],
+      todos: [{
+        id: null,
+        text: null,
+        completed: null,
+        EventId: null,
+        UserId: null,
+        AssignerId: null,
+        deadline: null
+      }],
       addTopicTitle: '',
       addTopicModalOpen: false,
       addTopicError: '',
@@ -39,7 +49,6 @@ export class LoggedInView extends Component {
       createEventEmails: '',
       createEventError: '',
       createEventModalOpen: false,
-      view: 'dashboard',
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleAddTopicModalOpenClose = this.handleAddTopicModalOpenClose.bind(this);
@@ -56,6 +65,11 @@ export class LoggedInView extends Component {
     axios.get('/api/userEvents')
       .then(result => {
         this.setState({ events: result.data });
+      });
+    axios.get('/api/todos')
+      .then(result => {
+        console.log('todos in LIV: ', result.data);
+        this.setState({ todos: result.data });
       });
     this.getInvites();
   }
@@ -91,6 +105,7 @@ export class LoggedInView extends Component {
         this.setState({ topicBoards: data });
       });
   }
+
 
   /* -------------- AddTopic -------------- */
   handleAddTopicModalOpenClose() {
@@ -231,11 +246,13 @@ export class LoggedInView extends Component {
             <Dashboard 
               events={this.state.events} 
               handleClickEventTitle={this.handleClickEventTitle}
+              todos={this.state.todos}
               /> } />
           <Route path="/events/:id" render={() => 
             <EventSummary 
               topicBoards={this.state.topicBoards}  
               event={this.state.currentEvent} 
+              todos={this.state.todos}
             /> } 
           />
           <Route path="/board/:id" render={() => 

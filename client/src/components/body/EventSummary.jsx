@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Card, Icon } from 'semantic-ui-react';
+import Todo from './Todo.jsx';
 
 export default class EventSummary extends Component {
   constructor(props) {
@@ -14,6 +15,11 @@ export default class EventSummary extends Component {
         <Card.Content header={this.props.event.title} />
         <Card.Content>
           <h5>{this.props.event.location}</h5>
+          <Todo 
+            todos={this.props.todos} 
+            
+          />
+
 
 
 

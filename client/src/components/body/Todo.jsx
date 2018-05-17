@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-export class Todo extends Component {
+export default class Todo extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -8,21 +8,23 @@ export class Todo extends Component {
 
 
 
-
   render() {
     return (
       <div>
         <h3>Your To-Do List</h3>
-          {this.props.todos.map((todo, i) => {
-            return(
-              <p>to-do</p>
+          {this.props.todos.map(todo => {
+            console.log(todo);
+            return (
+              <div>
+                <h1>hello</h1>
+                <p>{todo.text}</p>
+                <p>{todo.deadline}</p>
+              </div>
             )
-          })
-        }
-
-
+          })}
       </div>
-
     )
   }
 }
+
+
