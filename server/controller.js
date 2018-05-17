@@ -16,9 +16,23 @@ const patch = {};
 // }
 
 /* -------- GET REQUESTS --------- */
-get.invites = (req, res) => {
-  console.log('in get invites');
-  res.end();
+get.invitesByEmail = (req, res) => {
+  console.log('in get invites req.user', req.user);
+  return db.fetchInvitesByEmail(req.user.email)
+    .then(data => {
+      data.forEach((invite) => invite.dataValues.UserId 
+        ? null 
+        : db.updateUserId(req.user.id, invite.id))
+
+      let eventsQueryArr = data.map(item => ({id: item.dataValues.EventId}))
+      
+      return db.fetchEventsByEventId(eventsQueryArr)
+    })
+    .then(data => {
+      let EventsArr = data.map(item => item.dataValues)
+      res.json(EventsArr);
+    })
+    .catch(err => {console.log(err)})
 }
 
 get.logout = (req, res) => {
@@ -138,9 +152,9 @@ post.sendEmailInvites = (req, res) => {
     return db.fetchUserByEmail(email)
       .then(res => {
         userData = res ? res.dataValues : null;
-        return transporter.sendMail(template(email))
+        transporter.sendMail(template(email))
           .then(() => {
-            db.addInvite(email, userData, req.body.event, true, res)
+            db.addInvite(email, userData.id, req.body.event.EventId, true, res)
           })
           .catch(err => {
             console.log(err);

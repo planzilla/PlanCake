@@ -162,10 +162,10 @@ export class LoggedInView extends Component {
           this.sendEmailInvites(emails, data);
         }
         return axios.get('/api/userEvents')
-          .then(result => {
-            this.setState({ events: result.data });
-            this.handleCreateEventModalOpenClose();
-          });
+      })
+      .then(result => {
+        this.setState({ events: result.data });
+        this.handleCreateEventModalOpenClose();
       })
       .catch((err) => {
         this.setState({

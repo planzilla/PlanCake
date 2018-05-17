@@ -71,11 +71,11 @@ db.addEvent = (title, location) => {
   return db.Event.create(query);
 }
 
-db.addInvite = (email, userData, event, emailStatus) => {
+db.addInvite = (email, userId, eventId, emailStatus) => {
   const query = {
     email: email,
-    UserId: userData,
-    EventId: event.EventId,
+    UserId: userId,
+    EventId: eventId,
     seenStatus: false,
     emailStatus: emailStatus
   }
@@ -92,7 +92,7 @@ db.addUserToEvent = (event, user) => {
   return db.EventUser.create(query);
 }
 
-db.fetchEventsByEvenId = (eventIdArr) => db.Event.findAll({
+db.fetchEventsByEventId = (eventIdArr) => db.Event.findAll({
   where: {
     $or : eventIdArr
   },
