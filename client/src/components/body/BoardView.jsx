@@ -15,6 +15,7 @@ class Chat extends Component{
     this.state = {
       message: '',
       allMessages: [],
+      room: 'chatMessage',
     }
 
     this.socket = io.connect();
