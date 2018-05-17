@@ -19,6 +19,7 @@ router.post('/api/addTopicBoard', controller.post.addTopicBoard);
 // INVITE RELATED ROUTES
 router.get('/api/invitesByEmail', controller.get.invitesByEmail);
 router.post('/api/sendEmailInvites', controller.post.sendEmailInvites);
+router.patch('/api/acceptInvite', controller.patch.acceptInvite);
 
 // router.post('/api/signup', controller.post.signup);
 

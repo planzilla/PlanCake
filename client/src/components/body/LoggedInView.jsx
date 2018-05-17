@@ -50,6 +50,7 @@ export class LoggedInView extends Component {
     this.clearAllCreateEventInfo = this.clearAllCreateEventInfo.bind(this);
     this.handleClickEventTitle = this.handleClickEventTitle.bind(this);
     this.getInvites = this.getInvites.bind(this);
+    this.acceptInvite = this.acceptInvite.bind(this);
   }
 
   componentDidMount() {
@@ -60,7 +61,6 @@ export class LoggedInView extends Component {
 
     axios.get('/api/invitesByEmail')
       .then(({ data }) => {
-        console.log('data invites', data)
         this.setState({ invites: data })
       })
       .catch(err => {console.log('err in get invites', err)})
@@ -192,7 +192,7 @@ export class LoggedInView extends Component {
   }
 
   /* ------------- Invites --------------- */
-  getInvites(){
+  getInvites() {
     return axios.get('/api/invites')
       .then(() => {console.log('in getinvites then')})
       .catch(err => {console.log('err in get invites', err)})
@@ -205,18 +205,26 @@ export class LoggedInView extends Component {
     })
   }
 
+  acceptInvite() {
+    return axios.patch('/api/acceptInvite')
+      .then(() => {
+        console.log('iacceptedzeinvite')
+      })
+  }
+
   /* ----------- Render ------------- */
 
   render() {
-    if (this.state.events.length === 0) {
-      return '...loading??';
-    } else {
+    // if (this.state.events.length === 0) {
+    //   return '...loading??';
+    // } else {
       return (
         <BrowserRouter>
           <div className="dashboard grid">
           <NavBar 
             view={this.state.view}
             invites={this.state.invites}
+            acceptInvite={this.acceptInvite}
             />
           <SideBar
             topicBoards={this.state.topicBoards}
@@ -261,7 +269,7 @@ export class LoggedInView extends Component {
       )
     }
   }
-}
+// }
 
 // for redux but doesnt play along nicely so commented
 // LoggedInView.propTypes = {

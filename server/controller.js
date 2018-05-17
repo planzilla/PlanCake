@@ -17,7 +17,6 @@ const patch = {};
 
 /* -------- GET REQUESTS --------- */
 get.invitesByEmail = (req, res) => {
-  console.log('in get invites req.user', req.user);
   return db.fetchInvitesByEmail(req.user.email)
     .then(data => {
       data.forEach((invite) => invite.dataValues.UserId 
@@ -81,7 +80,10 @@ get.userEvents = (req, res) => {
 }
 
 /* -------- PATCH REQUESTS --------- */
-
+patch.acceptInvite = (req, res) => {
+  console.log('inacceptinvite');
+  res.end();
+}
 
 /* -------- POST REQUESTS --------- */
 

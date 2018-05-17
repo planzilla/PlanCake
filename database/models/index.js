@@ -77,10 +77,12 @@ db.addInvite = (email, userId, eventId, emailStatus) => {
     UserId: userId,
     EventId: eventId,
     seenStatus: false,
-    emailStatus: emailStatus
+    emailStatus: emailStatus,
+    joinEventStatus: false,
   }
   
-  return db.Invite.create(query);
+  return db.Invite.create(query)
+    .catch(err => {console.log(err)})
 }
 
 db.addUserToEvent = (event, user) => {

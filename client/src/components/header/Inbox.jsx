@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dropdown, Button } from 'semantic-ui-react';
 
-const Inbox = ({ invites }) => (
+const Inbox = ({ invites, acceptInvite }) => (
   <Dropdown icon='mail outline'>
     <Dropdown.Menu>
       {invites.length === 0
@@ -15,7 +15,8 @@ const Inbox = ({ invites }) => (
             <i>{invite.location}</i>
             <br /><br />
             <Button.Group>
-              <Button color='teal'> Accept</Button>
+              {console.log('acceptinvite', acceptInvite)}
+              <Button color='teal' onClick={acceptInvite}> Accept</Button>
               <Button.Or />
               <Button>Ignore</Button>
             </Button.Group>

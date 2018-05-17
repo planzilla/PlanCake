@@ -60,7 +60,12 @@ export default class NavBar extends Component {
           {
             this.props.view === 'dashboard'
               ? <div className="nav-links">
-                <h3><Inbox invites={this.props.invites} /></h3>
+                <h3>
+                  <Inbox 
+                  invites={this.props.invites} 
+                  acceptInvite={this.props.acceptInvite}
+                  />
+                </h3>
                 <Logout logout={this.logout} />
                 </div>
                 //TODO:NEED TO ROUTE TO PAGE INSTEAD
