@@ -67,7 +67,7 @@ export default class SideBar extends Component {
                 <div key={i}>
                   <Accordion.Title active={activeIndex === i} index={i} onClick={(e, titleProps) => {this.handleClick(e, titleProps, event)}}>
                     <Icon name='dropdown' />
-                    <Link to={`/events/${event.id}`} component={ EventSummary }>
+                    <Link to={`/events`} component={ EventSummary }>
                       <b>{event.title}</b>
                     </Link>
                   </Accordion.Title>

@@ -19,6 +19,7 @@ const io = require('socket.io').listen(server);
 
 const reactApp = express.static(path.join(__dirname, '/../client/dist'));
 
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan);
@@ -29,7 +30,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(loggedOutRedirect);
 app.use(router);
-app.get('*', express.static(`${__dirname}/../client/dist`));
+app.get('*', function(req, res) {
+  res.sendFile(path.join(__dirname, '/../client/dist/index.html'));
+});
+// app.get('*', express.static(`${__dirname}/../client/dist`));
 
 io.on('connection', (socket) => {
   let room;
