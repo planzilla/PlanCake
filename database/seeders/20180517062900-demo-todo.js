@@ -5,6 +5,7 @@ module.exports = {
     return queryInterface.bulkInsert('Todos',
     [
       {
+        groupTodo: true,
         text: 'Book flights',
         completed: true,
         EventId: 1,
@@ -13,6 +14,7 @@ module.exports = {
         deadline: '2018-05-17'
       },
       {
+        groupTodo: true,
         text: 'Book flights',
         completed: true,
         EventId: 1,
@@ -21,6 +23,7 @@ module.exports = {
         deadline: '2018-05-17'
       },
       {
+        groupTodo: true,
         text: 'Book flights',
         completed: true,
         EventId: 1,
@@ -29,6 +32,7 @@ module.exports = {
         deadline: '2018-05-17'
       },
       {
+        groupTodo: true,
         text: 'Pay Ralph for airbnb',
         completed: false,
         EventId: 1,
@@ -37,6 +41,7 @@ module.exports = {
         deadline: '2018-05-15'
       },
       {
+        groupTodo: true,
         text: 'Pay Ralph for airbnb',
         completed: false,
         EventId: 1,
@@ -45,6 +50,7 @@ module.exports = {
         deadline: '2018-05-15'
       },
       {
+        groupTodo: true,
         text: 'Pay Ralph for airbnb',
         completed: false,
         EventId: 1,
@@ -53,6 +59,7 @@ module.exports = {
         deadline: '2018-05-15'
       },
       {
+        groupTodo: false,
         text: 'Buy your ticket!!',
         completed: false,
         EventId: 3,
@@ -61,6 +68,7 @@ module.exports = {
         deadline: '2018-06-02'
       },
       {
+        groupTodo: false,
         text: 'Buy your ticket!!',
         completed: false,
         EventId: 3,
@@ -69,6 +77,7 @@ module.exports = {
         deadline: '2018-06-02'
       },
       {
+        groupTodo: false,
         text: 'Buy your ticket!!',
         completed: false,
         EventId: 2,

@@ -16,6 +16,15 @@ const patch = {};
 // }
 
 /* -------- GET REQUESTS --------- */
+get.groupTodo = (req, res) => {
+  return db.groupTodo(1)
+    .then((data) => {
+      let todoArr = data.map(item => item.dataValues);
+      res.json(todoArr)
+    })
+    .catch(err => {console.log(err)})
+}
+
 get.invitesByEmail = (req, res) => {
   return db.fetchInvitesByEmail(req.user.email)
     .then(data => {
@@ -99,7 +108,6 @@ get.todos = (req, res) => {
   })
     .then(data => {
       let todoArr = data.map(item => item.dataValues);
-      console.log('todoArr:', todoArr);
       res.json(todoArr);
     })
     .catch(error => {

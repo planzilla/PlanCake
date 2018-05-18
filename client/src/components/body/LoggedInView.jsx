@@ -73,7 +73,7 @@ export class LoggedInView extends Component {
       
     axios.get('/api/todos')
       .then(result => {
-        console.log('todos in LIV: ', result.data);
+        // console.log('todos in LIV: ', result.data);
         this.setState({ todos: result.data });
       });
 
@@ -82,6 +82,12 @@ export class LoggedInView extends Component {
         this.setState({ invites: data })
       })
       .catch(err => {console.log('err in get invites', err)})
+
+    axios.get('/api/groupTodo')
+    .then(({ data }) => {
+      console.log('in grouptodo', data)
+    })
+    .catch(err => {console.log('err in grouptodo', err)})
   }
 
   // componentWillReceiveProps(nextProps) {

@@ -12,10 +12,13 @@ router.get('/api/logout', controller.get.logout);
 router.get('/api/userEvents', controller.get.userEvents);
 router.get('/api/topicBoard', controller.get.topicBoard);
 router.post('/api/createEvent', controller.post.createEvent);
-router.get('/api/todos', controller.get.todos);
 
 router.post('/api/addUserToEvent', controller.post.addUserToEvent);
 router.post('/api/addTopicBoard', controller.post.addTopicBoard);
+
+// T0DO RELATED ROUTES
+router.get('/api/todos', controller.get.todos);
+router.get('/api/groupTodo', controller.get.groupTodo);
 
 // INVITE RELATED ROUTES
 router.get('/api/invitesByEmail', controller.get.invitesByEmail);

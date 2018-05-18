@@ -15,11 +15,13 @@ export default class Todo extends Component {
           {this.props.todos.map(todo => {
             if (todo.EventId === this.props.event.id) {
               // let date = moment(todo.deadline, "DD MMMM YY");
-              console.log(todo);
+              // console.log(todo);
               return (
                 <div>
-                  <p><Checkbox label={todo.text} /> 
+                  <p><Checkbox label={todo.text} />
+                  <br/>
                   due: {moment(todo.deadline).format("DD MMMM YY")}
+                  <br/>
                   </p>
                 </div>
               )
