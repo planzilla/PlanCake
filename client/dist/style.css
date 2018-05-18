@@ -328,3 +328,21 @@ body{
   max-height: 90vh;
   width: auto;
 }
+
+.table-container{
+  width: 100%;
+  max-height: 400px;
+  overflow: auto;
+}
+
+.table{
+  min-width: 100px;
+}
+
+.table-col-task{
+  min-width: 150px; 
+}
+
+.table-col{
+  min-width: 80px;
+}
