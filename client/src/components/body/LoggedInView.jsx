@@ -19,6 +19,7 @@ export class LoggedInView extends Component {
       currentEvent: {},
       currentTodo: {},
       invites: [], //array of events
+      eventAttendees: [],
       events: [{
         id: '',
         title: '',
@@ -78,7 +79,6 @@ export class LoggedInView extends Component {
       
     axios.get('/api/todos')
       .then(result => {
-        console.log('todos in LIV: ', result.data);
         this.setState({ todos: result.data });
       });
 
@@ -118,8 +118,15 @@ export class LoggedInView extends Component {
       .then(({ data }) => {
         this.setState({ topicBoards: data });
       });
+    this.fetchEventAttendees(event);
   }
 
+  fetchEventAttendees(event) {
+    axios.get(`/api/eventAttendees?EventId=${event.id}`)
+      .then(({data}) => {
+        this.setState({ eventAttendees: data });
+      });
+  }
 
   /* -------------- AddTopic -------------- */
   handleAddTopicModalOpenClose() {
@@ -306,7 +313,7 @@ export class LoggedInView extends Component {
               topicBoards={this.state.topicBoards}  
               event={this.state.currentEvent} 
               todos={this.state.todos}
-
+              eventAttendees={this.state.eventAttendees}
             /> } 
           />
           <Route path="/board/:id" render={() => 

@@ -11,24 +11,19 @@ export default class EventSummary extends Component {
     this.state = {
       addTodoModalOpen: false,
       addTodoError: null,
+      eventAttendees: [],
       todoData: {
         addTodoTask: '',
         assignTo: '',
         assignee: '',
         date: '',
       }
-
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleAddTodo = this.handleAddTodo.bind(this);
     this.handleAddTodoModalOpenClose = this.handleAddTodoModalOpenClose.bind(this);
     this.postAddTodo = this.postAddTodo.bind(this);
   }
-  
-
-  // addTodoModalOpen() {
-
-  // }
 
   handleAddTodoModalOpenClose() {
     let openCloseState = this.state.addTodoModalOpen;
@@ -59,9 +54,8 @@ export default class EventSummary extends Component {
       })
   }
 
-
-
   render() {
+    console.log('eventsumm render: ', this.props.eventAttendees);
     return (
       <div className="event-cards">
       <Card fluid color="teal">
@@ -74,14 +68,12 @@ export default class EventSummary extends Component {
             handleAddTodoModalOpenClose={this.handleAddTodoModalOpenClose}
             addTodoModalOpen={this.state.addTodoModalOpen}
             event={this.props.event}
+            eventAttendees={this.props.eventAttendees}
           />
           <Todo 
             todos={this.props.todos} 
             event={this.props.event}
           />
-
-
-
 
         </Card.Content>
         <Card.Content extra>
@@ -92,7 +84,4 @@ export default class EventSummary extends Component {
       </div>
     )
   }
-
-
-
 }
