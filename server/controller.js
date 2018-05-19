@@ -233,6 +233,10 @@ post.signup = (req, res) => {
     })
 };
 
+post.todos = (req, res) => {
+  // return db.Todo()
+}
+
 module.exports.get = get;
 module.exports.post = post;
 module.exports.patch = patch;

@@ -13,6 +13,7 @@ router.get('/api/userEvents', controller.get.userEvents);
 router.get('/api/topicBoard', controller.get.topicBoard);
 router.post('/api/createEvent', controller.post.createEvent);
 router.get('/api/todos', controller.get.todos);
+router.post('/api/todos', controller.post.todos);
 
 router.post('/api/addUserToEvent', controller.post.addUserToEvent);
 router.post('/api/addTopicBoard', controller.post.addTopicBoard);
