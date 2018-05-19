@@ -56,7 +56,7 @@ export default class NavBar extends Component {
   render() {
     return (
       <div className="header-navbar grid">
-        <img className="logo jsas" src="plancakepng.png" />
+        <img className="logo jsas" src="plancakepng_white.png" />
           {
             this.props.username !== null
               ? <div className="nav-links-loggedIn">

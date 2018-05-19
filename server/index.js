@@ -5,6 +5,7 @@ const app = express();
 const server = http.createServer(app);
 
 const path = require('path');
+const db = require('../database/models/index.js');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const morgan = require('./middleware/morgan');
@@ -33,16 +34,18 @@ app.get('*', express.static(`${__dirname}/../client/dist`));
 
 io.on('connection', (socket) => {
   let room;
-  socket.on('room', (roomname) => {
-    room = roomname;
+  socket.on('room', (user) => {
+    room = (17 << 2).toString().concat(user.boardId + ' ' + user.roomname);
     io.emit('room', room);
     socket.join(room);
-    io.sockets.in(room).emit('chatMessage', `connected to ${roomname.slice(2)}`);
+    user.text = `${user.username} connected to ${user.roomname}...`
+    io.sockets.in(room).emit('enterRoom', user);
     console.log('joined room', room);
   });
-  socket.on('chatMessage', (message) => {
-    console.log('Server message is:', message);
-    io.sockets.in(room).emit('chatMessage', message);
+  socket.on('chatMessage', (user) => {
+    console.log('Server message is:', user.text);
+    db.addChat(user.userId, user.boardId, user.text);
+    io.sockets.in(room).emit('chatMessage', user);
   });
   socket.on('disconnect', () => {
     console.log('user disconnected');
@@ -51,3 +54,4 @@ io.on('connection', (socket) => {
 
 server.listen(PORT, () => { console.log(`Listening on port ${PORT}`); });
 module.exports = app;
+

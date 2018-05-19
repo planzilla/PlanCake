@@ -6,11 +6,13 @@
   font-size: 1rem;
   margin: 0;
   box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
 
 body{
   display: flex;
   justify-content: center;
+  background-color: #fffbf6;
 }
 
 #app{
@@ -24,7 +26,7 @@ body{
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: 50px repeat(11, 1fr);
   grid-gap: .25em;
-  height: 225vh;
+  height: 2000px;
   width: 80vw;
 }
 
@@ -70,20 +72,23 @@ body{
 .body .about-us{
   grid-row: 2;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: .25fr repeat(2, 1fr);
-  grid-gap: 2rem;
+  grid-template-rows: .25fr 1fr .1fr 1fr;
+  grid-gap: 1rem 2rem;
+  margin: 0 5em 0 5em;
 }
 
 .header-navbar{
   grid-area: 1 / 1 / 1 / 13;
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: 50px;
-  background-color: rgb(255, 255, 255);
+  background-color: #A4DCD3;
   position: fixed;
   width: 80%;
+  max-width: 80vw;
   z-index: 2;
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
+  filter: drop-shadow(0 0 5px #aaaaaa80)
 }
 
 .footer{
@@ -98,6 +103,7 @@ body{
 
 .header-navbar div h3{
   font-family: 'Poppins', sans-serif;
+  color: white;
 }
 
 .logo{
@@ -106,13 +112,6 @@ body{
   height: 90%;
   object-fit: contain;
   padding: 5px;
-}
-
-.header-navbar .img{
-  grid-column-start: 1;
-  grid-column-end: 3;
-  height: auto;
-  border: 1em;
 }
 
 .header-navbar img{
@@ -153,7 +152,7 @@ body{
 }
 
 .header-navbar div h3:hover{
-  color: rgb(209, 201, 171);
+  color: rgb(121, 121, 121);
 }
 
 .header-navbar div{
@@ -182,10 +181,17 @@ body{
   grid-row: 3;
 }
 
+.about-us h3{
+  margin: 0 !important;
+}
+
+.about-us h1{
+  margin: 0 !important;
+}
+
 .about-us .about-title{
   grid-column: 2;
   grid-row: 1;
-  padding-top: 100px;
   margin-top: 50px;
 }
 
@@ -196,48 +202,73 @@ body{
 .about-us .brandon-pic{
   grid-column: 1;
   grid-row: 2;
-  filter: drop-shadow(0 0 25px rgb(114, 114, 114));
+  filter: drop-shadow(0 0 10px rgb(114, 114, 114));
 }
 
 .about-us .christina-pic{
   grid-column: 2;
   grid-row: 2;
-  filter: drop-shadow(0 0 25px rgb(114, 114, 114));
+  filter: drop-shadow(0 0 10px rgb(114, 114, 114));
 }
 
 .about-us .will-pic{
   grid-column: 3;
   grid-row: 2;
-  filter: drop-shadow(0 0 25px rgb(114, 114, 114));
+  filter: drop-shadow(0 0 10px rgb(114, 114, 114));
 }
 
-.about-us .brandon-about{
+.about-us .brandon-about-name{
   grid-row: 3;
   grid-column: 1;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+}
+
+.about-us .xtina-about-name{
+  grid-row: 3;
+  grid-column: 2;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+}
+
+.about-us .will-about-name{
+  grid-row: 3;
+  grid-column: 3;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+}
+.about-us .brandon-about{
+  grid-row: 4;
+  grid-column: 1;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
 }
 
 .about-us .xtina-about{
-  grid-row: 3;
+  grid-row: 4;
   grid-column: 2;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
 }
 
 .about-us .will-about{
-  grid-row: 3;
+  grid-row: 4;
   grid-column: 3;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
 }
 
 .sidebar{
   grid-area: 2 / 1 / auto / 1;
-  background-color: #A4DCD3;
   border-radius: 3px;
   min-height: 90vh;
-  filter: drop-shadow(0 0 10px rgb(157, 155, 155));
+  filter: drop-shadow(0 0 3px rgb(157, 155, 155));
 }
 
 .event-cards{
   grid-area: 2 / 2 / auto / 12;
   z-index: 1;
-  filter: drop-shadow(0 0 4px rgb(157, 155, 155));
+  filter: drop-shadow(0 0 2px rgb(157, 155, 155));
 }
 
 .chat-view{
@@ -246,10 +277,10 @@ body{
 
 .placeholder{
   grid-area: 2 / 12 / auto / 13;
-  background-color: #E07F6F;
+  /* background-color: #E07F6F; */
   border-radius: 3px;
   min-height: 90vh;
-  filter: drop-shadow(0 0 4px rgb(157, 155, 155));
+  /* filter: drop-shadow(0 0 4px rgb(157, 155, 155)); */
 }
 
 
@@ -292,13 +323,13 @@ body{
 }
 
 #messages{
-  grid-row: 1;
   overflow: auto;
+  grid-row: 1;
+  overflow-x: hidden;
 }
 
 .user-message{
   text-align: right;
-  margin-right: 6em;
   margin-top: 17px;
   margin-bottom: 17px;
 }
@@ -308,18 +339,19 @@ body{
   margin-bottom: 17px;
 }
 
-.user-message span{
+.user-message span p{
   background-color: #A4DCD3;
   padding: .4rem;
   border-radius: 6px;
-  box-shadow: 2px 2px rgb(213, 212, 212);
+  box-shadow: 2px 2px 2px rgb(213, 212, 212);
+  width: auto;
 }
 
 .received-message span{
   background-color: #FB9C65;
   padding: .4rem;
   border-radius: 6px;
-  box-shadow: 2px 2px rgb(213, 212, 212);
+  box-shadow: 2px 2px 2px rgb(213, 212, 212);
 }
 
 .chat{
@@ -327,4 +359,26 @@ body{
   grid-template-rows: 1fr 50px;
   max-height: 90vh;
   width: auto;
+}
+
+#semantic-button{
+  margin: .5em;
+  padding: 1em 0;
+  text-align: center;
+  width: calc(100% - 1em);
+  filter: drop-shadow(0 0 2px #aaaaaa80)
+}
+
+#semantic-button-small{
+  margin: 0 0 .5em 1.25em;
+  filter: drop-shadow(0 0 2px #aaaaaa80)
+}
+
+.topic-board-link{
+  margin: .5em 0 .5em 1.25em;
+}
+
+.chat-connected{
+  text-align: center;
+  padding: .4rem;
 }

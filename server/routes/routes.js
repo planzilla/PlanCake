@@ -24,4 +24,7 @@ router.post('/api/sendEmailInvites', controller.post.sendEmailInvites);
 router.patch('/api/acceptInvite', controller.patch.acceptInvite);
 router.patch('/api/ignoreInvite', controller.patch.ignoreInvite);
 
+// CHAT RELATED ROUTES
+router.get('/api/getChatMessages', controller.get.chatMessages)
+
 module.exports = router;

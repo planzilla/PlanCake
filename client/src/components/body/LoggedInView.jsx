@@ -51,6 +51,7 @@ export class LoggedInView extends Component {
       createEventError: '',
       createEventModalOpen: false,
       selected: '',
+      boardId: null,
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleAddTopicModalOpenClose = this.handleAddTopicModalOpenClose.bind(this);
@@ -59,7 +60,7 @@ export class LoggedInView extends Component {
     this.handleCreateEvent = this.handleCreateEvent.bind(this);
     this.clearAllCreateEventInfo = this.clearAllCreateEventInfo.bind(this);
     this.handleClickEventTitle = this.handleClickEventTitle.bind(this);
-    this.setLoggedIn = this.setLoggedIn.bind(this);
+    this.setSelectedBoard = this.setSelectedBoard.bind(this);
     this.getInvitesByUserId = this.getInvitesByUserId.bind(this);
     this.acceptInvite = this.acceptInvite.bind(this);
     this.ignoreInvite = this.ignoreInvite.bind(this);
@@ -246,8 +247,11 @@ export class LoggedInView extends Component {
 
   /* -----------  MISC  ------------- */
 
-  setLoggedIn(selected) {
-    this.setState({ selected: selected });
+  setSelectedBoard(selected, boardId) {
+    this.setState({ 
+      selected: selected,
+      boardId: boardId
+     });
   }
 
   render() {
@@ -278,7 +282,7 @@ export class LoggedInView extends Component {
             createEventError={this.state.createEventError}
             handleClickEventTitle={this.handleClickEventTitle}
             events={this.state.events}
-            setLoggedIn={this.setLoggedIn}
+            setSelectedBoard={this.setSelectedBoard}
           />
 
         <div className="placeholder"></div>
@@ -301,6 +305,8 @@ export class LoggedInView extends Component {
               topicBoards={this.state.topicBoards}
               userData={this.props.userData}
               selected={this.state.selected}
+              username={this.props.userData.username}
+              boardId={this.state.boardId}
             /> }
           />
 
