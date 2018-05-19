@@ -1,5 +1,5 @@
-import React from 'react'
-import { Button, Header, Icon, Modal, Form, Input, TextArea } from 'semantic-ui-react'
+import React from 'react';
+import { Button, Header, Icon, Modal, Form, Input, TextArea } from 'semantic-ui-react';
 
 const AddPlan = () => (
   <Modal trigger={<Button>Add a Plan</Button>} closeIcon size='tiny'>
@@ -26,4 +26,4 @@ const AddPlan = () => (
   </Modal>
 )
 
-export default AddPlan
+export default AddPlan;
