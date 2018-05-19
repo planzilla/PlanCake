@@ -42,6 +42,7 @@ export class LoggedInView extends Component {
         AssignerId: null,
         deadline: null
       }],
+      groupTodos: [], //array of objects of todos
       addTopicTitle: '',
       addTopicModalOpen: false,
       addTopicError: '',
@@ -53,6 +54,14 @@ export class LoggedInView extends Component {
       selected: '',
       boardId: null,
       allMessages: [],
+      itinerary: [], //array of objects of plans
+      addPlanTitle: null,
+      addPlanDate: null,
+      addPlanTime: null,
+      addPlanAddress: null,
+      addPlanCost: null,
+      addPlanNotes: null,
+      addPlanError: null,
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleAddTopicModalOpenClose = this.handleAddTopicModalOpenClose.bind(this);
@@ -65,6 +74,8 @@ export class LoggedInView extends Component {
     this.getInvitesByUserId = this.getInvitesByUserId.bind(this);
     this.acceptInvite = this.acceptInvite.bind(this);
     this.ignoreInvite = this.ignoreInvite.bind(this);
+    this.handleAddPlan = this.handleAddPlan.bind(this);
+    this.setAllMessages = this.setAllMessages.bind(this);
   }
 
   componentDidMount() {
@@ -75,7 +86,7 @@ export class LoggedInView extends Component {
       
     axios.get('/api/todos')
       .then(result => {
-        console.log('todos in LIV: ', result.data);
+        // console.log('todos in LIV: ', result.data);
         this.setState({ todos: result.data });
       });
 
@@ -108,6 +119,18 @@ export class LoggedInView extends Component {
       .then(({ data }) => {
         this.setState({ topicBoards: data });
       });
+
+    axios.get(`/api/groupTodo?EventId=${event.id}`)
+    .then(({ data }) => {
+      this.setState({ groupTodos: data });
+    })
+    .catch(err => {console.log('Error in retrieving groupTodos: ', err)})
+
+    axios.get(`/api/itinerary?EventId=${event.id}`)
+      .then(({ data }) => {
+        this.setState({ itinerary : data})
+      })
+      .catch(err => {console.log('Error in retrieving itinerary: ', err)})
   }
 
 
@@ -244,7 +267,34 @@ export class LoggedInView extends Component {
       .catch(err => { console.log(err) })
   }
 
-  /* ----------- Render ------------- */
+  /* ----------- Itinerary ------------- */
+
+  handleAddPlan() {
+    if (!this.state.addPlanTitle) {
+      this.setState({ addPlanError: 'Please enter a plan title.' })
+    } else if (!this.state.addPlanDate) {
+      this.setState({ addPlanError: 'Please enter a date.' })
+    } else {
+
+    let dateAndTime = new Date(`${this.state.addPlanDate} ${this.state.addPlanTime}`)
+    const requestObj = {
+      EventId: this.state.currentEvent.id,
+      date: dateAndTime,
+      title: this.state.addPlanTitle,
+      cost: this.state.addPlanCost,
+      address: this.state.addPlanAddress,
+      notes: this.state.addPlanNotes,
+    }
+    return axios.post('/api/addPlan', requestObj)
+      .then(({ data }) => {
+        this.setState({ itinerary: data })
+      })
+      .catch(err => {
+        this.setState({ addPlanError: 'Something went wrong. Please try again.'})
+      })
+
+    }
+  }
 
   /* -----------  MISC  ------------- */
 
@@ -261,6 +311,10 @@ export class LoggedInView extends Component {
       });
     });
   }
+
+  setAllMessages(message) {
+    this.setState({ allMessages: message })
+  }
   
   render() {
     // if (this.state.events.length === 0) {
@@ -276,6 +330,7 @@ export class LoggedInView extends Component {
             ignoreInvite={this.ignoreInvite}
             setUser={this.setUser} 
             view={this.props.userData.username}
+            userData={this.props.userData}
             />
           <SideBar
             topicBoards={this.state.topicBoards}
@@ -304,9 +359,14 @@ export class LoggedInView extends Component {
               /> } />
           <Route path="/events/:id" render={() => 
             <EventSummary 
-              topicBoards={this.state.topicBoards}  
-              event={this.state.currentEvent} 
-              todos={this.state.todos}
+            topicBoards={this.state.topicBoards}  
+            event={this.state.currentEvent} 
+            todos={this.state.todos}
+            groupTodos={this.state.groupTodos}
+            handleInputChange={this.handleInputChange}
+            handleAddPlan={this.handleAddPlan}
+            addPlanError={this.state.addPlanError}
+            itinerary={this.state.itinerary}
             /> } 
           />
           <Route path="/board/:id" render={() => 
@@ -317,6 +377,7 @@ export class LoggedInView extends Component {
               username={this.props.userData.username}
               boardId={this.state.boardId}
               allMessages={this.state.allMessages}
+              setAllMessages={this.setAllMessages}
             /> }
           />
 

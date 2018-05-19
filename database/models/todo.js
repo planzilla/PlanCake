@@ -1,6 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   var Todo = sequelize.define('Todo', {
+    groupTodo: DataTypes.BOOLEAN,
     text: DataTypes.STRING,
     completed: DataTypes.BOOLEAN,
     EventId: DataTypes.INTEGER,
