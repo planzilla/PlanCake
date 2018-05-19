@@ -3,7 +3,7 @@ import { Card, Icon, Message, Grid, Segment, List } from 'semantic-ui-react';
 import Todo from './Todo.jsx';
 import GroupStatusTable from './GroupStatusTable.jsx';
 import AddPlan from './AddPlan.jsx';
-import ItineraryList from './ItineraryList';
+import ItineraryList from './ItineraryList.jsx';
 
 export default class EventSummary extends Component {
   constructor(props) {
