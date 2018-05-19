@@ -25,7 +25,7 @@ const ItineraryList = ({ itinerary }) => {
             <List.List>
               {plan.date ? <List.Item>{Moment(plan.date).format('LLLL')}</List.Item> : null}
               {plan.address ? <List.Item>{plan.address}</List.Item> : null}
-              {plan.cost ? <List.Item>{plan.cost}</List.Item> : null}
+              {plan.cost ? <List.Item>Cost: {plan.cost}</List.Item> : null}
               {plan.notes ? <List.Item>Notes: {plan.notes}</List.Item> : null}
             </List.List>
           </List.Item>
