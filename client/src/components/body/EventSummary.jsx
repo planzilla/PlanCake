@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Icon } from 'semantic-ui-react';
+import { Card, Icon, Message } from 'semantic-ui-react';
 import Todo from './Todo.jsx';
 import GroupStatusTable from './GroupStatusTable.jsx';
 
@@ -27,10 +27,23 @@ export default class EventSummary extends Component {
         </Card.Content>
       </Card>
       <Card fluid color="teal"> 
-        <Card.Content header="Group Status Table" />
-        <Card.Content className="table-container">
-        <GroupStatusTable className="table"/>
-        </Card.Content>
+      <Card.Content header="Group Status Table" />
+        {
+          this.props.groupTodos.length === 0 
+          ? <Card.Content>
+              <Message info>
+              <Message.Header>
+                Want to see what everyone has accomplished?
+              </Message.Header>
+              <p>
+                Assign a group task by clicking on the todo icon.
+              </p>
+              </Message>
+            </Card.Content>
+          : <Card.Content className="table-container">
+              <GroupStatusTable className="table" groupTodos={this.props.groupTodos}/>
+            </Card.Content>
+        }
       </Card>
       </div>
     )

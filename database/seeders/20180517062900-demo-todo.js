@@ -33,7 +33,7 @@ module.exports = {
       },
       {
         groupTodo: true,
-        text: 'Pay Ralph for airbnb',
+        text: 'Pay Ralph for AirBnB',
         completed: false,
         EventId: 1,
         UserId: 1,
@@ -42,7 +42,7 @@ module.exports = {
       },
       {
         groupTodo: true,
-        text: 'Pay Ralph for airbnb',
+        text: 'Pay Ralph for AirBnB',
         completed: false,
         EventId: 1,
         UserId: 2,
@@ -51,12 +51,66 @@ module.exports = {
       },
       {
         groupTodo: true,
-        text: 'Pay Ralph for airbnb',
+        text: 'Pay Ralph for AirBnB',
         completed: false,
         EventId: 1,
         UserId: 3,
         AssignerId: 2,
         deadline: '2018-05-15'
+      },
+      {
+        groupTodo: true,
+        text: 'Choose bed',
+        completed: true,
+        EventId: 1,
+        UserId: 1,
+        AssignerId: 1,
+        deadline: '2018-05-27'
+      },
+      {
+        groupTodo: true,
+        text: 'Choose bed',
+        completed: true,
+        EventId: 1,
+        UserId: 2,
+        AssignerId: 1,
+        deadline: '2018-05-27'
+      },
+      {
+        groupTodo: true,
+        text: 'Choose bed',
+        completed: true,
+        EventId: 1,
+        UserId: 3,
+        AssignerId: 1,
+        deadline: '2018-05-27'
+      },
+      {
+        groupTodo: true,
+        text: 'Pack a game',
+        completed: true,
+        EventId: 1,
+        UserId: 1,
+        AssignerId: 1,
+        deadline: '2018-05-19'
+      },
+      {
+        groupTodo: true,
+        text: 'Pack a game',
+        completed: true,
+        EventId: 1,
+        UserId: 2,
+        AssignerId: 1,
+        deadline: '2018-05-19'
+      },
+      {
+        groupTodo: true,
+        text: 'Pack a game',
+        completed: true,
+        EventId: 1,
+        UserId: 3,
+        AssignerId: 1,
+        deadline: '2018-05-19'
       },
       {
         groupTodo: false,

@@ -17,9 +17,14 @@ const patch = {};
 
 /* -------- GET REQUESTS --------- */
 get.groupTodo = (req, res) => {
-  return db.groupTodo(1)
+  return db.groupTodo(req.query.EventId)
     .then((data) => {
-      let todoArr = data.map(item => item.dataValues);
+      let todoArr = data.map(item => ({
+        text: item.dataValues.text,
+        completed: item.dataValues.completed,
+        deadline: item.dataValues.deadline,
+        name: `${item.dataValues.User.firstName.slice(0,1).toUpperCase()}${item.dataValues.User.firstName.slice(1).toLowerCase()} ${item.dataValues.User.lastName.slice(0,1).toUpperCase()}.`
+      }));
       res.json(todoArr)
     })
     .catch(err => {console.log(err)})

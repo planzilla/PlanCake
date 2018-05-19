@@ -121,7 +121,13 @@ db.groupTodo = (EventId) => db.Todo.findAll({
   where : {
     EventId: EventId,
     groupTodo: true
-  }
+  }, 
+  include: [
+    {
+    model: db.User,
+    required: true
+    }
+  ]
 })
 
 db.saveUser = (obj) => {

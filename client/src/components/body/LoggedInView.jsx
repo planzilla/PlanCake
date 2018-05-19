@@ -42,6 +42,7 @@ export class LoggedInView extends Component {
         AssignerId: null,
         deadline: null
       }],
+      groupTodos: [], //array of objects of todos
       addTopicTitle: '',
       addTopicModalOpen: false,
       addTopicError: '',
@@ -82,12 +83,6 @@ export class LoggedInView extends Component {
         this.setState({ invites: data })
       })
       .catch(err => {console.log('err in get invites', err)})
-
-    axios.get('/api/groupTodo')
-    .then(({ data }) => {
-      console.log('in grouptodo', data)
-    })
-    .catch(err => {console.log('err in grouptodo', err)})
   }
 
   // componentWillReceiveProps(nextProps) {
@@ -119,6 +114,12 @@ export class LoggedInView extends Component {
       .then(({ data }) => {
         this.setState({ topicBoards: data });
       });
+
+    axios.get(`/api/groupTodo?EventId=${event.id}`)
+    .then(({ data }) => {
+      this.setState({groupTodos: data});
+    })
+    .catch(err => {console.log('err in grouptodo', err)})
   }
 
 
@@ -304,9 +305,10 @@ export class LoggedInView extends Component {
               /> } />
           <Route path="/events/:id" render={() => 
             <EventSummary 
-              topicBoards={this.state.topicBoards}  
-              event={this.state.currentEvent} 
-              todos={this.state.todos}
+            topicBoards={this.state.topicBoards}  
+            event={this.state.currentEvent} 
+            todos={this.state.todos}
+            groupTodos={this.state.groupTodos}
             /> } 
           />
           <Route path="/board/:id" render={() => 
