@@ -14,6 +14,7 @@ router.get('/api/topicBoard', controller.get.topicBoard);
 router.post('/api/createEvent', controller.post.createEvent);
 router.get('/api/todos', controller.get.todos);
 router.post('/api/todos', controller.post.todos);
+router.get('/api/eventAttendees', controller.get.eventAttendees);
 
 router.post('/api/addUserToEvent', controller.post.addUserToEvent);
 router.post('/api/addTopicBoard', controller.post.addTopicBoard);

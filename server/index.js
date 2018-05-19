@@ -31,8 +31,8 @@ app.use(passport.session());
 app.use(loggedOutRedirect);
 app.use(router);
 app.get('*', function(req, res) {
-  res.sendFile(path.join(__dirname, '/../client/dist/index.html'));
-});
+  res.sendFile(path.resolve(`${__dirname}/../client/dist/index.html`));
+ });
 // app.get('*', express.static(`${__dirname}/../client/dist`));
 
 io.on('connection', (socket) => {

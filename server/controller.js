@@ -99,13 +99,24 @@ get.todos = (req, res) => {
   })
     .then(data => {
       let todoArr = data.map(item => item.dataValues);
-      console.log('todoArr:', todoArr);
+      // console.log('todoArr:', todoArr);
       res.json(todoArr);
     })
     .catch(error => {
       console.log(error);
       res.status(500);
       res.end();
+    })
+}
+
+get.eventAttendees = (req, res) => {
+  return db.fetchEventAttendees(req.query.EventId)
+    .then(data => {
+      let attendeesObj= data.map(item => ({
+        name: `${item.User.dataValues.firstName.slice(0,1).toUpperCase()}${item.User.dataValues.firstName.slice(1).toLowerCase()} ${item.User.dataValues.lastName.slice(0,1).toUpperCase()}.`,
+        userId: `${item.User.dataValues.id}`
+      }));
+      res.json(attendeesObj);
     })
 }
 

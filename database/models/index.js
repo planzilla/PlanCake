@@ -92,6 +92,20 @@ db.addUserToEvent = (event, user) => {
   return db.EventUser.create(query);
 }
 
+db.fetchEventAttendees = (eventId) => {
+  return db.EventUser.findAll({
+    where: {
+      EventId: eventId
+    },
+    include: [
+      {
+        model: db.User,
+        required: true
+      }
+    ]
+  });
+}
+
 db.fetchEventsByEventId = (eventIdArr) => db.Event.findAll({
   where: {
     $or : eventIdArr
@@ -99,7 +113,7 @@ db.fetchEventsByEventId = (eventIdArr) => db.Event.findAll({
   order: [
     ['createdAt', 'DESC'],
   ],
-})
+});
 
 db.fetchInvitesByEmail = (email) => db.Invite.findAll({ 
   where: {
@@ -111,7 +125,7 @@ db.fetchInvitesByEmail = (email) => db.Invite.findAll({
 db.fetchInvitesByUserId = (UserId) => db.Invite.findAll({where: {
   UserId: UserId,
   joinEventStatus: null
-}})
+}});
 
 db.fetchUser = (username) =>  db.User.findOne({ where: {username: username}});
 
