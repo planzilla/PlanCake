@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     EventId: DataTypes.INTEGER,
     date: DataTypes.DATE,
     title: DataTypes.STRING,
-    cost: DataTypes.INTEGER,
+    cost: DataTypes.STRING,
     address: DataTypes.STRING,
     notes: DataTypes.STRING
   }, {});
