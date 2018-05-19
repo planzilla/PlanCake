@@ -49,9 +49,9 @@ export default class SideBar extends Component {
 
   render() {
     const { activeIndex } = this.state;
-    if (!this.props.events) {
-      return 'loading!!';
-    } else {
+    // if (!this.props.events) {
+    //   return 'loading!!';
+    // } else {
       return (
         <div className="sidebar">
           <CreateEvent
@@ -67,7 +67,7 @@ export default class SideBar extends Component {
                 <div key={i}>
                   <Accordion.Title active={activeIndex === i} index={i} onClick={(e, titleProps) => {this.handleClick(e, titleProps, event)}}>
                     <Icon name='dropdown' />
-                    <Link to={`/events`} component={ EventSummary }>
+                    <Link to={`/events/${event.id}`} component={ EventSummary }>
                       <b>{event.title}</b>
                     </Link>
                   </Accordion.Title>
@@ -79,6 +79,6 @@ export default class SideBar extends Component {
           </Accordion>
         </div>
       )
-    }
+    // }
   }
 }

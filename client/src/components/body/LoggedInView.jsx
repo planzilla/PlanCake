@@ -45,12 +45,17 @@ export class LoggedInView extends Component {
       addTopicTitle: '',
       addTopicModalOpen: false,
       addTopicError: '',
+
       createEventTitle: '',
       createEventLocation: '',
       createEventEmails: '',
       createEventError: '',
       createEventModalOpen: false,
       selected: '',
+
+      
+      // addTodoModalOpen: false,
+      // addTodo
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleAddTopicModalOpenClose = this.handleAddTopicModalOpenClose.bind(this);
@@ -301,6 +306,7 @@ export class LoggedInView extends Component {
               topicBoards={this.state.topicBoards}  
               event={this.state.currentEvent} 
               todos={this.state.todos}
+
             /> } 
           />
           <Route path="/board/:id" render={() => 
