@@ -139,19 +139,23 @@ get.todos = (req, res) => {
 patch.acceptInvite = (req, res) => {
   return db.updateJoinEventStatusAccept(req.user.id, req.query.EventId)
     .then(() => {
-      console.log('accepted invite');
       res.end();
     })
-    .catch(err => { console.log(err) })
+    .catch(err => { 
+      console.log(err);
+      res.end();
+    })
 }
 
 patch.ignoreInvite = (req, res) => {
   return db.updateJoinEventStatusIgnore(req.user.id, req.query.EventId)
     .then(() => {
-      console.log('ignored invite');
       res.end();
     })
-    .catch(err => { console.log(err) })
+    .catch(err => { 
+      console.log(err);
+      res.end();
+    })
 }
 
 /* -------- POST REQUESTS --------- */
@@ -251,16 +255,15 @@ post.sendEmailInvites = (req, res) => {
     return db.fetchUserByEmail(email)
       .then(res => {
         userData = res ? res.dataValues : null;
-        transporter.sendMail(template(email))
-          .then(() => {
-            db.addInvite(email, userData, req.body.event.EventId, true, res)
-          })
-          .catch(err => {
-            console.log(err);
-            db.addInvite(email, userData, req.body.event, false, res);
-          })
+        return transporter.sendMail(template(email))
       })
-        .catch(err => { console.log(err) })
+      .then(() => {
+        return db.addInvite(email, userData, req.body.event.EventId, true, res)
+      })
+      .catch(err => {
+        console.log(err);
+        return db.addInvite(email, userData, req.body.event, false, res);
+      })
   })
 
   res.end();
