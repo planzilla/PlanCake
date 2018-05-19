@@ -126,9 +126,15 @@ export class LoggedInView extends Component {
 
     axios.get(`/api/groupTodo?EventId=${event.id}`)
     .then(({ data }) => {
-      this.setState({groupTodos: data});
+      this.setState({ groupTodos: data });
     })
-    .catch(err => {console.log('err in grouptodo', err)})
+    .catch(err => {console.log('Error in retrieving groupTodos: ', err)})
+
+    axios.get(`/api/itinerary?EventId=${event.id}`)
+      .then(({ data }) => {
+        this.setState({ itinerary : data})
+      })
+      .catch(err => {console.log('Error in retrieving itinerary: ', err)})
   }
 
 
@@ -268,7 +274,12 @@ export class LoggedInView extends Component {
   /* ----------- Itinerary ------------- */
 
   handleAddPlan() {
-    //TODO:add validation
+    if (!this.state.addPlanTitle) {
+      this.setState({ addPlanError: 'Please enter a plan title.' })
+    } else if (!this.state.addPlanDate) {
+      this.setState({ addPlanError: 'Please enter a date.' })
+    } else {
+
     let dateAndTime = new Date(`${this.state.addPlanDate} ${this.state.addPlanTime}`)
     const requestObj = {
       EventId: this.state.currentEvent.id,
@@ -280,9 +291,13 @@ export class LoggedInView extends Component {
     }
     return axios.post('/api/addPlan', requestObj)
       .then(({ data }) => {
-        console.log('in handle add plan', data);
+        this.setState({ itinerary: data })
       })
-      .catch(err => {console.log('err in handle add plan', err)})
+      .catch(err => {
+        this.setState({ addPlanError: 'Something went wrong. Please try again.'})
+      })
+
+    }
   }
 
   /* -----------  MISC  ------------- */
@@ -340,6 +355,8 @@ export class LoggedInView extends Component {
             groupTodos={this.state.groupTodos}
             handleInputChange={this.handleInputChange}
             handleAddPlan={this.handleAddPlan}
+            addPlanError={this.state.addPlanError}
+            itinerary={this.state.itinerary}
             /> } 
           />
           <Route path="/board/:id" render={() => 

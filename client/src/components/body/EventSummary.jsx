@@ -26,8 +26,11 @@ export default class EventSummary extends Component {
                   <AddPlan               
                     handleInputChange={this.props.handleInputChange}
                     handleAddPlan={this.props.handleAddPlan}
+                    addPlanError={this.props.addPlanError}
                   />
-                  <ItineraryList />
+                  <ItineraryList 
+                    itinerary={this.props.itinerary}
+                  />
                 </Segment>
               </Grid.Column>
               <Grid.Column >

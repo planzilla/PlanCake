@@ -29,5 +29,7 @@ router.patch('/api/ignoreInvite', controller.patch.ignoreInvite);
 
 // ITINERARY RELATED ROUTES
 router.post('/api/addPlan', controller.post.addPlan);
+router.get('/api/itinerary', controller.get.itinerary);
+
 
 module.exports = router;

@@ -1,27 +1,39 @@
 import React from 'react';
-import { List } from 'semantic-ui-react';
+import { List, Message } from 'semantic-ui-react';
+import Moment from 'moment';
 
-const ItineraryList = (props) => (
-  <List celled size="large">
-  <List.Item>
-    <b>Check in at airbnb</b>
-
-    <List.List>
-      <List.Item>05/27/18 at 3:30 PM</List.Item>
-      <List.Item>1234 Street, SF, CA 92131</List.Item>
-      <List.Item>$3000</List.Item>
-    </List.List>
-  </List.Item>
-  <List.Item>
-    <b>Go to HR </b>
-
-    <List.List>
-      <List.Item>5/29/18 at 9:00 AM</List.Item>
-      <List.Item>Somwhere in SF</List.Item>
-      <List.Item>Notes: Take bus.</List.Item>
-    </List.List>
-  </List.Item>
-</List>
-)
+const ItineraryList = ({ itinerary }) => {
+  if (itinerary.length === 0) {
+    console.log('in intinerary list zero')
+    return (
+      <Message info>
+          <Message.Header>
+            Want to see what finalized plans?
+          </Message.Header>
+          <p>
+            Click "Add a Plan" to contribute to the itinerary!
+          </p>
+      </Message>
+    )
+  } else {
+    return (
+      <List celled size="large" className="grid-event-summary">
+      {
+        itinerary.map(plan => (
+          <List.Item>
+            <b>{plan.title}</b>
+            <List.List>
+              {plan.date ? <List.Item>{Moment(plan.date).format('LLLL')}</List.Item> : null}
+              {plan.address ? <List.Item>{plan.address}</List.Item> : null}
+              {plan.cost ? <List.Item>{plan.cost}</List.Item> : null}
+              {plan.notes ? <List.Item>Notes: {plan.notes}</List.Item> : null}
+            </List.List>
+          </List.Item>
+        ))
+      }
+    </List>
+    )
+  }
+}
 
 export default ItineraryList;

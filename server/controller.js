@@ -61,6 +61,19 @@ get.invitesByUserId = (req, res) => {
     .catch(err => { console.log(err) })
 }
 
+get.itinerary = (req, res) => {
+  return db.fetchItinerary(req.query.EventId)
+    .then(data => {
+      let itineraryArr = data.map(item => item.dataValues);
+      res.json(itineraryArr);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500);
+      res.end();
+    })
+}
+
 get.logout = (req, res) => {
   req.logout();
   req.session.destroy();
@@ -144,15 +157,6 @@ patch.ignoreInvite = (req, res) => {
 /* -------- POST REQUESTS --------- */
 
 post.addPlan = (req, res) => {
-  // const query = {
-  //   EventId: EventId,
-  //   date: date,
-  //   title: title,
-  //   cost: cost,
-  //   address: address,
-  //   notes: notes
-  // }
-
   const query = req.body;
 
   return db.addPlan(query)

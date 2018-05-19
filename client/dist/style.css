@@ -389,3 +389,8 @@ hr{
 .table-col{
   min-width: 80px;
 }
+
+.grid-event-summary{
+  max-height: 400px;
+  overflow: auto;
+}
