@@ -117,6 +117,19 @@ db.fetchUser = (username) =>  db.User.findOne({ where: {username: username}});
 
 db.fetchUserByEmail = (email) => db.User.findOne({ where: { email: email } });
 
+db.groupTodo = (EventId) => db.Todo.findAll({
+  where : {
+    EventId: EventId,
+    groupTodo: true
+  }, 
+  include: [
+    {
+    model: db.User,
+    required: true
+    }
+  ]
+})
+
 db.saveUser = (obj) => {
   return db.fetchUser(obj.username)
   

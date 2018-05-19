@@ -78,7 +78,7 @@ body{
   grid-area: 1 / 1 / 1 / 13;
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: 50px;
-  background-color: rgb(255, 255, 255);
+  background-color: #A4DCD3;
   position: fixed;
   width: 80%;
   z-index: 2;
@@ -88,10 +88,41 @@ body{
 
 .footer{
   grid-area: 12 / 1 / 13 / 13;
-  background-color: rgb(255, 255, 255);
-  filter: drop-shadow(0 0 15px rgb(221, 219, 218));
 }
 
+.footer-containers{
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 2rem;
+  margin: 0 2em 0 2em;
+}
+
+.footer-container-navigate{
+  grid-row: 1;
+  grid-column: 1;
+}
+
+.footer-container-contribute{
+  grid-row: 1;
+  grid-column: 2;
+}
+
+.footer-container-contact{
+  grid-row: 1;
+  grid-column: 3;
+}
+
+.hr-grid{
+  display: grid;
+  grid-auto-rows: 5px;
+}
+
+hr{
+  grid-row: 1;
+  height: 12px;
+  border: 0;
+  box-shadow: inset 0 12px 12px -12px rgba(0, 0, 0, 0.5);
+}
 /*******************/
 /***    header   ***/
 /*******************/
@@ -129,16 +160,20 @@ body{
 }
 
 .nav-links-loggedIn{
-  grid-area: 1 / 6 / 2 / 7;
+  grid-area: 1 / 5 / 2 / 7;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
+}
+
+.nav-name{
+  margin-right: 10px;
 }
 
 .nav-links h3{
   margin: auto;
 }
 
- .logout-nav{
+.logout-nav{
   display: flex;
   margin: auto;
   color: black;
@@ -162,12 +197,20 @@ body{
   /* width: 100%; */ /* was messing up nav-links-loggedin*/
 }
 
+.header-icon{
+  color: white !important;
+}
+
+.header-icon :hover{
+  color: rgb(121, 121, 121) !important;
+}
+
 /*******************/
 /*** splash-body ***/
 /*******************/
 
 .how-it-works{
-  font-family: 'Delius', cursive;
+  font-family: 'Poppins', sans-serif;
   grid-row: 3;
   grid-template-rows: .25fr repeat(2, 1fr);
 }
@@ -327,4 +370,22 @@ body{
   grid-template-rows: 1fr 50px;
   max-height: 90vh;
   width: auto;
+}
+
+.table-container{
+  width: 100%;
+  max-height: 400px;
+  overflow: auto;
+}
+
+.table{
+  min-width: 100px;
+}
+
+.table-col-task{
+  min-width: 150px; 
+}
+
+.table-col{
+  min-width: 80px;
 }

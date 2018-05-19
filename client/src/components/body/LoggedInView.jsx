@@ -42,6 +42,7 @@ export class LoggedInView extends Component {
         AssignerId: null,
         deadline: null
       }],
+      groupTodos: [], //array of objects of todos
       addTopicTitle: '',
       addTopicModalOpen: false,
       addTopicError: '',
@@ -73,7 +74,7 @@ export class LoggedInView extends Component {
       
     axios.get('/api/todos')
       .then(result => {
-        console.log('todos in LIV: ', result.data);
+        // console.log('todos in LIV: ', result.data);
         this.setState({ todos: result.data });
       });
 
@@ -113,6 +114,12 @@ export class LoggedInView extends Component {
       .then(({ data }) => {
         this.setState({ topicBoards: data });
       });
+
+    axios.get(`/api/groupTodo?EventId=${event.id}`)
+    .then(({ data }) => {
+      this.setState({groupTodos: data});
+    })
+    .catch(err => {console.log('err in grouptodo', err)})
   }
 
 
@@ -271,6 +278,7 @@ export class LoggedInView extends Component {
             ignoreInvite={this.ignoreInvite}
             setUser={this.setUser} 
             view={this.props.userData.username}
+            userData={this.props.userData}
             />
           <SideBar
             topicBoards={this.state.topicBoards}
@@ -298,9 +306,10 @@ export class LoggedInView extends Component {
               /> } />
           <Route path="/events/:id" render={() => 
             <EventSummary 
-              topicBoards={this.state.topicBoards}  
-              event={this.state.currentEvent} 
-              todos={this.state.todos}
+            topicBoards={this.state.topicBoards}  
+            event={this.state.currentEvent} 
+            todos={this.state.todos}
+            groupTodos={this.state.groupTodos}
             /> } 
           />
           <Route path="/board/:id" render={() => 
