@@ -1,16 +1,18 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  var itinerary = sequelize.define('itinerary', {
+  var Itinerary = sequelize.define('Itinerary', {
     EventId: DataTypes.INTEGER,
     date: DataTypes.DATE,
-    time: DataTypes.DATE,
     title: DataTypes.STRING,
-    cost: DataTypes.INT,
+    cost: DataTypes.INTEGER,
     address: DataTypes.STRING,
     notes: DataTypes.STRING
   }, {});
-  itinerary.associate = function(models) {
+  Itinerary.associate = function(models) {
     // associations can be defined here
+    Itinerary.belongsTo(models.Event, {
+      foreignKey: 'EventId'
+    });
   };
-  return itinerary;
+  return Itinerary;
 };
