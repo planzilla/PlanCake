@@ -52,6 +52,14 @@ export class LoggedInView extends Component {
       createEventError: '',
       createEventModalOpen: false,
       selected: '',
+      itinerary: [], //array of objects of plans
+      addPlanTitle: null,
+      addPlanDate: null,
+      addPlanTime: null,
+      addPlanAddress: null,
+      addPlanCost: null,
+      addPlanNotes: null,
+      addPlanError: null,
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleAddTopicModalOpenClose = this.handleAddTopicModalOpenClose.bind(this);
@@ -64,6 +72,7 @@ export class LoggedInView extends Component {
     this.getInvitesByUserId = this.getInvitesByUserId.bind(this);
     this.acceptInvite = this.acceptInvite.bind(this);
     this.ignoreInvite = this.ignoreInvite.bind(this);
+    this.handleAddPlan = this.handleAddPlan.bind(this);
   }
 
   componentDidMount() {
@@ -256,11 +265,30 @@ export class LoggedInView extends Component {
       .catch(err => { console.log(err) })
   }
 
-  /* ----------- Render ------------- */
+  /* ----------- Itinerary ------------- */
+
+  handleAddPlan() {
+    //TODO:add validation
+    let dateAndTime = new Date(`${this.state.addPlanDate} ${this.state.addPlanTime}`)
+    const requestObj = {
+      EventId: this.state.currentEvent.id,
+      date: dateAndTime,
+      title: this.state.addPlanTitle,
+      cost: this.state.addPlanCost,
+      address: this.state.addPlanAddress,
+      notes: this.state.addPlanNotes,
+    }
+    return axios.post('/api/addPlan', requestObj)
+      .then(({ data }) => {
+        console.log('in handle add plan', data);
+      })
+      .catch(err => {console.log('err in handle add plan', err)})
+  }
 
   /* -----------  MISC  ------------- */
 
   setLoggedIn(selected) {
+    console.log(selected)
     this.setState({ selected: selected });
   }
 
@@ -310,6 +338,8 @@ export class LoggedInView extends Component {
             event={this.state.currentEvent} 
             todos={this.state.todos}
             groupTodos={this.state.groupTodos}
+            handleInputChange={this.handleInputChange}
+            handleAddPlan={this.handleAddPlan}
             /> } 
           />
           <Route path="/board/:id" render={() => 

@@ -4,11 +4,13 @@ import Todo from './Todo.jsx';
 import GroupStatusTable from './GroupStatusTable.jsx';
 import AddPlan from './AddPlan.jsx';
 import ItineraryList from './ItineraryList.jsx';
+import axios from 'axios';
 
 export default class EventSummary extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+    };
   }
 
   render() {
@@ -21,7 +23,10 @@ export default class EventSummary extends Component {
             <Grid columns='equal'>
               <Grid.Column>
                 <Segment><b>Itinerary</b><br /><br />
-                  <AddPlan />
+                  <AddPlan               
+                    handleInputChange={this.props.handleInputChange}
+                    handleAddPlan={this.props.handleAddPlan}
+                  />
                   <ItineraryList />
                 </Segment>
               </Grid.Column>

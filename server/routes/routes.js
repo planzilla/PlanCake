@@ -27,4 +27,7 @@ router.post('/api/sendEmailInvites', controller.post.sendEmailInvites);
 router.patch('/api/acceptInvite', controller.patch.acceptInvite);
 router.patch('/api/ignoreInvite', controller.patch.ignoreInvite);
 
+// ITINERARY RELATED ROUTES
+router.post('/api/addPlan', controller.post.addPlan);
+
 module.exports = router;

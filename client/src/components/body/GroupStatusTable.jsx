@@ -43,12 +43,9 @@ export default class GroupStatusTable extends Component {
 
                   if (item.completed) {
                     innerOutput.push(<Icon name="check circle" color="green" size="large" />);
-                    // innerOutput.push(<Table.Cell textAlign="center"><Icon name="check circle" color="green" size="large" /></Table.Cell>)
                   } else if (deadline < currentDate) {
                     innerOutput.push(<Icon name="remove circle" color="red" size="large" />);
-                    // innerOutput.push(<Table.Cell textAlign="center"><Icon name="remove circle" color="red" size="large" /></Table.Cell>)
                   } else if (dayBeforeDeadline < currentDate) {
-                    // innerOutput.push(<Table.Cell textAlign="center"> <Icon name="warning sign" color="yellow" size="large" /></Table.Cell>)
                     innerOutput.push(<Icon name="warning sign" color="yellow" size="large" />);
                   } else {
                     innerOutput.push('');

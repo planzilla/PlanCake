@@ -83,6 +83,8 @@ db.addInvite = (email, userData, eventId, emailStatus) => {
     .catch(err => {console.log(err)})
 }
 
+db.addPlan = (queryObj) => db.Itinerary.create(queryObj);
+
 db.addUserToEvent = (event, user) => {
   const query = {
     EventId: event.id,
@@ -112,6 +114,15 @@ db.fetchInvitesByUserId = (UserId) => db.Invite.findAll({where: {
   UserId: UserId,
   joinEventStatus: null
 }})
+
+db.fetchItinerary = (EventId) => db.Itinerary.findOne({
+  where: {
+    EventId: EventId
+  },
+  order: [
+    ['date', 'ASC']
+  ]
+})
 
 db.fetchUser = (username) =>  db.User.findOne({ where: {username: username}});
 

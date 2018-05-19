@@ -143,6 +143,35 @@ patch.ignoreInvite = (req, res) => {
 
 /* -------- POST REQUESTS --------- */
 
+post.addPlan = (req, res) => {
+  // const query = {
+  //   EventId: EventId,
+  //   date: date,
+  //   title: title,
+  //   cost: cost,
+  //   address: address,
+  //   notes: notes
+  // }
+
+  const query = req.body;
+
+  return db.addPlan(query)
+    .then(() => {
+      return db.fetchItinerary(req.body.EventId)
+    })
+    .then((data) => {
+      console.log(data);
+      let itineraryArr = data.map(item => item.dataValues)
+      res.json(itineraryArr);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500);
+      res.end();
+    })
+
+}
+
 post.addTopicBoard = (req, res) => {
   const query = {
     EventId: req.body.eventId,

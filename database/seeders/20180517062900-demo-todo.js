@@ -52,7 +52,7 @@ module.exports = {
       {
         groupTodo: true,
         text: 'Pay Ralph for AirBnB',
-        completed: false,
+        completed: true,
         EventId: 1,
         UserId: 3,
         AssignerId: 2,
@@ -61,7 +61,7 @@ module.exports = {
       {
         groupTodo: true,
         text: 'Choose bed',
-        completed: true,
+        completed: false,
         EventId: 1,
         UserId: 1,
         AssignerId: 1,
@@ -79,7 +79,7 @@ module.exports = {
       {
         groupTodo: true,
         text: 'Choose bed',
-        completed: true,
+        completed: false,
         EventId: 1,
         UserId: 3,
         AssignerId: 1,
@@ -92,25 +92,25 @@ module.exports = {
         EventId: 1,
         UserId: 1,
         AssignerId: 1,
-        deadline: '2018-05-19'
+        deadline: '2018-05-20'
       },
       {
         groupTodo: true,
         text: 'Pack a game',
-        completed: true,
+        completed: false,
         EventId: 1,
         UserId: 2,
         AssignerId: 1,
-        deadline: '2018-05-19'
+        deadline: '2018-05-20'
       },
       {
         groupTodo: true,
         text: 'Pack a game',
-        completed: true,
+        completed: false,
         EventId: 1,
         UserId: 3,
         AssignerId: 1,
-        deadline: '2018-05-19'
+        deadline: '2018-05-20'
       },
       {
         groupTodo: false,
