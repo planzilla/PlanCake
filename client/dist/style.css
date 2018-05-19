@@ -160,9 +160,13 @@ hr{
 }
 
 .nav-links-loggedIn{
-  grid-area: 1 / 6 / 2 / 7;
+  grid-area: 1 / 5 / 2 / 7;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
+}
+
+.nav-name{
+  margin-right: 10px;
 }
 
 .nav-links h3{
@@ -195,7 +199,6 @@ hr{
 
 .header-icon{
   color: white !important;
-  padding-right: 10px;
 }
 
 .header-icon :hover{

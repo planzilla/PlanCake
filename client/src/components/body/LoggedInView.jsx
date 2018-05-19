@@ -278,6 +278,7 @@ export class LoggedInView extends Component {
             ignoreInvite={this.ignoreInvite}
             setUser={this.setUser} 
             view={this.props.userData.username}
+            userData={this.props.userData}
             />
           <SideBar
             topicBoards={this.state.topicBoards}

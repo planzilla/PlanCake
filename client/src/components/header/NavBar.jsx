@@ -58,44 +58,53 @@ export default class NavBar extends Component {
     return (
       <div className="header-navbar grid">
         <img className="logo jsas" src="plancakepng.png" />
-          {
-            this.props.username !== null
+        {
+          this.props.username !== null
             ? <div className="nav-links-loggedIn">
-                <Inbox 
-                  invites={this.props.invites} 
+              <div>
+                <Inbox
+                  invites={this.props.invites}
                   acceptInvite={this.props.acceptInvite}
                   ignoreInvite={this.props.ignoreInvite}
                 />
+              </div>
+              <div>
                 <Link to='/loggedInView' className="header-icon"><Icon name='home' size='large' /></Link>
-                <Logout logout={this.logout} />
-                </div>
-              : <div className="nav-links">
-                <h3>About Us</h3>
-                <h3>How It Works</h3>
-                <h3 onClick={this.handleModal.bind(this)}>Login</h3>
-                </div>
-          }
-          {
-            this.state.navView === 'login'
-              ? <Login
-                handleModal={this.handleModal}
-                sendLogin={this.sendLogin}
-                setUser={this.props.setUser}
-                handleView={this.handleView}
-                modalIsOpen={this.state.modalIsOpen}
-                error={this.state.error}
-                handleError={this.handleError}
-              />
-              : <Signup
-                handleModal={this.handleModal}
-                sendLogin={this.sendLogin}
-                setUser={this.props.setUser}
-                modalIsOpen={this.state.modalIsOpen}
-                error={this.state.error}
-                handleError={this.handleError}
-                handleView={this.handleView}
-              />
-          }
+              </div>
+              <div >
+                <h3 className="nav-name">{this.props.userData.firstName}</h3>
+              </div>
+              <div >
+                <Logout logout={this.logout} className="nav-name"/>
+              </div>
+            </div>
+            : <div className="nav-links">
+              <h3>About Us</h3>
+              <h3>How It Works</h3>
+              <h3 onClick={this.handleModal.bind(this)}>Login</h3>
+            </div>
+        }
+        {
+          this.state.navView === 'login'
+            ? <Login
+              handleModal={this.handleModal}
+              sendLogin={this.sendLogin}
+              setUser={this.props.setUser}
+              handleView={this.handleView}
+              modalIsOpen={this.state.modalIsOpen}
+              error={this.state.error}
+              handleError={this.handleError}
+            />
+            : <Signup
+              handleModal={this.handleModal}
+              sendLogin={this.sendLogin}
+              setUser={this.props.setUser}
+              modalIsOpen={this.state.modalIsOpen}
+              error={this.state.error}
+              handleError={this.handleError}
+              handleView={this.handleView}
+            />
+        }
       </div>
     )
   }
