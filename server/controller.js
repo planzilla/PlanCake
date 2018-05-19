@@ -16,6 +16,20 @@ const patch = {};
 // }
 
 /* -------- GET REQUESTS --------- */
+get.groupTodo = (req, res) => {
+  return db.groupTodo(req.query.EventId)
+    .then((data) => {
+      let todoArr = data.map(item => ({
+        text: item.dataValues.text,
+        completed: item.dataValues.completed,
+        deadline: item.dataValues.deadline,
+        name: `${item.dataValues.User.firstName.slice(0,1).toUpperCase()}${item.dataValues.User.firstName.slice(1).toLowerCase()} ${item.dataValues.User.lastName.slice(0,1).toUpperCase()}.`
+      }));
+      res.json(todoArr)
+    })
+    .catch(err => {console.log(err)})
+}
+
 get.invitesByEmail = (req, res) => {
   return db.fetchInvitesByEmail(req.user.email)
     .then(data => {
@@ -45,6 +59,19 @@ get.invitesByUserId = (req, res) => {
       res.json(EventsArr);
     })
     .catch(err => { console.log(err) })
+}
+
+get.itinerary = (req, res) => {
+  return db.fetchItinerary(req.query.EventId)
+    .then(data => {
+      let itineraryArr = data.map(item => item.dataValues);
+      res.json(itineraryArr);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500);
+      res.end();
+    })
 }
 
 get.logout = (req, res) => {
@@ -99,7 +126,6 @@ get.todos = (req, res) => {
   })
     .then(data => {
       let todoArr = data.map(item => item.dataValues);
-      console.log('todoArr:', todoArr);
       res.json(todoArr);
     })
     .catch(error => {
@@ -113,22 +139,46 @@ get.todos = (req, res) => {
 patch.acceptInvite = (req, res) => {
   return db.updateJoinEventStatusAccept(req.user.id, req.query.EventId)
     .then(() => {
-      console.log('accepted invite');
       res.end();
     })
-    .catch(err => { console.log(err) })
+    .catch(err => { 
+      console.log(err);
+      res.end();
+    })
 }
 
 patch.ignoreInvite = (req, res) => {
   return db.updateJoinEventStatusIgnore(req.user.id, req.query.EventId)
     .then(() => {
-      console.log('ignored invite');
       res.end();
     })
-    .catch(err => { console.log(err) })
+    .catch(err => { 
+      console.log(err);
+      res.end();
+    })
 }
 
 /* -------- POST REQUESTS --------- */
+
+post.addPlan = (req, res) => {
+  const query = req.body;
+
+  return db.addPlan(query)
+    .then(() => {
+      return db.fetchItinerary(req.body.EventId)
+    })
+    .then((data) => {
+      console.log(typeof data);
+      let itineraryArr = data.map(item => item.dataValues)
+      res.json(itineraryArr);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500);
+      res.end();
+    })
+
+}
 
 post.addTopicBoard = (req, res) => {
   const query = {
@@ -205,16 +255,15 @@ post.sendEmailInvites = (req, res) => {
     return db.fetchUserByEmail(email)
       .then(res => {
         userData = res ? res.dataValues : null;
-        transporter.sendMail(template(email))
-          .then(() => {
-            db.addInvite(email, userData, req.body.event.EventId, true, res)
-          })
-          .catch(err => {
-            console.log(err);
-            db.addInvite(email, userData, req.body.event, false, res);
-          })
+        return transporter.sendMail(template(email))
       })
-        .catch(err => { console.log(err) })
+      .then(() => {
+        return db.addInvite(email, userData, req.body.event.EventId, true, res)
+      })
+      .catch(err => {
+        console.log(err);
+        return db.addInvite(email, userData, req.body.event, false, res);
+      })
   })
 
   res.end();
