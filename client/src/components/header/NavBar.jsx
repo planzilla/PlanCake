@@ -5,6 +5,7 @@ import axios from 'axios';
 import Logout from './Logout.jsx';
 import Inbox from './Inbox.jsx';
 import { Link } from 'react-router-dom';
+import { Icon } from 'semantic-ui-react';
 
 export default class NavBar extends Component {
   constructor(props) {
@@ -59,12 +60,13 @@ export default class NavBar extends Component {
         <img className="logo jsas" src="plancakepng.png" />
           {
             this.props.username !== null
-              ? <div className="nav-links-loggedIn">
+            ? <div className="nav-links-loggedIn">
                 <Inbox 
                   invites={this.props.invites} 
                   acceptInvite={this.props.acceptInvite}
                   ignoreInvite={this.props.ignoreInvite}
                 />
+                <Link to='/loggedInView' className="header-icon"><Icon name='home' size='large' /></Link>
                 <Logout logout={this.logout} />
                 </div>
               : <div className="nav-links">
