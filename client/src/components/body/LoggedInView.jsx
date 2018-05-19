@@ -225,6 +225,13 @@ export class LoggedInView extends Component {
     return axios.patch(`/api/acceptInvite/?EventId=${EventId}`)
       .then(() => {
         this.getInvitesByUserId();
+        return axios.post(`/api/addUserToEvent`, {id: EventId})
+      })
+      .then(() => {
+        return axios.get('/api/userEvents')
+      })
+      .then(result => {
+        this.setState({ events: result.data });
       })
       .catch(err => { console.log(err) })
   }
