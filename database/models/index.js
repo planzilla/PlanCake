@@ -115,7 +115,7 @@ db.fetchInvitesByUserId = (UserId) => db.Invite.findAll({where: {
   joinEventStatus: null
 }})
 
-db.fetchItinerary = (EventId) => db.Itinerary.findOne({
+db.fetchItinerary = (EventId) => db.Itinerary.findAll({
   where: {
     EventId: EventId
   },

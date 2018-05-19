@@ -160,7 +160,7 @@ post.addPlan = (req, res) => {
       return db.fetchItinerary(req.body.EventId)
     })
     .then((data) => {
-      console.log(data);
+      console.log(typeof data);
       let itineraryArr = data.map(item => item.dataValues)
       res.json(itineraryArr);
     })
