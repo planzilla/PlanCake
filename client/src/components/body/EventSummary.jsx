@@ -20,7 +20,7 @@ export default class EventSummary extends Component {
             <Grid columns='equal'>
               <Grid.Column>
                 <Segment><b>Itinerary</b><br /><br />
-                  <AddPlan /> <br /><br />
+                  <AddPlan />
                   <List celled size="large">
                     <List.Item>
                       <b>Check in at airbnb</b>
