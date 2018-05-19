@@ -8,19 +8,12 @@ class Chat extends Component{
     super(props)
     this.state = {
       message: '',
-      allMessages: [],
-      connected: '',
     }
-    axios.get(`/api/getChatMessages?boardId=${this.props.boardId}`)
-    .then(({ data }) => { 
-      if (!!data) { this.setState({ allMessages: data.concat(this.state.allMessages) }) };
-    });
     this.socket = io.connect();
     this.socket.on('connection', () => { console.log('boardview connection'); });
     this.socket.on('chatMessage', (user) => {
-      this.setState({ allMessages: this.state.allMessages.concat([user]) })
-      console.log(this.state.allMessages)
-    })
+      this.setState({ allMessages: this.props.allMessages.concat([user]) });
+    });
     this.input = this.input.bind(this);
     this.send = this.send.bind(this);
   }
@@ -29,18 +22,13 @@ class Chat extends Component{
     const { selected, username, boardId } = this.props;
     function user(roomname, username, boardId) {
       this.username = username;
-      this.roomname = roomname;
       this.boardId = boardId;
-      this.text = '';
-    }
+      this.roomname = roomname;
+    };
     this.socket.emit('room', new user(selected, username, boardId));
-    this.socket.on('enterRoom', user => {
-      this.setState({ connected: user.text})
-    });
   }
 
   componentDidUpdate() {
-    // this.messageEnd.scrollIntoView( {behavior: 'smooth'} )
     const messageList = document.getElementById('messages');
     messageList.scrollTop = messageList.scrollHeight;
   }
@@ -52,29 +40,29 @@ class Chat extends Component{
   send(e) {
     e.preventDefault();
     function user(userId, boardId, message, username) {
-      this.userId = userId;
-      this.boardId = boardId;
-      this.text = message;
       this.username = username;
+      this.boardId = boardId;
+      this.userId = userId;
+      this.text = message;
     }
     const { username, id } = this.props.userData;
     const { boardId } = this.props;
-    const message = Promise.resolve(this.socket.emit('chatMessage', new user(id, boardId, this.state.message, this.props.username)));
-    message.then(() => { this.setState({ message: '' }); });
+    Promise.resolve(this.socket.emit('chatMessage', new user(id, boardId, this.state.message, this.props.username)))
+    .then(() => { this.setState({ message: '' }); });
   }
 
   render() {
     return (
       <div className="chat-view chat grid">
+      {<div className="connected-user">{`You've connected to ${this.props.selected}`}</div>}
         <div id="messages">
-          {this.state.allMessages.map((user, key, array) => {
-            if (user.username !== this.props.username) {
-              return <div className="received-message" key={key}><span><strong>{`${user.username} : `}</strong>{`${user.text}`}</span></div>
-            } else {
-              return <div key={key} className="user-message"><span><p>{user.text}</p></span></div>
-            };
+          {this.props.allMessages.map((user, key, array) => {
+          if (user.username !== this.props.username) {
+            return <div className="received-message" key={key}><p><strong>{`${user.username} : `}</strong>{`${user.text}`}</p></div>
+          } else {
+            return <div key={key} className="user-message"><p className="user-message-text">{user.text}</p></div>
+          };
           })}
-          {<div className="chat-connected">{this.state.connected}</div>}
           <div ref={(e) => { this.messageEnd = e }}></div>
         </div>
         <form className="chat-form">

@@ -52,6 +52,7 @@ export class LoggedInView extends Component {
       createEventModalOpen: false,
       selected: '',
       boardId: null,
+      allMessages: [],
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleAddTopicModalOpenClose = this.handleAddTopicModalOpenClose.bind(this);
@@ -84,13 +85,6 @@ export class LoggedInView extends Component {
       })
       .catch(err => {console.log('err in get invites', err)})
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   if (this.props.events !== nextProps.events) {
-  //     this.props.fetchPosts();
-  //   }
-  // }
-
 
   handleInputChange(event) {
     this.setState({ [event.target.name]: event.target.value })
@@ -248,12 +242,19 @@ export class LoggedInView extends Component {
   /* -----------  MISC  ------------- */
 
   setSelectedBoard(selected, boardId) {
-    this.setState({ 
-      selected: selected,
-      boardId: boardId
-     });
+    Promise.resolve(
+      this.setState({ 
+        selected: selected,
+        boardId: boardId,
+        allMessages: [],
+      })).then(() => {
+      return axios.get(`/api/getChatMessages?boardId=${this.state.boardId}`)
+      .then(({ data }) => { 
+        if (!!data) { this.setState({ allMessages: data.concat(this.state.allMessages) }) };
+      });
+    });
   }
-
+  
   render() {
     // if (this.state.events.length === 0) {
     //   return '...loading??';
@@ -285,7 +286,8 @@ export class LoggedInView extends Component {
             setSelectedBoard={this.setSelectedBoard}
           />
 
-        <div className="placeholder"></div>
+        <div className="placeholder">
+        </div>
 
           <Route path="/loggedinview" render={() => 
             <Dashboard 
@@ -307,6 +309,7 @@ export class LoggedInView extends Component {
               selected={this.state.selected}
               username={this.props.userData.username}
               boardId={this.state.boardId}
+              allMessages={this.state.allMessages}
             /> }
           />
 

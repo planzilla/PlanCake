@@ -32,18 +32,19 @@ app.use(loggedOutRedirect);
 app.use(router);
 app.get('*', express.static(`${__dirname}/../client/dist`));
 
+app.get('*', function(req, res) {
+  res.sendFile(path.resolve(`${__dirname}/../client/dist/index.html`));
+});
+
 io.on('connection', (socket) => {
   let room;
   socket.on('room', (user) => {
     room = (17 << 2).toString().concat(user.boardId + ' ' + user.roomname);
     io.emit('room', room);
     socket.join(room);
-    user.text = `${user.username} connected to ${user.roomname}...`
     io.sockets.in(room).emit('enterRoom', user);
-    console.log('joined room', room);
   });
   socket.on('chatMessage', (user) => {
-    console.log('Server message is:', user.text);
     db.addChat(user.userId, user.boardId, user.text);
     io.sockets.in(room).emit('chatMessage', user);
   });

@@ -19,10 +19,6 @@ export default class EventSummary extends Component {
             todos={this.props.todos} 
             event={this.props.event}
           />
-
-
-
-
         </Card.Content>
         <Card.Content extra>
           <Icon name='map pin' />
