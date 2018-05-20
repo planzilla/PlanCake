@@ -322,14 +322,25 @@ export class LoggedInView extends Component {
 
   /* -----------  MISC  ------------- */
 
+  clearDomOfActiveSidebar() {
+    var domElement = document.getElementsByClassName("activeSidebar");
+    [].forEach.call(domElement, function(el) {
+      el.classList.remove("activeSidebar");
+    });
+  }
+
   setSelectedBoard(selected, boardId) {
+    this.clearDomOfActiveSidebar();
+
     Promise.resolve(
       this.setState({ 
         selected: selected,
         boardId: boardId,
         allMessages: [],
-      })).then(() => {
-      return axios.get(`/api/getChatMessages?boardId=${this.state.boardId}`)
+      }))
+      .then(() => {
+        document.getElementById(`${selected}-${boardId}`).classList.add("activeSidebar");
+        return axios.get(`/api/getChatMessages?boardId=${this.state.boardId}`)
       .then(({ data }) => { 
         if (!!data) { this.setState({ allMessages: data.concat(this.state.allMessages) }) };
       });
@@ -341,6 +352,8 @@ export class LoggedInView extends Component {
   }
   
   handleHomeReloadItineraries() {
+    this.clearDomOfActiveSidebar();
+    
     console.log('in handleHomeReloadItineraries', this.state.events)
     let eventsStr = this.state.events.map(event => event.id).toString();
     return axios.get(`/api/allItineraries?eventIdStr=${eventsStr}`)

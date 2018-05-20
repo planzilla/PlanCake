@@ -11,10 +11,9 @@ export default class EventCard extends Component {
   render() {
     return (
       <Link to={`/events/${this.props.id}`}>
-        <Card fluid color='teal' onClick={() => this.props.handleClickEventTitle(this.props.event)}>
-          <Card.Content header={this.props.title} />
+        <Card fluid onClick={() => this.props.handleClickEventTitle(this.props.event)}>
+          <Card.Content header={`${this.props.title} Overview`} />
           <Card.Content>
-          <h3><b>Overview</b></h3>
             {
               this.props.itinerary.length === 0
                 ? <Message info>
@@ -25,7 +24,7 @@ export default class EventCard extends Component {
                     Start planning by clicking on this event and starting a discussion!
                   </p>
                 </Message>
-                : <Grid celled columns='equal'>
+                : <Grid celled columns='equal' className="table">
                   <Grid.Row>
                     {this.props.itinerary.map(item => (
                       <Grid.Column>

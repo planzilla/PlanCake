@@ -16,10 +16,9 @@ export default class EventSummary extends Component {
   render() {
     return (
       <div className="event-cards">
-        <Card fluid color="teal">
+        <Card fluid>
           <Card.Content header={this.props.event.title} />
           <Card.Content>
-            <h5>{this.props.event.location}</h5>
             <Grid columns='equal'>
               <Grid.Column>
                 <Segment><b>Itinerary</b><br /><br />
@@ -52,7 +51,7 @@ export default class EventSummary extends Component {
             {this.props.event.location}
           </Card.Content>
         </Card>
-        <Card fluid color="teal">
+        <Card fluid>
           <Card.Content header="Group Status Table" />
           {
             this.props.groupTodos.length === 0

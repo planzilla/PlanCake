@@ -3,7 +3,7 @@ import { Button, Header, Icon, Image, Modal, Form, Input, TextArea, Message } fr
 
 const CreateEvent = ({ handleCreateEvent, handleInputChange, handleCreateEventModalOpenClose, createEventError, createEventModalOpen }) => (
   <Modal
-    trigger={<Button onClick={handleCreateEventModalOpenClose} id='semantic-button'>Create an Event</Button>}
+    trigger={<Button onClick={handleCreateEventModalOpenClose} id='semantic-button' className="createEvent-button">Create an Event</Button>}
     open={createEventModalOpen}
     onClose={handleCreateEventModalOpenClose}
     size='tiny'

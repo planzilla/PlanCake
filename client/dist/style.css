@@ -7,6 +7,19 @@
   margin: 0;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
+  font-weight: 300;
+}
+
+b{
+  font-weight: 500;
+}
+
+a{
+  color: black
+}
+
+a:hover{
+  color: #FB9C65
 }
 
 body{
@@ -31,7 +44,7 @@ body{
 }
 
 .dashboard{
-  grid-template-columns: 15% repeat(10, 1fr) 15%;
+  grid-template-columns: 15% repeat(11, 1fr);
   grid-template-rows: 50px repeat(11, 1fr);
   grid-gap: 1em 1em;
   height: auto;
@@ -88,7 +101,7 @@ body{
   z-index: 2;
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
-  filter: drop-shadow(0 0 5px #aaaaaa80)
+  filter: drop-shadow(0 0 5px #aaaaaa80);
 }
 
 .footer{
@@ -135,6 +148,7 @@ hr{
 .header-navbar div h3{
   font-family: 'Poppins', sans-serif;
   color: white;
+  font-weight: 100
 }
 
 .logo{
@@ -301,21 +315,39 @@ hr{
   text-align: center;
 }
 
+.sidebar-grid-container{
+  display: grid;
+  grid-template-columns: 1fr;
+  position: fixed;
+}
+
 .sidebar{
   grid-area: 2 / 1 / auto / 1;
   border-radius: 3px;
   min-height: 90vh;
-  filter: drop-shadow(0 0 3px rgb(157, 155, 155));
+}
+
+.activeSidebar{
+  color: #FB9C65;
+  font-weight: bold;
+}
+
+Button{
+  box-shadow: 2px 2px 3px rgb(157, 155, 155) !important;
+}
+
+.createEvent-button{
+  width: 150px !important;
 }
 
 .event-cards{
-  grid-area: 2 / 2 / auto / 12;
+  grid-area: 2 / 2 / auto / 13;
   z-index: 1;
   filter: drop-shadow(0 0 2px rgb(157, 155, 155));
 }
 
 .chat-view{
-  grid-area: 2 / 2 / auto / 12;
+  grid-area: 2 / 2 / auto / 9;
 }
 
 .placeholder{
@@ -452,4 +484,13 @@ hr{
 .grid-event-summary{
   max-height: 400px;
   overflow: auto;
+}
+
+.table :hover{
+  color: black;
+}
+
+.ui.card>.extra,
+.ui.cards>.card>.extra{
+  background-color: #C5E2BF;
 }
