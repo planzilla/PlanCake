@@ -411,6 +411,10 @@ Button{
 .user-message{
   margin-top: .25rem;
   margin-bottom: .25rem;
+  display: block;
+  position: relative;
+  float: right;
+  clear: both;
 }
 
 .received-message{
