@@ -23,12 +23,12 @@ export default class EventSummary extends Component {
             <Grid columns='equal'>
               <Grid.Column>
                 <Segment><b>Itinerary</b><br /><br />
-                  <AddPlan               
+                  <AddPlan
                     handleInputChange={this.props.handleInputChange}
                     handleAddPlan={this.props.handleAddPlan}
                     addPlanError={this.props.addPlanError}
                   />
-                  <ItineraryList 
+                  <ItineraryList
                     itinerary={this.props.itinerary}
                   />
                 </Segment>
@@ -58,10 +58,10 @@ export default class EventSummary extends Component {
                 <Message info>
                   <Message.Header>
                     Want to see what everyone has accomplished?
-              </Message.Header>
+                  </Message.Header>
                   <p>
                     Assign a group task by clicking on the todo icon.
-              </p>
+                  </p>
                 </Message>
               </Card.Content>
               : <Card.Content className="table-container">

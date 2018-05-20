@@ -32,6 +32,7 @@ router.get('/api/getChatMessages', controller.get.chatMessages)
 // ITINERARY RELATED ROUTES
 router.post('/api/addPlan', controller.post.addPlan);
 router.get('/api/itinerary', controller.get.itinerary);
+router.get('/api/allItineraries', controller.get.allItineraries);
 
 
 module.exports = router;

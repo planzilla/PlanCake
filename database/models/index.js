@@ -94,9 +94,18 @@ db.addUserToEvent = (event, user) => {
   return db.EventUser.create(query);
 }
 
+db.fetchAllItineraries = (eventIdArr) => db.Itinerary.findAll({
+  where: {
+    $or: eventIdArr
+  }, 
+  order: [
+    ['date', 'ASC']
+  ]
+})
+
 db.fetchEventsByEventId = (eventIdArr) => db.Event.findAll({
   where: {
-    $or : eventIdArr
+    $or: eventIdArr
   },
   order: [
     ['createdAt', 'DESC'],

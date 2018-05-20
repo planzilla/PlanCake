@@ -54,7 +54,8 @@ export class LoggedInView extends Component {
       selected: '',
       boardId: null,
       allMessages: [],
-      itinerary: [], //array of objects of plans
+      allItineraries: {}, //object of arrays of objects (plans)
+      itinerary: [], //array of objects (plans)
       addPlanTitle: null,
       addPlanDate: null,
       addPlanTime: null,
@@ -82,8 +83,13 @@ export class LoggedInView extends Component {
     axios.get('/api/userEvents')
       .then(result => {
         this.setState({ events: result.data });
-      });
-      
+        let eventsStr = result.data.map(event => event.id).toString();
+        return axios.get(`/api/allItineraries?eventIdStr=${eventsStr}`)
+      })
+      .then(({ data })=> {
+        this.setState({ allItineraries : data })
+      })
+
     axios.get('/api/todos')
       .then(result => {
         // console.log('todos in LIV: ', result.data);
@@ -356,18 +362,19 @@ export class LoggedInView extends Component {
               events={this.state.events} 
               handleClickEventTitle={this.handleClickEventTitle}
               todos={this.state.todos}
-              /> } />
-          <Route path="/events/:id" render={() => 
-            <EventSummary 
-            topicBoards={this.state.topicBoards}  
-            event={this.state.currentEvent} 
-            todos={this.state.todos}
-            groupTodos={this.state.groupTodos}
-            handleInputChange={this.handleInputChange}
-            handleAddPlan={this.handleAddPlan}
-            addPlanError={this.state.addPlanError}
-            itinerary={this.state.itinerary}
-            /> } 
+              allItineraries={this.state.allItineraries}
+            />} />
+          <Route path="/events/:id" render={() =>
+            <EventSummary
+              topicBoards={this.state.topicBoards}
+              event={this.state.currentEvent}
+              todos={this.state.todos}
+              groupTodos={this.state.groupTodos}
+              handleInputChange={this.handleInputChange}
+              handleAddPlan={this.handleAddPlan}
+              addPlanError={this.state.addPlanError}
+              itinerary={this.state.itinerary}
+            />}
           />
           <Route path="/board/:id" render={() => 
             <TopicBoardView
