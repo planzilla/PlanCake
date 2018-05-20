@@ -490,7 +490,28 @@ Button{
   color: black;
 }
 
+.table-col-itinerary{
+  text-align: center;
+}
+
 .ui.card>.extra,
 .ui.cards>.card>.extra{
   background-color: #C5E2BF;
+}
+
+.add-plan-button{
+  float:right;
+}
+
+.header{
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+.hr-card{
+  grid-row: 1;
+  height: 5px;
+  border: 0;
+  box-shadow: inset 0 5px 5px -4px rgba(251, 220, 110, 1);
 }

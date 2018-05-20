@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Icon, Message, Grid, Segment, List } from 'semantic-ui-react';
+import { Card, Icon, Message, Grid, Segment, List, Header } from 'semantic-ui-react';
 import Todo from './Todo.jsx';
 import GroupStatusTable from './GroupStatusTable.jsx';
 import AddPlan from './AddPlan.jsx';
@@ -21,7 +21,8 @@ export default class EventSummary extends Component {
           <Card.Content>
             <Grid columns='equal'>
               <Grid.Column>
-                <Segment><b>Itinerary</b><br /><br />
+                <Segment>
+                  <Header>Itinerary
                   <AddPlan
                     handleInputChange={this.props.handleInputChange}
                     handleAddPlan={this.props.handleAddPlan}
@@ -29,6 +30,8 @@ export default class EventSummary extends Component {
                     handleAddPlanModalOpenClose={this.props.handleAddPlanModalOpenClose}
                     addPlanModalOpen={this.props.addPlanModalOpen}
                   />
+                  </Header>
+                  <hr className="hr-card"/>
                   <ItineraryList
                     itinerary={this.props.itinerary}
                   />

@@ -27,7 +27,7 @@ export default class EventCard extends Component {
                 : <Grid celled columns='equal' className="table">
                   <Grid.Row>
                     {this.props.itinerary.map(item => (
-                      <Grid.Column>
+                      <Grid.Column className="table-col-itinerary">
                         <b>{item.title}</b>
                         <br />
                         {Moment(item.date).format('LLLL')}
