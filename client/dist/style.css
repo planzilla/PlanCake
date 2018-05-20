@@ -373,6 +373,8 @@ Button{
 .chat-form{
   grid-row: 3;
   padding: 3px;
+  margin-right: 5px;
+  margin-left: 5px;
   bottom: 0;
   width: auto;
   height: auto;
