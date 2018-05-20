@@ -27,6 +27,8 @@ export default class EventSummary extends Component {
                     handleInputChange={this.props.handleInputChange}
                     handleAddPlan={this.props.handleAddPlan}
                     addPlanError={this.props.addPlanError}
+                    handleAddPlanModalOpenClose={this.props.handleAddPlanModalOpenClose}
+                    addPlanModalOpen={this.props.addPlanModalOpen}
                   />
                   <ItineraryList
                     itinerary={this.props.itinerary}

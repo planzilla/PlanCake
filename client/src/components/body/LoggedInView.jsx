@@ -63,6 +63,7 @@ export class LoggedInView extends Component {
       addPlanCost: null,
       addPlanNotes: null,
       addPlanError: null,
+      addPlanModalOpen: false,
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleAddTopicModalOpenClose = this.handleAddTopicModalOpenClose.bind(this);
@@ -78,6 +79,7 @@ export class LoggedInView extends Component {
     this.handleAddPlan = this.handleAddPlan.bind(this);
     this.setAllMessages = this.setAllMessages.bind(this);
     this.handleHomeReloadItineraries = this.handleHomeReloadItineraries.bind(this);
+    this.handleAddPlanModalOpenClose = this.handleAddPlanModalOpenClose.bind(this);
   }
 
   componentDidMount() {
@@ -283,24 +285,39 @@ export class LoggedInView extends Component {
       this.setState({ addPlanError: 'Please enter a date.' })
     } else {
 
-    let dateAndTime = new Date(`${this.state.addPlanDate} ${this.state.addPlanTime}`)
-    const requestObj = {
-      EventId: this.state.currentEvent.id,
-      date: dateAndTime,
-      title: this.state.addPlanTitle,
-      cost: this.state.addPlanCost,
-      address: this.state.addPlanAddress,
-      notes: this.state.addPlanNotes,
-    }
-    return axios.post('/api/addPlan', requestObj)
-      .then(({ data }) => {
-        this.setState({ itinerary: data })
-      })
-      .catch(err => {
-        this.setState({ addPlanError: 'Something went wrong. Please try again.'})
-      })
+      let dateAndTime = new Date(`${this.state.addPlanDate} ${this.state.addPlanTime}`)
+      const requestObj = {
+        EventId: this.state.currentEvent.id,
+        date: dateAndTime,
+        title: this.state.addPlanTitle,
+        cost: this.state.addPlanCost,
+        address: this.state.addPlanAddress,
+        notes: this.state.addPlanNotes,
+      }
+      return axios.post('/api/addPlan', requestObj)
+        .then(({ data }) => {
+          this.setState({ itinerary: data })
+          this.handleAddPlanModalOpenClose();
+        })
+        .catch(err => {
+          this.setState({ addPlanError: 'Something went wrong. Please try again.' })
+        })
 
     }
+  }
+
+  handleAddPlanModalOpenClose() {
+    let openCloseState = !this.state.addPlanModalOpen;
+    this.setState({ 
+      addPlanModalOpen: openCloseState,
+      addPlanTitle: null,
+      addPlanDate: null,
+      addPlanTime: null,
+      addPlanAddress: null,
+      addPlanCost: null,
+      addPlanNotes: null,
+      addPlanError: null,
+     });
   }
 
   /* -----------  MISC  ------------- */
@@ -388,6 +405,8 @@ export class LoggedInView extends Component {
               handleAddPlan={this.handleAddPlan}
               addPlanError={this.state.addPlanError}
               itinerary={this.state.itinerary}
+              handleAddPlanModalOpenClose={this.handleAddPlanModalOpenClose}
+              addPlanModalOpen={this.state.addPlanModalOpen}
             />}
           />
           <Route path="/board/:id" render={() => 
