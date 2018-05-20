@@ -5,6 +5,7 @@ const app = express();
 const server = http.createServer(app);
 
 const path = require('path');
+const db = require('../database/models/index.js');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const morgan = require('./middleware/morgan');
@@ -31,18 +32,21 @@ app.use(loggedOutRedirect);
 app.use(router);
 app.get('*', express.static(`${__dirname}/../client/dist`));
 
+app.get('*', function(req, res) {
+  res.sendFile(path.resolve(`${__dirname}/../client/dist/index.html`));
+});
+
 io.on('connection', (socket) => {
   let room;
-  socket.on('room', (roomname) => {
-    room = roomname;
+  socket.on('room', (user) => {
+    room = (17 << 2).toString().concat(user.boardId + ' ' + user.roomname);
     io.emit('room', room);
     socket.join(room);
-    io.sockets.in(room).emit('chatMessage', `connected to ${roomname.slice(2)}`);
-    console.log('joined room', room);
+    io.sockets.in(room).emit('enterRoom', user);
   });
-  socket.on('chatMessage', (message) => {
-    console.log('Server message is:', message);
-    io.sockets.in(room).emit('chatMessage', message);
+  socket.on('chatMessage', (user) => {
+    db.addChat(user.userId, user.boardId, user.text);
+    io.sockets.in(room).emit('chatMessage', user);
   });
   socket.on('disconnect', () => {
     console.log('user disconnected');
@@ -51,3 +55,4 @@ io.on('connection', (socket) => {
 
 server.listen(PORT, () => { console.log(`Listening on port ${PORT}`); });
 module.exports = app;
+

@@ -16,6 +16,20 @@ const patch = {};
 // }
 
 /* -------- GET REQUESTS --------- */
+get.chatMessages = (req, res) => {
+ db.sendChatHist(req.query.boardId)
+  .then((result) => {
+    result = result.reduce((acc, { dataValues: { text: t, User: { username: u } }}) => {
+      acc.push({ text: t, username: u })
+      return acc;
+    }, [])
+    res.json(result)
+  })
+  .catch(err => {
+    console.error(err);
+  })
+}
+
 get.groupTodo = (req, res) => {
   return db.groupTodo(req.query.EventId)
     .then((data) => {

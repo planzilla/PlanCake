@@ -52,6 +52,8 @@ export class LoggedInView extends Component {
       createEventError: '',
       createEventModalOpen: false,
       selected: '',
+      boardId: null,
+      allMessages: [],
       itinerary: [], //array of objects of plans
       addPlanTitle: null,
       addPlanDate: null,
@@ -68,11 +70,12 @@ export class LoggedInView extends Component {
     this.handleCreateEvent = this.handleCreateEvent.bind(this);
     this.clearAllCreateEventInfo = this.clearAllCreateEventInfo.bind(this);
     this.handleClickEventTitle = this.handleClickEventTitle.bind(this);
-    this.setLoggedIn = this.setLoggedIn.bind(this);
+    this.setSelectedBoard = this.setSelectedBoard.bind(this);
     this.getInvitesByUserId = this.getInvitesByUserId.bind(this);
     this.acceptInvite = this.acceptInvite.bind(this);
     this.ignoreInvite = this.ignoreInvite.bind(this);
     this.handleAddPlan = this.handleAddPlan.bind(this);
+    this.setAllMessages = this.setAllMessages.bind(this);
   }
 
   componentDidMount() {
@@ -93,13 +96,6 @@ export class LoggedInView extends Component {
       })
       .catch(err => {console.log('err in get invites', err)})
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   if (this.props.events !== nextProps.events) {
-  //     this.props.fetchPosts();
-  //   }
-  // }
-
 
   handleInputChange(event) {
     this.setState({ [event.target.name]: event.target.value })
@@ -302,11 +298,24 @@ export class LoggedInView extends Component {
 
   /* -----------  MISC  ------------- */
 
-  setLoggedIn(selected) {
-    console.log(selected)
-    this.setState({ selected: selected });
+  setSelectedBoard(selected, boardId) {
+    Promise.resolve(
+      this.setState({ 
+        selected: selected,
+        boardId: boardId,
+        allMessages: [],
+      })).then(() => {
+      return axios.get(`/api/getChatMessages?boardId=${this.state.boardId}`)
+      .then(({ data }) => { 
+        if (!!data) { this.setState({ allMessages: data.concat(this.state.allMessages) }) };
+      });
+    });
   }
 
+  setAllMessages(message) {
+    this.setState({ allMessages: message })
+  }
+  
   render() {
     // if (this.state.events.length === 0) {
     //   return '...loading??';
@@ -336,10 +345,11 @@ export class LoggedInView extends Component {
             createEventError={this.state.createEventError}
             handleClickEventTitle={this.handleClickEventTitle}
             events={this.state.events}
-            setLoggedIn={this.setLoggedIn}
+            setSelectedBoard={this.setSelectedBoard}
           />
 
-        <div className="placeholder"></div>
+        <div className="placeholder">
+        </div>
 
           <Route path="/loggedinview" render={() => 
             <Dashboard 
@@ -364,6 +374,10 @@ export class LoggedInView extends Component {
               topicBoards={this.state.topicBoards}
               userData={this.props.userData}
               selected={this.state.selected}
+              username={this.props.userData.username}
+              boardId={this.state.boardId}
+              allMessages={this.state.allMessages}
+              setAllMessages={this.setAllMessages}
             /> }
           />
 

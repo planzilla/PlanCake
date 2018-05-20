@@ -4,7 +4,7 @@ import { Button, Icon, Modal, Form, Message } from 'semantic-ui-react';
 const AddTopic = ({ handleInputChange, handleAddTopic, handleAddTopicModalOpenClose, addTopicModalOpen, addTopicError, eventId }) => (
   <Modal
     trigger={
-      <Button onClick={handleAddTopicModalOpenClose}>
+      <Button size='mini' id='semantic-button-small' onClick={handleAddTopicModalOpenClose}>
         <Icon name='plus' />
         Discussion
       </Button>

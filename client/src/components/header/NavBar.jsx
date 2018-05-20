@@ -57,13 +57,13 @@ export default class NavBar extends Component {
   render() {
     return (
       <div className="header-navbar grid">
-        <img className="logo jsas" src="plancakepng.png" />
-        {
-          this.props.username !== null
-            ? <div className="nav-links-loggedIn">
+        <img className="logo jsas" src="plancakepng_white.png" />
+          {
+            this.props.username !== null
+              ? <div className="nav-links-loggedIn">
               <div>
-                <Inbox
-                  invites={this.props.invites}
+                <Inbox 
+                  invites={this.props.invites} 
                   acceptInvite={this.props.acceptInvite}
                   ignoreInvite={this.props.ignoreInvite}
                 />
@@ -76,8 +76,8 @@ export default class NavBar extends Component {
               </div>
               <div >
                 <Logout logout={this.logout} className="nav-name"/>
+              </div> 
               </div>
-            </div>
             : <div className="nav-links">
               <h3>About Us</h3>
               <h3>How It Works</h3>

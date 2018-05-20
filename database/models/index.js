@@ -205,6 +205,26 @@ db.updateJoinEventStatusIgnore = (UserId, EventId) => {
   )
 }
 
+db.addChat = (UserId, BoardId, message) => {
+  return db.Chat.create({
+    text: message,
+    UserId: UserId,
+    BoardId: BoardId
+  }, (err) => {
+    console.log(err);
+  });
+}
+
+db.sendChatHist = (BoardId) => {
+  return db.Chat.findAll({
+    where: { BoardId: BoardId },
+    include: [{
+      model: db.User,
+      require: true
+    }]
+  })
+}
+
 // sequelize.sync();
 
 db.sequelize = sequelize;

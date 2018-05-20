@@ -1,28 +1,36 @@
 import React, {Component} from 'react';
 import io from 'socket.io-client';
 import Promise from 'bluebird';
+import axios from 'axios';
 
 class Chat extends Component{
   constructor(props) {
     super(props)
     this.state = {
       message: '',
-      allMessages: [],
     }
     this.socket = io.connect();
     this.socket.on('connection', () => { console.log('boardview connection'); });
+    this.socket.on('chatMessage', (user) => {
+      this.props.setAllMessages(this.props.allMessages.concat([user]));
+    });
     this.input = this.input.bind(this);
     this.send = this.send.bind(this);
-    this.socket.on('chatMessage', message => {
-      if (message.includes(this.props.userData.username)) { message = message.split(': ')[1]; } 
-      let { allMessages } = this.state;
-      let newAllMessages = allMessages.concat([message]);
-      this.setState({ allMessages: newAllMessages });
-    });
   }
 
   componentDidMount() {
-    this.socket.emit('room', (17 << 2).toString().concat(this.props.selected));
+    const { selected, username, boardId } = this.props;
+    function user(roomname, username, boardId) {
+      this.username = username;
+      this.boardId = boardId;
+      this.roomname = roomname;
+    };
+    this.socket.emit('room', new user(selected, username, boardId));
+  }
+
+  componentDidUpdate() {
+    const messageList = document.getElementById('messages');
+    messageList.scrollTop = messageList.scrollHeight;
   }
 
   input(e) {
@@ -31,22 +39,31 @@ class Chat extends Component{
 
   send(e) {
     e.preventDefault();
-    const { username } = this.props.userData;
-    const message = Promise.resolve(this.socket.emit('chatMessage', `${username}: ${this.state.message}`));
-    message.then(() => { this.setState({ message: '' }); });
+    function user(userId, boardId, message, username) {
+      this.username = username;
+      this.boardId = boardId;
+      this.userId = userId;
+      this.text = message;
+    }
+    const { username, id } = this.props.userData;
+    const { boardId } = this.props;
+    Promise.resolve(this.socket.emit('chatMessage', new user(id, boardId, this.state.message, this.props.username)))
+    .then(() => { this.setState({ message: '' }); });
   }
 
   render() {
     return (
       <div className="chat-view chat grid">
+      {<div className="connected-user">{`You've connected to ${this.props.selected}`}</div>}
         <div id="messages">
-          {this.state.allMessages.map((message, key) => {
-            if (message.includes(':')) {
-              return <div className="received-message" key={key}><span>{message}</span></div>
-            } else {
-              return <div key={key} className="user-message"><span>{message}</span></div>
-            };
+          {this.props.allMessages.map((user, key, array) => {
+          if (user.username !== this.props.username) {
+            return <div className="received-message" key={key}><p><strong>{`${user.username} : `}</strong>{`${user.text}`}</p></div>
+          } else {
+            return <div key={key} className="user-message"><p className="user-message-text">{user.text}</p></div>
+          };
           })}
+          <div ref={(e) => { this.messageEnd = e }}></div>
         </div>
         <form className="chat-form">
           <input onChange={this.input} value={this.state.message} id="m" autoComplete="off"/>
