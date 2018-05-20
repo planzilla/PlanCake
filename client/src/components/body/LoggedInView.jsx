@@ -77,6 +77,7 @@ export class LoggedInView extends Component {
     this.ignoreInvite = this.ignoreInvite.bind(this);
     this.handleAddPlan = this.handleAddPlan.bind(this);
     this.setAllMessages = this.setAllMessages.bind(this);
+    this.handleHomeReloadItineraries = this.handleHomeReloadItineraries.bind(this);
   }
 
   componentDidMount() {
@@ -86,8 +87,8 @@ export class LoggedInView extends Component {
         let eventsStr = result.data.map(event => event.id).toString();
         return axios.get(`/api/allItineraries?eventIdStr=${eventsStr}`)
       })
-      .then(({ data })=> {
-        this.setState({ allItineraries : data })
+      .then(({ data }) => {
+        this.setState({ allItineraries: data })
       })
 
     axios.get('/api/todos')
@@ -322,6 +323,18 @@ export class LoggedInView extends Component {
     this.setState({ allMessages: message })
   }
   
+  handleHomeReloadItineraries() {
+    console.log('in handleHomeReloadItineraries', this.state.events)
+    let eventsStr = this.state.events.map(event => event.id).toString();
+    return axios.get(`/api/allItineraries?eventIdStr=${eventsStr}`)
+      .then(({ data }) => {
+        console.log('in handleHomeReloadItineraries then', data)
+        this.setState({ allItineraries: data })
+      })
+      .catch(err => {console.log(err)});
+  }
+
+
   render() {
     // if (this.state.events.length === 0) {
     //   return '...loading??';
@@ -337,7 +350,8 @@ export class LoggedInView extends Component {
             setUser={this.setUser} 
             view={this.props.userData.username}
             userData={this.props.userData}
-            />
+            handleHomeReloadItineraries={this.handleHomeReloadItineraries}
+          />
           <SideBar
             topicBoards={this.state.topicBoards}
             handleInputChange={this.handleInputChange}

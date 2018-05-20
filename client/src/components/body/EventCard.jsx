@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Card, Icon, Grid, Message } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import Todo from './Todo.jsx';
 import Moment from 'moment';
 
 export default class EventCard extends Component {
@@ -15,6 +14,7 @@ export default class EventCard extends Component {
         <Card fluid color='teal' onClick={() => this.props.handleClickEventTitle(this.props.event)}>
           <Card.Content header={this.props.title} />
           <Card.Content>
+          <h3><b>Overview</b></h3>
             {
               this.props.itinerary.length === 0
                 ? <Message info>

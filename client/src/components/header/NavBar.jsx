@@ -53,7 +53,7 @@ export default class NavBar extends Component {
         })
       })
   }
-  // TODO need to render logout
+
   render() {
     return (
       <div className="header-navbar grid">
@@ -69,7 +69,13 @@ export default class NavBar extends Component {
                 />
               </div>
               <div>
-                <Link to='/loggedInView' className="header-icon"><Icon name='home' size='large' /></Link>
+                <Link to='/loggedInView' className="header-icon">
+                  <Icon 
+                    name='home' 
+                    size='large' 
+                    onClick={this.props.handleHomeReloadItineraries}
+                  />
+                </Link>
               </div>
               <div >
                 <h3 className="nav-name">{this.props.userData.firstName}</h3>
