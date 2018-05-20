@@ -423,7 +423,7 @@ Button{
 }
 
 .user-message{
-  background-color: #A4DCD3;
+  background-color: #eceded;
   padding: .4rem;
   border-radius: 6px;
   box-shadow: 2px 2px 2px rgb(213, 212, 212);
@@ -431,7 +431,7 @@ Button{
 }
 
 .received-message{
-  background-color: #FB9C65;
+  background-color: #fbaf83;
   padding: .4rem;
   border-radius: 6px;
   box-shadow: 2px 2px 2px rgb(213, 212, 212);
@@ -500,7 +500,7 @@ Button{
 
 .ui.card>.extra,
 .ui.cards>.card>.extra{
-  background-color: #C5E2BF;
+  background-color: #fbaf83;
 }
 
 .add-plan-button{
@@ -517,7 +517,7 @@ Button{
   grid-row: 1;
   height: 5px;
   border: 0;
-  box-shadow: inset 0 5px 5px -4px rgba(251, 220, 110, 1);
+  box-shadow: inset 0 5px 5px -4px #fbaf83;;
 }
 
 h4{
