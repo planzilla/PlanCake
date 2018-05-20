@@ -348,6 +348,8 @@ Button{
 
 .chat-view{
   grid-area: 2 / 2 / auto / 9;
+  border: solid #e0e1e2 1px;
+  border-radius: 7px;
 }
 
 .placeholder{
@@ -400,12 +402,19 @@ Button{
 .connected-user{
   grid-row: 1;
   text-align: center;
+  padding: 10px;
+  background-color: #fbaf83;
+  min-height: 40px;
+  overflow: hidden;
+  border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
 }
 
 #messages{
   overflow: auto;
   grid-row: 2;
   overflow-x: hidden;
+  padding:10px;
 }
 
 .user-message{
@@ -423,7 +432,7 @@ Button{
 }
 
 .user-message{
-  background-color: #eceded;
+  background-color: #A4DCD3;
   padding: .4rem;
   border-radius: 6px;
   box-shadow: 2px 2px 2px rgb(213, 212, 212);
@@ -431,7 +440,7 @@ Button{
 }
 
 .received-message{
-  background-color: #fbaf83;
+  background-color: #eceded;
   padding: .4rem;
   border-radius: 6px;
   box-shadow: 2px 2px 2px rgb(213, 212, 212);
@@ -440,7 +449,7 @@ Button{
 
 .chat{
   grid-template-columns: 1fr;
-  grid-template-rows: 25px 1fr 50px;
+  grid-template-rows: 40px 1fr 50px;
   max-height: 90vh;
   width: auto;
 }
@@ -465,6 +474,7 @@ Button{
 .chat-connected{
   text-align: center;
   padding: .4rem;
+  min-height: 25px;
 }
 
 .table-container{
@@ -517,7 +527,7 @@ Button{
   grid-row: 1;
   height: 5px;
   border: 0;
-  box-shadow: inset 0 5px 5px -4px #fbaf83;;
+  box-shadow: inset 0 5px 5px -4px #fbaf83;
 }
 
 h4{
