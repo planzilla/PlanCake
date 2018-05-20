@@ -376,14 +376,26 @@ Button{
   bottom: 0;
   width: auto;
   height: auto;
+  display: inline-block;
+  position: relative;
 }
 
 .chat-form input{
   border-color: #295976;
   padding: 10px;
-  width: 90%;
-  margin-right: .5%;
+  width: 100%;
+  margin-right: 5%;
   border-radius: 4px;
+  padding-right: 50px;
+}
+
+#send-button{
+  margin-left: -50px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 5px;
+  width: 38px;
 }
 
 .chat-form button{
