@@ -515,3 +515,18 @@ Button{
   border: 0;
   box-shadow: inset 0 5px 5px -4px rgba(251, 220, 110, 1);
 }
+
+h4{
+  font-family: 'Poppins', sans-serif;
+  font-weight: 200;
+}
+
+h1{
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+}
+
+h2{
+  font-family: 'Poppins', sans-serif;
+  font-weight: 300;
+}
