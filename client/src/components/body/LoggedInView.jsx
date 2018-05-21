@@ -54,7 +54,8 @@ export class LoggedInView extends Component {
       selected: '',
       boardId: null,
       allMessages: [],
-      itinerary: [], //array of objects of plans
+      allItineraries: {}, //object of arrays of objects (plans)
+      itinerary: [], //array of objects (plans)
       addPlanTitle: null,
       addPlanDate: null,
       addPlanTime: null,
@@ -62,6 +63,7 @@ export class LoggedInView extends Component {
       addPlanCost: null,
       addPlanNotes: null,
       addPlanError: null,
+      addPlanModalOpen: false,
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleAddTopicModalOpenClose = this.handleAddTopicModalOpenClose.bind(this);
@@ -76,14 +78,21 @@ export class LoggedInView extends Component {
     this.ignoreInvite = this.ignoreInvite.bind(this);
     this.handleAddPlan = this.handleAddPlan.bind(this);
     this.setAllMessages = this.setAllMessages.bind(this);
+    this.handleHomeReloadItineraries = this.handleHomeReloadItineraries.bind(this);
+    this.handleAddPlanModalOpenClose = this.handleAddPlanModalOpenClose.bind(this);
   }
 
   componentDidMount() {
     axios.get('/api/userEvents')
       .then(result => {
         this.setState({ events: result.data });
-      });
-      
+        let eventsStr = result.data.map(event => event.id).toString();
+        return axios.get(`/api/allItineraries?eventIdStr=${eventsStr}`)
+      })
+      .then(({ data }) => {
+        this.setState({ allItineraries: data })
+      })
+
     axios.get('/api/todos')
       .then(result => {
         // console.log('todos in LIV: ', result.data);
@@ -276,36 +285,62 @@ export class LoggedInView extends Component {
       this.setState({ addPlanError: 'Please enter a date.' })
     } else {
 
-    let dateAndTime = new Date(`${this.state.addPlanDate} ${this.state.addPlanTime}`)
-    const requestObj = {
-      EventId: this.state.currentEvent.id,
-      date: dateAndTime,
-      title: this.state.addPlanTitle,
-      cost: this.state.addPlanCost,
-      address: this.state.addPlanAddress,
-      notes: this.state.addPlanNotes,
-    }
-    return axios.post('/api/addPlan', requestObj)
-      .then(({ data }) => {
-        this.setState({ itinerary: data })
-      })
-      .catch(err => {
-        this.setState({ addPlanError: 'Something went wrong. Please try again.'})
-      })
+      let dateAndTime = new Date(`${this.state.addPlanDate} ${this.state.addPlanTime}`)
+      const requestObj = {
+        EventId: this.state.currentEvent.id,
+        date: dateAndTime,
+        title: this.state.addPlanTitle,
+        cost: this.state.addPlanCost,
+        address: this.state.addPlanAddress,
+        notes: this.state.addPlanNotes,
+      }
+      return axios.post('/api/addPlan', requestObj)
+        .then(({ data }) => {
+          this.setState({ itinerary: data })
+          this.handleAddPlanModalOpenClose();
+        })
+        .catch(err => {
+          this.setState({ addPlanError: 'Something went wrong. Please try again.' })
+        })
 
     }
   }
 
+  handleAddPlanModalOpenClose() {
+    let openCloseState = !this.state.addPlanModalOpen;
+    this.setState({ 
+      addPlanModalOpen: openCloseState,
+      addPlanTitle: null,
+      addPlanDate: null,
+      addPlanTime: null,
+      addPlanAddress: null,
+      addPlanCost: null,
+      addPlanNotes: null,
+      addPlanError: null,
+     });
+  }
+
   /* -----------  MISC  ------------- */
 
+  clearDomOfActiveSidebar() {
+    var domElement = document.getElementsByClassName("activeSidebar");
+    [].forEach.call(domElement, function(el) {
+      el.classList.remove("activeSidebar");
+    });
+  }
+
   setSelectedBoard(selected, boardId) {
+    this.clearDomOfActiveSidebar();
+
     Promise.resolve(
       this.setState({ 
         selected: selected,
         boardId: boardId,
         allMessages: [],
-      })).then(() => {
-      return axios.get(`/api/getChatMessages?boardId=${this.state.boardId}`)
+      }))
+      .then(() => {
+        document.getElementById(`${selected}-${boardId}`).classList.add("activeSidebar");
+        return axios.get(`/api/getChatMessages?boardId=${this.state.boardId}`)
       .then(({ data }) => { 
         if (!!data) { this.setState({ allMessages: data.concat(this.state.allMessages) }) };
       });
@@ -316,6 +351,20 @@ export class LoggedInView extends Component {
     this.setState({ allMessages: message })
   }
   
+  handleHomeReloadItineraries() {
+    this.clearDomOfActiveSidebar();
+    
+    console.log('in handleHomeReloadItineraries', this.state.events)
+    let eventsStr = this.state.events.map(event => event.id).toString();
+    return axios.get(`/api/allItineraries?eventIdStr=${eventsStr}`)
+      .then(({ data }) => {
+        console.log('in handleHomeReloadItineraries then', data)
+        this.setState({ allItineraries: data })
+      })
+      .catch(err => {console.log(err)});
+  }
+
+
   render() {
     // if (this.state.events.length === 0) {
     //   return '...loading??';
@@ -331,7 +380,8 @@ export class LoggedInView extends Component {
             setUser={this.setUser} 
             view={this.props.userData.username}
             userData={this.props.userData}
-            />
+            handleHomeReloadItineraries={this.handleHomeReloadItineraries}
+          />
           <SideBar
             topicBoards={this.state.topicBoards}
             handleInputChange={this.handleInputChange}
@@ -356,18 +406,21 @@ export class LoggedInView extends Component {
               events={this.state.events} 
               handleClickEventTitle={this.handleClickEventTitle}
               todos={this.state.todos}
-              /> } />
-          <Route path="/events/:id" render={() => 
-            <EventSummary 
-            topicBoards={this.state.topicBoards}  
-            event={this.state.currentEvent} 
-            todos={this.state.todos}
-            groupTodos={this.state.groupTodos}
-            handleInputChange={this.handleInputChange}
-            handleAddPlan={this.handleAddPlan}
-            addPlanError={this.state.addPlanError}
-            itinerary={this.state.itinerary}
-            /> } 
+              allItineraries={this.state.allItineraries}
+            />} />
+          <Route path="/events/:id" render={() =>
+            <EventSummary
+              topicBoards={this.state.topicBoards}
+              event={this.state.currentEvent}
+              todos={this.state.todos}
+              groupTodos={this.state.groupTodos}
+              handleInputChange={this.handleInputChange}
+              handleAddPlan={this.handleAddPlan}
+              addPlanError={this.state.addPlanError}
+              itinerary={this.state.itinerary}
+              handleAddPlanModalOpenClose={this.handleAddPlanModalOpenClose}
+              addPlanModalOpen={this.state.addPlanModalOpen}
+            />}
           />
           <Route path="/board/:id" render={() => 
             <TopicBoardView

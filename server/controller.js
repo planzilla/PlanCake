@@ -16,6 +16,30 @@ const patch = {};
 // }
 
 /* -------- GET REQUESTS --------- */
+get.allItineraries = (req, res) => {
+  let query = req.query.eventIdStr.split(',').map(EventId => ({ EventId: EventId }))
+  return db.fetchAllItineraries(query)
+    .then((data) => {
+      let currentDate = new Date();
+      let itineraries = {};
+      let eventIdArr = req.query.eventIdStr.split(',').map(EventId => EventId);
+      eventIdArr.forEach(item => {
+        itineraries[item] = [];
+      })
+      data.forEach(item => {
+        if (itineraries[item.dataValues.EventId].length < 6 && item.dataValues.date > currentDate) {
+          itineraries[item.dataValues.EventId].push(item.dataValues);
+        }
+      })
+      res.json(itineraries);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500);
+      res.end();
+    })
+}
+
 get.chatMessages = (req, res) => {
  db.sendChatHist(req.query.boardId)
   .then((result) => {

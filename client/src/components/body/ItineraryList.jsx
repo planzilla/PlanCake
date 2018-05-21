@@ -8,7 +8,7 @@ const ItineraryList = ({ itinerary }) => {
     return (
       <Message info>
           <Message.Header>
-            Want to see what finalized plans?
+            Want to see some finalized plans?
           </Message.Header>
           <p>
             Click "Add a Plan" to contribute to the itinerary!

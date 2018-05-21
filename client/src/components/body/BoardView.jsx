@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import io from 'socket.io-client';
 import Promise from 'bluebird';
 import axios from 'axios';
+import { Icon } from 'semantic-ui-react';
 
 class Chat extends Component{
   constructor(props) {
@@ -67,7 +68,7 @@ class Chat extends Component{
         </div>
         <form className="chat-form">
           <input onChange={this.input} value={this.state.message} id="m" autoComplete="off"/>
-          <button onClick={this.send} type="submit">Send</button>
+          <button onClick={this.send} type="submit" id="send-button"><Icon name="send"/></button>
         </form>
       </div>
     )

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Icon, Message, Grid, Segment, List } from 'semantic-ui-react';
+import { Card, Icon, Message, Grid, Segment, List, Header } from 'semantic-ui-react';
 import Todo from './Todo.jsx';
 import GroupStatusTable from './GroupStatusTable.jsx';
 import AddPlan from './AddPlan.jsx';
@@ -16,19 +16,23 @@ export default class EventSummary extends Component {
   render() {
     return (
       <div className="event-cards">
-        <Card fluid color="teal">
+        <Card fluid>
           <Card.Content header={this.props.event.title} />
           <Card.Content>
-            <h5>{this.props.event.location}</h5>
             <Grid columns='equal'>
               <Grid.Column>
-                <Segment><b>Itinerary</b><br /><br />
-                  <AddPlan               
+                <Segment>
+                  <Header>Itinerary
+                  <AddPlan
                     handleInputChange={this.props.handleInputChange}
                     handleAddPlan={this.props.handleAddPlan}
                     addPlanError={this.props.addPlanError}
+                    handleAddPlanModalOpenClose={this.props.handleAddPlanModalOpenClose}
+                    addPlanModalOpen={this.props.addPlanModalOpen}
                   />
-                  <ItineraryList 
+                  </Header>
+                  <hr className="hr-card"/>
+                  <ItineraryList
                     itinerary={this.props.itinerary}
                   />
                 </Segment>
@@ -50,7 +54,7 @@ export default class EventSummary extends Component {
             {this.props.event.location}
           </Card.Content>
         </Card>
-        <Card fluid color="teal">
+        <Card fluid>
           <Card.Content header="Group Status Table" />
           {
             this.props.groupTodos.length === 0
@@ -58,10 +62,10 @@ export default class EventSummary extends Component {
                 <Message info>
                   <Message.Header>
                     Want to see what everyone has accomplished?
-              </Message.Header>
+                  </Message.Header>
                   <p>
                     Assign a group task by clicking on the todo icon.
-              </p>
+                  </p>
                 </Message>
               </Card.Content>
               : <Card.Content className="table-container">

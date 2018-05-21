@@ -1,8 +1,14 @@
 import React from 'react';
 import { Button, Header, Icon, Modal, Form, Input, TextArea, Message } from 'semantic-ui-react';
 
-const AddPlan = ({ handleInputChange, handleAddPlan, addPlanError }) => (
-  <Modal trigger={<Button>Add a Plan</Button>} closeIcon size='tiny'>
+const AddPlan = ({ handleInputChange, handleAddPlan, addPlanError, handleAddPlanModalOpenClose, addPlanModalOpen }) => (
+  <Modal
+    trigger={<Button onClick={handleAddPlanModalOpenClose} className="add-plan-button" size="mini"><Icon name='plus' /> Plan</Button>} 
+    closeIcon 
+    size='tiny'
+    open={addPlanModalOpen}
+    onClose={handleAddPlanModalOpenClose}
+  >
     <Header icon='add to calendar' content='Add to Itinerary' />
     <Modal.Content>
       <Form>
