@@ -46,7 +46,10 @@ export default class NavBar extends Component {
   }
 
   logout() {
-    axios.get('/api/logout')
+    return axios.patch('/api/status', { status: false })
+      .then(() => {
+        return axios.get('/api/logout')
+      })
       .then(() => {
         this.setState({
           status: 'not authenticated',

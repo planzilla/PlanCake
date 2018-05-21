@@ -196,6 +196,14 @@ patch.ignoreInvite = (req, res) => {
     })
 }
 
+patch.status = (req, res) => {
+  return db.changeStatus(req.user.id, req.body.status)
+    .then(() => {
+      console.log('im in then of change status')
+    })
+    .catch(err => {console.log(err)})
+}
+
 /* -------- POST REQUESTS --------- */
 
 post.addPlan = (req, res) => {

@@ -94,6 +94,15 @@ db.addUserToEvent = (event, user) => {
   return db.EventUser.create(query);
 }
 
+db.changeStatus = (UserId, status) => {
+  return db.User.update(
+    {status: status}, 
+    {where: {
+      id: UserId,
+    }}
+  )
+}
+
 db.fetchAllItineraries = (eventIdArr) => db.Itinerary.findAll({
   where: {
     $or: eventIdArr
