@@ -5,15 +5,21 @@ export default class AddTodo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 'false',
+      value: '',
+      assignee: '',
       options: [],
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleChangeSelect = this.handleChangeSelect.bind(this);
   }
 
   handleChange (e, {value}) {
     this.setState({ value: value });
-    console.log(this.state.value);
+    this.props.handleRadio(value);
+  }
+
+  handleChangeSelect (e, {value}) {
+    this.props.handleRadio(value);
   }
   
   renderPickSomeone() {
@@ -23,11 +29,23 @@ export default class AddTodo extends Component {
     }));
     if (this.state.value !== 'someone') {
       return (
-        <Form.Field fluid control={Select} options={options} placeholder='Pick one' disabled />
+        <Form.Field
+          fluid control={Select}
+          options={options}
+          placeholder='Pick one'
+          disabled 
+        />
       )
     } else {
       return (
-        <Form.Field fluid control={Select} options={options} placeholder='Pick one' name='assignTo' />
+        <Form.Field
+          fluid control={Select}
+          options={options}
+          placeholder='Pick one'
+          name='assignee' 
+          onChange={this.handleChangeSelect}
+          // onClick={() => { this.props.handleRadio(this.value) }}
+        />
       )
     }
   }
@@ -58,26 +76,28 @@ export default class AddTodo extends Component {
             <Form.Group inline>
             <label>Assign to:</label>
             <Form.Radio
-              label='Everyone' value='everyone' name='assignTo'
-              checked={this.state.value === 'everyone'} onChange={this.handleChange} 
+              label='Everyone' value='everyone' name='assignee'
+              checked={this.state.value === 'everyone'}
+              onChange={this.handleChange} 
               onClick={this.props.handleInputChange}
               />
             <Form.Radio
-              label='Myself' value='myself'
-              name='assignTo' checked={this.state.value === 'myself'}
+              label='Myself' value='myself' name='assignee'
+              checked={this.state.value === 'myself'}
               onChange={this.handleChange} 
+              onClick={this.props.handleInputChange}
 
             />
             <Form.Radio
-              label='Someone' value='someone'
-              name='assignTo' checked={this.state.value === 'someone'}
+              label='Someone' value='someone' name='assignee'
+              checked={this.state.value === 'someone'}
               onChange={this.handleChange} 
-              
+              onClick={this.props.handleInputChange}
             />
             { this.renderPickSomeone() }
             </Form.Group>
 
-            <Form.Group>
+            <Form.Group inline>
             <label>Due Date</label>
               <div className="ui calendar" id="example2">
                 <div className="ui input left icon">
@@ -85,7 +105,7 @@ export default class AddTodo extends Component {
                   <input
                     type='text'
                     name='deadline'
-                    placeholder='12/20/18' 
+                    placeholder='05/25/18' 
                     onChange={this.props.handleInputChange} 
                   />
                 </div>

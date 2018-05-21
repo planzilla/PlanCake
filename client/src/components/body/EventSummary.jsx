@@ -12,9 +12,11 @@ export default class EventSummary extends Component {
       addTodoModalOpen: false,
       addTodoError: '',
       todoData: {
+        groupTodo: false,
         addTodoTask: '',
-        assignTo: '',
-        assigner: '',
+        assignee: '',
+        assigner: this.props.userId,
+        EventId: this.props.event.id,
         deadline: '',
       }
     };
@@ -22,6 +24,7 @@ export default class EventSummary extends Component {
     this.handleAddTodo = this.handleAddTodo.bind(this);
     this.handleAddTodoModalOpenClose = this.handleAddTodoModalOpenClose.bind(this);
     this.postAddTodo = this.postAddTodo.bind(this);
+    this.handleRadio = this.handleRadio.bind(this);
   }
 
   handleAddTodoModalOpenClose() {
@@ -32,7 +35,7 @@ export default class EventSummary extends Component {
 
   handleInputChange(event) {
     // let todoDataCopy = Object.assign({}, this.state.todoData);
-    // todoDataCopy[event.target.name] = event.target.value;
+    // the todoDataCopy[event.target.name] = event.target.value;
     this.setState({ 
       todoData: { 
         ...this.state.todoData,
@@ -42,10 +45,40 @@ export default class EventSummary extends Component {
     console.log(this.state.todoData);
   }
 
+  handleRadio(option) {
+    if (option === 'everyone') {
+      this.setState({
+        todoData: {
+          ...this.state.todoData,
+          groupTodo: true,
+          assignee: 'everyone'
+        }
+      })
+    } else if (option === 'myself') {
+      this.setState({ 
+        todoData: {
+          ...this.state.todoData,
+          groupTodo: false,
+          assignee: this.props.userId,
+        }
+      });
+    } else {
+      console.log('option is: ', option);
+      this.setState({
+        todoData: {
+          ...this.state.todoData,
+          groupTodo: false,
+          assignee: option
+        }
+      })
+    }
+    // this.setState({})
+    // TODO DO THIS HERE
+  }
+
   handleAddTodo(e) {
     e.preventDefault();
     for(var key in this.state.todoData) {
-      // console.log('key is: ', key);
       if (this.state.todoData[key] === '') {
         this.setState({ addTodoError: `Please insert ${key}.`});
         console.log('state: ', this.state.todoData);
@@ -78,6 +111,7 @@ export default class EventSummary extends Component {
             handleAddTodoModalOpenClose={this.handleAddTodoModalOpenClose}
             addTodoModalOpen={this.state.addTodoModalOpen}
             addTodoError={this.state.addTodoError}
+            handleRadio={this.handleRadio}
           />
 
         </Card.Content>
