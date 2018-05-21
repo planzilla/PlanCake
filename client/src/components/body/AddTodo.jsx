@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Header, Icon, Form, Input, Radio, Button, Select, Checkbox } from 'semantic-ui-react';
+import { Modal, Header, Icon, Form, Input, Radio, Button, Select, Checkbox, Message } from 'semantic-ui-react';
 
 export default class AddTodo extends Component {
   constructor(props) {
@@ -27,13 +27,12 @@ export default class AddTodo extends Component {
       )
     } else {
       return (
-        <Form.Field fluid control={Select} options={options} placeholder='Pick one' />
+        <Form.Field fluid control={Select} options={options} placeholder='Pick one' name='assignTo' />
       )
     }
   }
 
   render() {
-    console.log('addtodo comp didmount: ', this.props.eventAttendees);
     return (
       <Modal
         trigger={<Button onClick={this.props.handleAddTodoModalOpenClose}>Add Todo</Button>}
@@ -58,22 +57,50 @@ export default class AddTodo extends Component {
 
             <Form.Group inline>
             <label>Assign to:</label>
-            <Form.Radio label='Everyone' value='everyone' checked={this.state.value === 'everyone'} onChange={this.handleChange} />
-            <Form.Radio label='Myself' value='myself' checked={this.state.value === 'myself'} onChange={this.handleChange} />
-            <Form.Radio label='Someone' value='someone' checked={this.state.value === 'someone'} onChange={this.handleChange} />
+            <Form.Radio
+              label='Everyone' value='everyone' name='assignTo'
+              checked={this.state.value === 'everyone'} onChange={this.handleChange} 
+              onClick={this.props.handleInputChange}
+              />
+            <Form.Radio
+              label='Myself' value='myself'
+              name='assignTo' checked={this.state.value === 'myself'}
+              onChange={this.handleChange} 
+
+            />
+            <Form.Radio
+              label='Someone' value='someone'
+              name='assignTo' checked={this.state.value === 'someone'}
+              onChange={this.handleChange} 
+              
+            />
             { this.renderPickSomeone() }
             </Form.Group>
 
             <Form.Group>
-            <h3>Due Date</h3>
+            <label>Due Date</label>
               <div className="ui calendar" id="example2">
                 <div className="ui input left icon">
                   <Icon name="calendar"></Icon>
-                  <input type="text" placeholder="Date" />
+                  <input
+                    type='text'
+                    name='deadline'
+                    placeholder='12/20/18' 
+                    onChange={this.props.handleInputChange} 
+                  />
                 </div>
               </div>
             </Form.Group>
           </Form>
+          {
+        this.props.addTodoError !== ''
+          ? <Message
+            error
+            header='Error'
+            content={this.props.addTodoError}
+          />
+          : null
+      }
         </Modal.Content>
         <Modal.Actions>
           <Button color='green' onClick={this.props.handleAddTodo} inverted>

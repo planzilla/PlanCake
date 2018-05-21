@@ -307,6 +307,7 @@ export class LoggedInView extends Component {
               events={this.state.events} 
               handleClickEventTitle={this.handleClickEventTitle}
               todos={this.state.todos}
+              eventAttendees={this.state.eventAttendees}
               /> } />
           <Route path="/events/:id" render={() => 
             <EventSummary 

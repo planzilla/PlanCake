@@ -10,13 +10,12 @@ export default class EventSummary extends Component {
     super(props);
     this.state = {
       addTodoModalOpen: false,
-      addTodoError: null,
-      eventAttendees: [],
+      addTodoError: '',
       todoData: {
         addTodoTask: '',
         assignTo: '',
-        assignee: '',
-        date: '',
+        assigner: '',
+        deadline: '',
       }
     };
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -32,16 +31,24 @@ export default class EventSummary extends Component {
   }
 
   handleInputChange(event) {
-    this.setState({ [event.target.name]: event.target.value })
+    // let todoDataCopy = Object.assign({}, this.state.todoData);
+    // todoDataCopy[event.target.name] = event.target.value;
+    this.setState({ 
+      todoData: { 
+        ...this.state.todoData,
+        [event.target.name]: event.target.value,
+      },
+    });
+    console.log(this.state.todoData);
   }
 
   handleAddTodo(e) {
     e.preventDefault();
-    for(let key in this.state.todoData) {
-      if (this.state.todoData.key === '') {
-        this.setState({
-          addTodoError: `Please insert ${key}.`
-        })
+    for(var key in this.state.todoData) {
+      // console.log('key is: ', key);
+      if (this.state.todoData[key] === '') {
+        this.setState({ addTodoError: `Please insert ${key}.`});
+        console.log('state: ', this.state.todoData);
       }
     this.postAddTodo();
     }
@@ -55,24 +62,22 @@ export default class EventSummary extends Component {
   }
 
   render() {
-    console.log('eventsumm render: ', this.props.eventAttendees);
     return (
       <div className="event-cards">
       <Card fluid color="teal">
         <Card.Content header={this.props.event.title} />
         <Card.Content>
           <h5>{this.props.event.location}</h5>
-          <AddTodo 
+
+          <Todo 
+            todos={this.props.todos} 
+            event={this.props.event}
+            eventAttendees={this.props.eventAttendees}
             handleInputChange={this.handleInputChange}
             handleAddTodo={this.handleAddTodo}
             handleAddTodoModalOpenClose={this.handleAddTodoModalOpenClose}
             addTodoModalOpen={this.state.addTodoModalOpen}
-            event={this.props.event}
-            eventAttendees={this.props.eventAttendees}
-          />
-          <Todo 
-            todos={this.props.todos} 
-            event={this.props.event}
+            addTodoError={this.state.addTodoError}
           />
 
         </Card.Content>

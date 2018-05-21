@@ -17,6 +17,7 @@ export default class EventCard extends Component {
           <Todo 
             todos={this.props.todos}
             event={this.props.event}
+            eventAttendees={this.props.eventAttendees}
           />
         </Card.Content>
         <Card.Content extra>
