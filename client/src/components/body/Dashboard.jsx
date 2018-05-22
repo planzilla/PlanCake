@@ -30,6 +30,7 @@ export default class Dashboard extends Component {
                   key={i} 
                   handleClickEventTitle={this.props.handleClickEventTitle}
                   todos={this.props.todos}
+                  eventAttendees={this.props.eventAttendees}
                   itinerary={
                     Object.keys(this.props.allItineraries).length === 0 
                       ? []

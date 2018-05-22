@@ -160,7 +160,10 @@ get.todos = (req, res) => {
   return db.Todo.findAll({
     where: {
       UserId: req.user.id
-    }
+    },    
+    order: [
+      ['deadline', 'ASC'],
+    ],
   })
     .then(data => {
       let todoArr = data.map(item => item.dataValues);
@@ -170,6 +173,17 @@ get.todos = (req, res) => {
       console.log(error);
       res.status(500);
       res.end();
+    })
+}
+
+get.eventAttendees = (req, res) => {
+  return db.fetchEventAttendees(req.query.EventId)
+    .then(data => {
+      let attendeesObj= data.map(item => ({
+        name: `${item.User.dataValues.firstName.slice(0,1).toUpperCase()}${item.User.dataValues.firstName.slice(1).toLowerCase()} ${item.User.dataValues.lastName.slice(0,1).toUpperCase()}.`,
+        userId: `${item.User.dataValues.id}`
+      }));
+      res.json(attendeesObj);
     })
 }
 
@@ -194,6 +208,14 @@ patch.ignoreInvite = (req, res) => {
       console.log(err);
       res.end();
     })
+}
+
+patch.todos = (req, res) => {
+  return db.updateTodos(req.body.id, req.body.completed)
+    .then(() => {
+      res.end();
+    })
+    .catch(err => { console.log(err) })
 }
 
 /* -------- POST REQUESTS --------- */
@@ -309,6 +331,19 @@ post.sendEmailInvites = (req, res) => {
 
 post.signup = (req, res) => {
   return db.saveUser(req.body)
+    .then(() => {
+      res.status(200);
+      res.end();
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send(err.status);
+      res.end();
+    })
+};
+
+post.todos = (req, res) => {
+  return db.addTodo(req.body)
     .then(() => {
       res.status(200);
       res.end();

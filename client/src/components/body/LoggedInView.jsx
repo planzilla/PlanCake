@@ -19,6 +19,7 @@ export class LoggedInView extends Component {
       currentEvent: {},
       currentTodo: {},
       invites: [], //array of events
+      eventAttendees: [],
       events: [{
         id: '',
         title: '',
@@ -46,6 +47,7 @@ export class LoggedInView extends Component {
       addTopicTitle: '',
       addTopicModalOpen: false,
       addTopicError: '',
+
       createEventTitle: '',
       createEventLocation: '',
       createEventEmails: '',
@@ -128,6 +130,7 @@ export class LoggedInView extends Component {
       .then(({ data }) => {
         this.setState({ topicBoards: data });
       });
+    this.fetchEventAttendees(event);
 
     axios.get(`/api/groupTodo?EventId=${event.id}`)
     .then(({ data }) => {
@@ -142,6 +145,12 @@ export class LoggedInView extends Component {
       .catch(err => {console.log('Error in retrieving itinerary: ', err)})
   }
 
+  fetchEventAttendees(event) {
+    axios.get(`/api/eventAttendees?EventId=${event.id}`)
+      .then(({data}) => {
+        this.setState({ eventAttendees: data });
+      });
+  }
 
   /* -------------- AddTopic -------------- */
   handleAddTopicModalOpenClose() {
@@ -405,14 +414,12 @@ export class LoggedInView extends Component {
             <Dashboard 
               events={this.state.events} 
               handleClickEventTitle={this.handleClickEventTitle}
-              todos={this.state.todos}
               allItineraries={this.state.allItineraries}
             />} />
           <Route path="/events/:id" render={() =>
             <EventSummary
               topicBoards={this.state.topicBoards}
               event={this.state.currentEvent}
-              todos={this.state.todos}
               groupTodos={this.state.groupTodos}
               handleInputChange={this.handleInputChange}
               handleAddPlan={this.handleAddPlan}
@@ -420,6 +427,8 @@ export class LoggedInView extends Component {
               itinerary={this.state.itinerary}
               handleAddPlanModalOpenClose={this.handleAddPlanModalOpenClose}
               addPlanModalOpen={this.state.addPlanModalOpen}
+              eventAttendees={this.state.eventAttendees}
+              userId={this.props.userData.id}
             />}
           />
           <Route path="/board/:id" render={() => 
