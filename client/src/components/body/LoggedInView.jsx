@@ -444,7 +444,7 @@ export class LoggedInView extends Component {
           />
 
           <Link to="/loggedinview">events here</Link>
-          <Link to="/events/2">eventpage</Link>
+          <Link to="/events/:eventId">eventpage</Link>
           <ContactInfo />
           </div>
         </BrowserRouter>
