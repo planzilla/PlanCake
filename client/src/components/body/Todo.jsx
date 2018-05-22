@@ -28,7 +28,7 @@ export default class Todo extends Component {
                 return (
                   <div>
                     <p><Checkbox id={todo.id} label={todo.text} onChange={this.props.handleUpdateTodo} /> 
-                    due: {moment(todo.deadline).format("DD MMMM YY")}
+                    due: {moment(todo.deadline).format("LL")}
                     </p>
                   </div>
                 )
@@ -36,7 +36,7 @@ export default class Todo extends Component {
                 return (
                   <div>
                     <p><Checkbox id={todo.id} label={todo.text} onChange={this.props.handleUpdateTodo} checked='true' /> 
-                    due: {moment(todo.deadline).format("DD MMMM YY")}
+                    due: {moment(todo.deadline).format("LL")}
                     </p>
                   </div>
                 )
