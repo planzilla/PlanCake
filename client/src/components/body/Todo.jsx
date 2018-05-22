@@ -28,7 +28,7 @@ export default class Todo extends Component {
             if (todo.EventId === this.props.event.id) {
               if (todo.completed === false) {                
                 return (
-                  <div>
+                  <div className="todo">
                     <p>
                       <Checkbox id={todo.id} label={todo.text} onChange={this.props.handleUpdateTodo} />
                       <span> | </span>
@@ -38,7 +38,7 @@ export default class Todo extends Component {
                 )
               } else if (todo.completed === true) {
                 return (
-                  <div className="todo-complete">
+                  <div className="todo-complete todo">
                     <p>
                       <Checkbox 
                         id={todo.id} 
