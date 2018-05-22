@@ -71,12 +71,12 @@ export default class SideBar extends Component {
             {this.props.events.map((event, i) => {
               return (
                 <div key={i}>
+                  <Link to={`/events/${event.id}`} component={ EventSummary }>
                   <Accordion.Title active={activeIndex === i} index={i} onClick={(e, titleProps) => {this.handleClick(e, titleProps, event)}}>
                     <Icon name='dropdown' />
-                    <Link to={`/events/${event.id}`} component={ EventSummary }>
                       <b>{event.title}</b>
-                    </Link>
                   </Accordion.Title>
+                  </Link>
                   <Accordion.Content active={activeIndex === i}>
                     {this.renderEvents(event, activeIndex, i)}
                   </Accordion.Content>
