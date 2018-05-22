@@ -1,5 +1,6 @@
-import React, { Component } from 'react'
-import { Input, Menu, Segment, Card, List, Icon } from 'semantic-ui-react'
+import React, { Component } from 'react';
+import { Input, Menu, Segment, Card, List, Icon } from 'semantic-ui-react';
+import ActiveList from './ActiveList.jsx';
 
 export default class RightSideBar extends Component {
   constructor(props) {
@@ -24,27 +25,18 @@ export default class RightSideBar extends Component {
           <Menu.Item name='Pins' active={activeItem === 'Pins'} onClick={this.handleItemClick} />
           <Menu.Item name='Active' active={activeItem === 'Active'} onClick={this.handleItemClick} />
         </Menu>
-        {activeItem === 'Pins' 
+        {activeItem === 'Pins'
           ? <Segment attached='bottom'>
               <Card>hello</Card>
               <Card>im working</Card>
               {/* //TODO: insert likes/dislikes cards here */}
             </Segment>
           : <Segment attached='bottom'>
-            <List>
-              <List.Item>
-                <Icon name='circle' color="green"/>
-                <List.Content>
-                  Floated Icon
-                </List.Content>
-              </List.Item>
-              <List.Item>
-                <Icon name='circle thin' />
-                <List.Content>
-                  Icon Alignment
-                </List.Content>
-              </List.Item>
-            </List>
+              <ActiveList
+                currentEvent={this.props.currentEvent}
+                activeEventsUsers={this.props.activeEventsUsers}
+                eventAttendees={this.props.eventAttendees}
+              />
             </Segment>
         }
 

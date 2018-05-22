@@ -125,8 +125,9 @@ export class LoggedInView extends Component {
   }
 
   removeActiveUser() {
+    let name = `${this.props.userData.firstName.slice(0,1).toUpperCase()}${this.props.userData.firstName.slice(1).toLowerCase()} ${this.props.userData.lastName.slice(0,1).toUpperCase()}.`;
     this.state.events.forEach((event) => {
-      this.ioEvents.emit('logout', event, this.props.userData.username)
+      this.ioEvents.emit('logout', event, name)
     })
   }
 
@@ -465,6 +466,7 @@ export class LoggedInView extends Component {
               setAllMessages={this.setAllMessages}
               currentEvent={this.state.currentEvent}
               activeEventsUsers={this.state.activeEventsUsers}
+              eventAttendees={this.state.eventAttendees}
             /> }
           />
 
