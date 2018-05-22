@@ -81,24 +81,31 @@ export class LoggedInView extends Component {
     this.setAllMessages = this.setAllMessages.bind(this);
     this.handleHomeReloadItineraries = this.handleHomeReloadItineraries.bind(this);
     this.handleAddPlanModalOpenClose = this.handleAddPlanModalOpenClose.bind(this);
+    this.ioEvents;
+    this.removeActiveUser = this.removeActiveUser.bind(this);
   }
+  
 
   componentDidMount() {
     axios.get('/api/userEvents')
-      .then(result => {
-        this.setState({ events: result.data });
-        let eventsStr = result.data.map(event => event.id).toString();
-        return axios.get(`/api/allItineraries?eventIdStr=${eventsStr}`)
-      })
-      .then(({ data }) => {
-        this.setState({ allItineraries: data })
-            // Socket Event Testing
-        const ioEvents = io('/events');
-        ioEvents.on('connect', (socket) => {
+    .then(result => {
+      this.setState({ events: result.data });
+      let eventsStr = result.data.map(event => event.id).toString();
+      return axios.get(`/api/allItineraries?eventIdStr=${eventsStr}`)
+    })
+    .then(({ data }) => {
+      this.setState({ allItineraries: data })
+      // Socket Event Testing
+      this.ioEvents = io('/events');
+      this.ioEvents.on('connect', (socket) => {
           console.log('connected')
           this.state.events.forEach((event) => {
-            ioEvents.emit('events', event)
+            console.log('username: ', this.props.userData.username);
+            this.ioEvents.emit('events', event, this.props.userData.username)
           })
+        })
+        this.ioEvents.on('activeUsers', (activeUsers) => {
+          console.log('active users: ', activeUsers)
         })
       })
 
@@ -113,8 +120,12 @@ export class LoggedInView extends Component {
         this.setState({ invites: data })
       })
       .catch(err => {console.log('err in get invites', err)})
+  }
 
-
+  removeActiveUser() {
+    this.state.events.forEach((event) => {
+      this.ioEvents.emit('logout', event, this.props.userData.username)
+    })
   }
 
   handleInputChange(event) {
@@ -392,6 +403,7 @@ export class LoggedInView extends Component {
             view={this.props.userData.username}
             userData={this.props.userData}
             handleHomeReloadItineraries={this.handleHomeReloadItineraries}
+            removeActiveUser={this.removeActiveUser}
           />
           <SideBar
             topicBoards={this.state.topicBoards}

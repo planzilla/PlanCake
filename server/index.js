@@ -58,12 +58,33 @@ ioRoom.on('connection', (socket) => {
 
 const ioEvents = io.of('/events');
 
+let activeEventsUsers = {};
+
 ioEvents.on('connection', (socket) => {
   let event;
-  socket.on('events', (event) => {
-    event = (28 << 3).toString().concat(`${event.title} ${event.id}`)
-    console.log('in event room', event)
+
+  socket.on('events', (event, username) => {
+    console.log('user req', username)
+    event = (28 << 3).toString().concat(`${event.title} ${event.id}`);
+    if (activeEventsUsers[event]) {
+      activeEventsUsers[event][username] = null;
+    } else {
+      activeEventsUsers[event] = { [username]: null }
+    }
+    socket.join(event);
+    ioEvents.in(event).emit('activeUsers', activeEventsUsers[event])
+  });
+
+  socket.on('logout', (event, username) => {
+    event = (28 << 3).toString().concat(`${event.title} ${event.id}`);
+    delete activeEventsUsers[event][username]
+    ioEvents.in(event).emit('activeUsers', activeEventsUsers[event])
   })
+
+  socket.on('disconnect', () => {
+    console.log('disconnected from events');
+  })
+
 
 });
 
