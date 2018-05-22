@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Icon, Message, Grid, Segment, List, Header, Button } from 'semantic-ui-react';
+import { Card, Icon, Message, Grid, Segment, List, Header, Button, Dropdown } from 'semantic-ui-react';
 import Todo from './Todo.jsx';
 import GroupStatusTable from './GroupStatusTable.jsx';
 import AddPlan from './AddPlan.jsx';
@@ -130,7 +130,16 @@ export default class EventSummary extends Component {
     return (
       <div className="event-cards">
         <Card fluid>
-          <Card.Content header={this.props.event.title} />
+          <Card.Content header={this.props.event.title}>
+            <Card.Header>
+              {this.props.event.title}
+              <Dropdown icon="setting" className="float-right-button">
+                <Dropdown.Menu>
+                  <Dropdown.Item text='Remove Event' />
+                </Dropdown.Menu>
+              </Dropdown>
+            </Card.Header>
+          </Card.Content>
           <Card.Content>
             <Grid columns='equal'>
               <Grid.Column>
@@ -156,7 +165,7 @@ export default class EventSummary extends Component {
                     Attendees
                     {/* <Button className="float-right-button" size='mini'><Icon name="add user" /></Button> */}
                     <AddInvite />
-                    </Header>
+                  </Header>
                   <hr className="hr-card" />
                   <ActiveList
                     currentEvent={this.props.currentEvent}
