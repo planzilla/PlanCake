@@ -43,6 +43,7 @@ export class LoggedInView extends Component {
         AssignerId: null,
         deadline: null
       }],
+      groupTodos: [], //array of objects of todos
       addTopicTitle: '',
       addTopicModalOpen: false,
       addTopicError: '',
@@ -53,10 +54,18 @@ export class LoggedInView extends Component {
       createEventError: '',
       createEventModalOpen: false,
       selected: '',
-
-      
-      // addTodoModalOpen: false,
-      // addTodo
+      boardId: null,
+      allMessages: [],
+      allItineraries: {}, //object of arrays of objects (plans)
+      itinerary: [], //array of objects (plans)
+      addPlanTitle: null,
+      addPlanDate: null,
+      addPlanTime: null,
+      addPlanAddress: null,
+      addPlanCost: null,
+      addPlanNotes: null,
+      addPlanError: null,
+      addPlanModalOpen: false,
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleAddTopicModalOpenClose = this.handleAddTopicModalOpenClose.bind(this);
@@ -65,16 +74,31 @@ export class LoggedInView extends Component {
     this.handleCreateEvent = this.handleCreateEvent.bind(this);
     this.clearAllCreateEventInfo = this.clearAllCreateEventInfo.bind(this);
     this.handleClickEventTitle = this.handleClickEventTitle.bind(this);
-    this.setLoggedIn = this.setLoggedIn.bind(this);
+    this.setSelectedBoard = this.setSelectedBoard.bind(this);
     this.getInvitesByUserId = this.getInvitesByUserId.bind(this);
     this.acceptInvite = this.acceptInvite.bind(this);
     this.ignoreInvite = this.ignoreInvite.bind(this);
+    this.handleAddPlan = this.handleAddPlan.bind(this);
+    this.setAllMessages = this.setAllMessages.bind(this);
+    this.handleHomeReloadItineraries = this.handleHomeReloadItineraries.bind(this);
+    this.handleAddPlanModalOpenClose = this.handleAddPlanModalOpenClose.bind(this);
   }
 
   componentDidMount() {
     axios.get('/api/userEvents')
       .then(result => {
         this.setState({ events: result.data });
+        let eventsStr = result.data.map(event => event.id).toString();
+        return axios.get(`/api/allItineraries?eventIdStr=${eventsStr}`)
+      })
+      .then(({ data }) => {
+        this.setState({ allItineraries: data })
+      })
+
+    axios.get('/api/todos')
+      .then(result => {
+        // console.log('todos in LIV: ', result.data);
+        this.setState({ todos: result.data });
       });
 
     axios.get('/api/invitesByEmail')
@@ -83,13 +107,6 @@ export class LoggedInView extends Component {
       })
       .catch(err => {console.log('err in get invites', err)})
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   if (this.props.events !== nextProps.events) {
-  //     this.props.fetchPosts();
-  //   }
-  // }
-
 
   handleInputChange(event) {
     this.setState({ [event.target.name]: event.target.value })
@@ -114,6 +131,18 @@ export class LoggedInView extends Component {
         this.setState({ topicBoards: data });
       });
     this.fetchEventAttendees(event);
+
+    axios.get(`/api/groupTodo?EventId=${event.id}`)
+    .then(({ data }) => {
+      this.setState({ groupTodos: data });
+    })
+    .catch(err => {console.log('Error in retrieving groupTodos: ', err)})
+
+    axios.get(`/api/itinerary?EventId=${event.id}`)
+      .then(({ data }) => {
+        this.setState({ itinerary : data})
+      })
+      .catch(err => {console.log('Error in retrieving itinerary: ', err)})
   }
 
   fetchEventAttendees(event) {
@@ -256,13 +285,94 @@ export class LoggedInView extends Component {
       .catch(err => { console.log(err) })
   }
 
-  /* ----------- Render ------------- */
+  /* ----------- Itinerary ------------- */
+
+  handleAddPlan() {
+    if (!this.state.addPlanTitle) {
+      this.setState({ addPlanError: 'Please enter a plan title.' })
+    } else if (!this.state.addPlanDate) {
+      this.setState({ addPlanError: 'Please enter a date.' })
+    } else {
+
+      let dateAndTime = new Date(`${this.state.addPlanDate} ${this.state.addPlanTime}`)
+      const requestObj = {
+        EventId: this.state.currentEvent.id,
+        date: dateAndTime,
+        title: this.state.addPlanTitle,
+        cost: this.state.addPlanCost,
+        address: this.state.addPlanAddress,
+        notes: this.state.addPlanNotes,
+      }
+      return axios.post('/api/addPlan', requestObj)
+        .then(({ data }) => {
+          this.setState({ itinerary: data })
+          this.handleAddPlanModalOpenClose();
+        })
+        .catch(err => {
+          this.setState({ addPlanError: 'Something went wrong. Please try again.' })
+        })
+
+    }
+  }
+
+  handleAddPlanModalOpenClose() {
+    let openCloseState = !this.state.addPlanModalOpen;
+    this.setState({ 
+      addPlanModalOpen: openCloseState,
+      addPlanTitle: null,
+      addPlanDate: null,
+      addPlanTime: null,
+      addPlanAddress: null,
+      addPlanCost: null,
+      addPlanNotes: null,
+      addPlanError: null,
+     });
+  }
 
   /* -----------  MISC  ------------- */
 
-  setLoggedIn(selected) {
-    this.setState({ selected: selected });
+  clearDomOfActiveSidebar() {
+    var domElement = document.getElementsByClassName("activeSidebar");
+    [].forEach.call(domElement, function(el) {
+      el.classList.remove("activeSidebar");
+    });
   }
+
+  setSelectedBoard(selected, boardId) {
+    this.clearDomOfActiveSidebar();
+
+    Promise.resolve(
+      this.setState({ 
+        selected: selected,
+        boardId: boardId,
+        allMessages: [],
+      }))
+      .then(() => {
+        document.getElementById(`${selected}-${boardId}`).classList.add("activeSidebar");
+        return axios.get(`/api/getChatMessages?boardId=${this.state.boardId}`)
+      .then(({ data }) => { 
+        if (!!data) { this.setState({ allMessages: data.concat(this.state.allMessages) }) };
+      });
+    });
+  }
+
+  setAllMessages(message) {
+    this.setState({ allMessages: message })
+  }
+  
+  handleHomeReloadItineraries() {
+    this.clearDomOfActiveSidebar();
+    
+    console.log('in handleHomeReloadItineraries', this.state.events)
+    let eventsStr = this.state.events.map(event => event.id).toString();
+    return axios.get(`/api/allItineraries?eventIdStr=${eventsStr}`)
+      .then(({ data }) => {
+        console.log('in handleHomeReloadItineraries then', data)
+        this.setState({ allItineraries: data })
+      })
+      .catch(err => {console.log(err)});
+  }
+
 
   render() {
     // if (this.state.events.length === 0) {
@@ -278,7 +388,9 @@ export class LoggedInView extends Component {
             ignoreInvite={this.ignoreInvite}
             setUser={this.setUser} 
             view={this.props.userData.username}
-            />
+            userData={this.props.userData}
+            handleHomeReloadItineraries={this.handleHomeReloadItineraries}
+          />
           <SideBar
             topicBoards={this.state.topicBoards}
             handleInputChange={this.handleInputChange}
@@ -292,32 +404,42 @@ export class LoggedInView extends Component {
             createEventError={this.state.createEventError}
             handleClickEventTitle={this.handleClickEventTitle}
             events={this.state.events}
-            setLoggedIn={this.setLoggedIn}
+            setSelectedBoard={this.setSelectedBoard}
           />
 
-        <div className="placeholder"></div>
+        <div className="placeholder">
+        </div>
 
           <Route path="/loggedinview" render={() => 
             <Dashboard 
               events={this.state.events} 
               handleClickEventTitle={this.handleClickEventTitle}
-              todos={this.state.todos}
-              eventAttendees={this.state.eventAttendees}
-              /> } />
-          <Route path="/events/:id" render={() => 
-            <EventSummary 
-              topicBoards={this.state.topicBoards}  
-              event={this.state.currentEvent} 
-              todos={this.state.todos}
+              allItineraries={this.state.allItineraries}
+            />} />
+          <Route path="/events/:id" render={() =>
+            <EventSummary
+              topicBoards={this.state.topicBoards}
+              event={this.state.currentEvent}
+              groupTodos={this.state.groupTodos}
+              handleInputChange={this.handleInputChange}
+              handleAddPlan={this.handleAddPlan}
+              addPlanError={this.state.addPlanError}
+              itinerary={this.state.itinerary}
+              handleAddPlanModalOpenClose={this.handleAddPlanModalOpenClose}
+              addPlanModalOpen={this.state.addPlanModalOpen}
               eventAttendees={this.state.eventAttendees}
               userId={this.props.userData.id}
-            /> } 
+            />}
           />
           <Route path="/board/:id" render={() => 
             <TopicBoardView
               topicBoards={this.state.topicBoards}
               userData={this.props.userData}
               selected={this.state.selected}
+              username={this.props.userData.username}
+              boardId={this.state.boardId}
+              allMessages={this.state.allMessages}
+              setAllMessages={this.setAllMessages}
             /> }
           />
 

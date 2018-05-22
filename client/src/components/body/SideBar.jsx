@@ -35,8 +35,12 @@ export default class SideBar extends Component {
           />
           {this.props.topicBoards.map((board, j) => {
               return (
-                <div key={j} onClick={() => this.props.setLoggedIn(`${board.title}`)}>
-                  <Link to={`/board/${board.id}`}>{board.title}</Link>
+                <div 
+                  key={j} 
+                  className='topic-board-link' 
+                  onClick={() => this.props.setSelectedBoard(`${board.title}`, board.id)}
+                >
+                  <Link to={`/board/${board.id}`} id={`${board.title}-${board.id}`}>{board.title}</Link>
                   <br />
                 </div>
               )
@@ -54,6 +58,7 @@ export default class SideBar extends Component {
     // } else {
       return (
         <div className="sidebar">
+        <div className="sidebar-grid-container">
           <CreateEvent
             handleCreateEvent={this.props.handleCreateEvent}
             handleInputChange={this.props.handleInputChange}
@@ -77,6 +82,7 @@ export default class SideBar extends Component {
                 </div>)
             })}
           </Accordion>
+          </div>
         </div>
       )
     // }

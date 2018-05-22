@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import { Card, Icon } from 'semantic-ui-react';
+import { Card, Icon, Message, Grid, Segment, List, Header } from 'semantic-ui-react';
 import Todo from './Todo.jsx';
-import AddTodo from './AddTodo.jsx';
-
+import GroupStatusTable from './GroupStatusTable.jsx';
+import AddPlan from './AddPlan.jsx';
+import ItineraryList from './ItineraryList.jsx';
+import axios from 'axios';
 
 export default class EventSummary extends Component {
   constructor(props) {
@@ -126,30 +127,71 @@ export default class EventSummary extends Component {
   render() {
     return (
       <div className="event-cards">
-      <Card fluid color="teal">
-        <Card.Content header={this.props.event.title} />
-        <Card.Content>
-          <h5>{this.props.event.location}</h5>
+        <Card fluid>
+          <Card.Content header={this.props.event.title} />
+          <Card.Content>
+            <Grid columns='equal'>
+              <Grid.Column>
+                <Segment>
+                  <Header>Itinerary
+                  <AddPlan
+                    handleInputChange={this.props.handleInputChange}
+                    handleAddPlan={this.props.handleAddPlan}
+                    addPlanError={this.props.addPlanError}
+                    handleAddPlanModalOpenClose={this.props.handleAddPlanModalOpenClose}
+                    addPlanModalOpen={this.props.addPlanModalOpen}
+                  />
+                  </Header>
+                  <hr className="hr-card"/>
+                  <ItineraryList
+                    itinerary={this.props.itinerary}
+                  />
+                </Segment>
+              </Grid.Column>
+              <Grid.Column >
+                <Segment>
+                  <b>Todo</b>
+                  <Todo 
+                    todos={this.state.todos} 
+                    event={this.props.event}
+                    eventAttendees={this.props.eventAttendees}
+                    handleInputChange={this.handleInputChange}
+                    handleAddTodo={this.handleAddTodo}
+                    handleAddTodoModalOpenClose={this.handleAddTodoModalOpenClose}
+                    addTodoModalOpen={this.state.addTodoModalOpen}
+                    addTodoError={this.state.addTodoError}
+                    handleRadio={this.handleRadio}
+                    handleUpdateTodo={this.handleUpdateTodo}
+                  />
+                </Segment>
+              </Grid.Column>
+            </Grid>
 
-          <Todo 
-            todos={this.state.todos} 
-            event={this.props.event}
-            eventAttendees={this.props.eventAttendees}
-            handleInputChange={this.handleInputChange}
-            handleAddTodo={this.handleAddTodo}
-            handleAddTodoModalOpenClose={this.handleAddTodoModalOpenClose}
-            addTodoModalOpen={this.state.addTodoModalOpen}
-            addTodoError={this.state.addTodoError}
-            handleRadio={this.handleRadio}
-            handleUpdateTodo={this.handleUpdateTodo}
-          />
-
-        </Card.Content>
-        <Card.Content extra>
-          <Icon name='map pin' /> ;
-          {this.props.event.location}
-        </Card.Content>
-      </Card>
+          </Card.Content>
+          <Card.Content extra>
+            <Icon name='map pin' />
+            {this.props.event.location}
+          </Card.Content>
+        </Card>
+        <Card fluid>
+          <Card.Content header="Group Status Table" />
+          {
+            this.props.groupTodos.length === 0
+              ? <Card.Content>
+                <Message info>
+                  <Message.Header>
+                    Want to see what everyone has accomplished?
+                  </Message.Header>
+                  <p>
+                    Assign a group task by clicking on the todo icon.
+                  </p>
+                </Message>
+              </Card.Content>
+              : <Card.Content className="table-container">
+                <GroupStatusTable className="table" groupTodos={this.props.groupTodos} />
+              </Card.Content>
+          }
+        </Card>
       </div>
     )
   }

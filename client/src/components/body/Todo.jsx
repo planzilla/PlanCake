@@ -12,7 +12,6 @@ export default class Todo extends Component {
   render() {
     return (
       <div>
-        <h3>Your To-Do List</h3>
         <AddTodo 
           handleInputChange={this.props.handleInputChange}
           handleAddTodo={this.props.handleAddTodo}

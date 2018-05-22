@@ -83,6 +83,8 @@ db.addInvite = (email, userData, eventId, emailStatus) => {
     .catch(err => {console.log(err)})
 }
 
+db.addPlan = (queryObj) => db.Itinerary.create(queryObj);
+
 db.addTodo = (data)=> {
   const query = {
     groupTodo: data.groupTodo,
@@ -95,7 +97,7 @@ db.addTodo = (data)=> {
 
   return db.Todo.create(query)
     .catch(err => { console.log(err) })
-}
+  }
 
 db.addUserToEvent = (event, user) => {
   const query = {
@@ -105,6 +107,15 @@ db.addUserToEvent = (event, user) => {
 
   return db.EventUser.create(query);
 }
+
+db.fetchAllItineraries = (eventIdArr) => db.Itinerary.findAll({
+  where: {
+    $or: eventIdArr
+  }, 
+  order: [
+    ['date', 'ASC']
+  ]
+});
 
 db.fetchEventAttendees = (eventId) => {
   return db.EventUser.findAll({
@@ -122,7 +133,7 @@ db.fetchEventAttendees = (eventId) => {
 
 db.fetchEventsByEventId = (eventIdArr) => db.Event.findAll({
   where: {
-    $or : eventIdArr
+    $or: eventIdArr
   },
   order: [
     ['createdAt', 'DESC'],
@@ -141,9 +152,31 @@ db.fetchInvitesByUserId = (UserId) => db.Invite.findAll({where: {
   joinEventStatus: null
 }});
 
+db.fetchItinerary = (EventId) => db.Itinerary.findAll({
+  where: {
+    EventId: EventId
+  },
+  order: [
+    ['date', 'ASC']
+  ]
+})
+
 db.fetchUser = (username) =>  db.User.findOne({ where: {username: username}});
 
 db.fetchUserByEmail = (email) => db.User.findOne({ where: { email: email } });
+
+db.groupTodo = (EventId) => db.Todo.findAll({
+  where : {
+    EventId: EventId,
+    groupTodo: true
+  }, 
+  include: [
+    {
+    model: db.User,
+    required: true
+    }
+  ]
+})
 
 db.saveUser = (obj) => {
   return db.fetchUser(obj.username)
@@ -215,6 +248,26 @@ db.updateTodos = (id, completed) => {
     {where: {
       id: id,
     },
+  })
+}
+
+db.addChat = (UserId, BoardId, message) => {
+  return db.Chat.create({
+    text: message,
+    UserId: UserId,
+    BoardId: BoardId
+  }, (err) => {
+    console.log(err);
+  });
+}
+
+db.sendChatHist = (BoardId) => {
+  return db.Chat.findAll({
+    where: { BoardId: BoardId },
+    include: [{
+      model: db.User,
+      require: true
+    }]
   })
 }
 
