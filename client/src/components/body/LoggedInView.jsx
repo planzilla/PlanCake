@@ -65,6 +65,7 @@ export class LoggedInView extends Component {
       addPlanNotes: null,
       addPlanError: null,
       addPlanModalOpen: false,
+      activeEventsUsers : {},
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleAddTopicModalOpenClose = this.handleAddTopicModalOpenClose.bind(this);
@@ -104,8 +105,11 @@ export class LoggedInView extends Component {
             this.ioEvents.emit('events', event, this.props.userData.username)
           })
         })
-        this.ioEvents.on('activeUsers', (activeUsers) => {
-          console.log('active users: ', activeUsers)
+        this.ioEvents.on('activeUsers', (EventId, activeUsers) => {
+          let newActiveEventsUsers = Object.assign({}, this.state.activeEventsUsers);
+          newActiveEventsUsers[EventId] = activeUsers;
+          console.log('active users: ', EventId, activeUsers)
+          this.setState({ activeEventsUsers: newActiveEventsUsers })
         })
       })
 
@@ -454,6 +458,8 @@ export class LoggedInView extends Component {
               boardId={this.state.boardId}
               allMessages={this.state.allMessages}
               setAllMessages={this.setAllMessages}
+              currentEvent={this.state.currentEvent}
+              activeEventsUsers={this.state.activeEventsUsers}
             /> }
           />
 

@@ -61,24 +61,24 @@ const ioEvents = io.of('/events');
 let activeEventsUsers = {};
 
 ioEvents.on('connection', (socket) => {
-  let event;
+  let eventTag;
 
   socket.on('events', (event, username) => {
     console.log('user req', username)
-    event = (28 << 3).toString().concat(`${event.title} ${event.id}`);
-    if (activeEventsUsers[event]) {
-      activeEventsUsers[event][username] = null;
+    eventTag = (28 << 3).toString().concat(`${event.title} ${event.id}`);
+    if (activeEventsUsers[eventTag]) {
+      activeEventsUsers[eventTag][username] = null;
     } else {
-      activeEventsUsers[event] = { [username]: null }
+      activeEventsUsers[eventTag] = { [username]: null }
     }
-    socket.join(event);
-    ioEvents.in(event).emit('activeUsers', activeEventsUsers[event])
+    socket.join(eventTag);
+    ioEvents.in(eventTag).emit('activeUsers', event.id, activeEventsUsers[eventTag])
   });
 
   socket.on('logout', (event, username) => {
-    event = (28 << 3).toString().concat(`${event.title} ${event.id}`);
-    delete activeEventsUsers[event][username]
-    ioEvents.in(event).emit('activeUsers', activeEventsUsers[event])
+    eventTag = (28 << 3).toString().concat(`${event.title} ${event.id}`);
+    delete activeEventsUsers[eventTag][username]
+    ioEvents.in(eventTag).emit('activeUsers', event.id, activeEventsUsers[eventTag])
   })
 
   socket.on('disconnect', () => {

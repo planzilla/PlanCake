@@ -53,6 +53,7 @@ class Chat extends Component{
   }
 
   render() {
+    console.log('eventid and active users', this.props.currentEvent, this.props.activeEventsUsers)    
     return (
       <div className="chat-view chat grid">
       {<div className="connected-user">{`You've connected to ${this.props.selected}`}</div>}
