@@ -3,6 +3,7 @@ import io from 'socket.io-client';
 import Promise from 'bluebird';
 import axios from 'axios';
 import { Icon } from 'semantic-ui-react';
+import RightSideBar from './RightSideBar.jsx';
 
 class Chat extends Component{
   constructor(props) {
@@ -71,6 +72,9 @@ class Chat extends Component{
           <input onChange={this.input} value={this.state.message} id="m" autoComplete="off"/>
           <button onClick={this.send} type="submit" id="send-button"><Icon name="send"/></button>
         </form>
+        <div className="right-sidebar">
+        <RightSideBar />
+        </div>
       </div>
     )
   }
