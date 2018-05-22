@@ -9,8 +9,7 @@
     "dev": "jest --watch",
     "test": "jest",
     "eslint": "eslint --ignore-path .eslintignore .",
-    "start": "NODE_ENV=production node server/index.js",
-    "ducky": "webpack -p --config ./webpack.config.js --progress"
+    "start": "NODE_ENV=production node server/index.js"
   },
   "repository": {
     "type": "git",
