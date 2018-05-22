@@ -562,3 +562,8 @@ h2{
   font-family: 'Poppins', sans-serif;
   font-weight: 300;
 }
+
+.todo-complete{
+  text-decoration: line-through;
+  text-decoration-color: #FB9C65;
+}
