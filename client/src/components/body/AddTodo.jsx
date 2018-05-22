@@ -112,14 +112,14 @@ export default class AddTodo extends Component {
             </Form.Group>
           </Form>
           {
-        this.props.addTodoError !== ''
-          ? <Message
-            error
-            header='Error'
-            content={this.props.addTodoError}
-          />
-          : null
-      }
+            this.props.addTodoError !== ''
+            ? <Message
+              error
+              header='Error'
+              content={this.props.addTodoError}
+            />
+            : null
+          }
         </Modal.Content>
         <Modal.Actions>
           <Button color='green' onClick={this.props.handleAddTodo} inverted>
