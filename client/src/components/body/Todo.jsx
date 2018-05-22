@@ -27,8 +27,8 @@ export default class Todo extends Component {
               if (todo.completed === false) {                
                 return (
                   <div>
-                    <p><Checkbox id={todo.id} label={todo.text} onChange={this.props.handleUpdateTodo} /> 
-                    due: {moment(todo.deadline).format("DD MMMM YY")}
+                    <p>
+                      <Checkbox id={todo.id} label={todo.text} onChange={this.props.handleUpdateTodo} /> due: {moment(todo.deadline).format("DD MMMM YY")}
                     </p>
                   </div>
                 )

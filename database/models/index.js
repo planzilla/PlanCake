@@ -31,7 +31,6 @@ var db = {};
       logging: false
     }
   );
-// }
 
 sequelize
   .authenticate()
