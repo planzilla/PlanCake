@@ -6,6 +6,7 @@ import AddPlan from './AddPlan.jsx';
 import ItineraryList from './ItineraryList.jsx';
 import axios from 'axios';
 import ActiveList from './ActiveList.jsx';
+import AddInvite from './AddInvite.jsx';
 
 export default class EventSummary extends Component {
   constructor(props) {
@@ -153,8 +154,9 @@ export default class EventSummary extends Component {
                 <Segment>
                   <Header>
                     Attendees
-                    <Button className="float-right-button" size='mini'><Icon name="add user" /></Button>
-                  </Header>
+                    {/* <Button className="float-right-button" size='mini'><Icon name="add user" /></Button> */}
+                    <AddInvite />
+                    </Header>
                   <hr className="hr-card" />
                   <ActiveList
                     currentEvent={this.props.currentEvent}
@@ -164,7 +166,6 @@ export default class EventSummary extends Component {
                 </Segment>
               </Grid.Column>
             </Grid>
-
           </Card.Content>
           <Card.Content extra>
             <Icon name='map pin' />
