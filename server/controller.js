@@ -343,7 +343,6 @@ post.signup = (req, res) => {
 };
 
 post.todos = (req, res) => {
-  // return db.Todo()
   return db.addTodo(req.body)
     .then(() => {
       res.status(200);
