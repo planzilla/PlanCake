@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Card, Icon, Message, Grid, Segment, List, Header } from 'semantic-ui-react';
+import { Card, Icon, Message, Grid, Segment, List, Header, Button } from 'semantic-ui-react';
 import Todo from './Todo.jsx';
 import GroupStatusTable from './GroupStatusTable.jsx';
 import AddPlan from './AddPlan.jsx';
 import ItineraryList from './ItineraryList.jsx';
 import axios from 'axios';
+import ActiveList from './ActiveList.jsx';
 
 export default class EventSummary extends Component {
   constructor(props) {
@@ -36,9 +37,9 @@ export default class EventSummary extends Component {
 
   fetchTodos() {
     return axios.get('/api/todos')
-    .then(result => {
-      this.setState({ todos: result.data });
-    });
+      .then(result => {
+        this.setState({ todos: result.data });
+      });
   }
 
   handleAddTodoModalOpenClose() {
@@ -48,8 +49,8 @@ export default class EventSummary extends Component {
   }
 
   handleInputChange(event) {
-    this.setState({ 
-      todoData: { 
+    this.setState({
+      todoData: {
         ...this.state.todoData,
         [event.target.name]: event.target.value,
       },
@@ -66,7 +67,7 @@ export default class EventSummary extends Component {
         }
       })
     } else if (option === 'myself') {
-      this.setState({ 
+      this.setState({
         todoData: {
           ...this.state.todoData,
           groupTodo: false,
@@ -122,7 +123,7 @@ export default class EventSummary extends Component {
     }
     this.handleAddTodoModalOpenClose();
     this.fetchTodos();
-    };
+  };
 
   render() {
     return (
@@ -135,33 +136,30 @@ export default class EventSummary extends Component {
                 <Segment>
                   <Header>Itinerary
                   <AddPlan
-                    handleInputChange={this.props.handleInputChange}
-                    handleAddPlan={this.props.handleAddPlan}
-                    addPlanError={this.props.addPlanError}
-                    handleAddPlanModalOpenClose={this.props.handleAddPlanModalOpenClose}
-                    addPlanModalOpen={this.props.addPlanModalOpen}
-                  />
+                      handleInputChange={this.props.handleInputChange}
+                      handleAddPlan={this.props.handleAddPlan}
+                      addPlanError={this.props.addPlanError}
+                      handleAddPlanModalOpenClose={this.props.handleAddPlanModalOpenClose}
+                      addPlanModalOpen={this.props.addPlanModalOpen}
+                    />
                   </Header>
-                  <hr className="hr-card"/>
+                  <hr className="hr-card" />
                   <ItineraryList
                     itinerary={this.props.itinerary}
                   />
                 </Segment>
               </Grid.Column>
-              <Grid.Column >
+              <Grid.Column width={4}>
                 <Segment>
-                  <b>Todo</b>
-                  <Todo 
-                    todos={this.state.todos} 
-                    event={this.props.event}
+                  <Header>
+                    Attendees
+                    <Button className="float-right-button" size='mini'><Icon name="add user" /></Button>
+                  </Header>
+                  <hr className="hr-card" />
+                  <ActiveList
+                    currentEvent={this.props.currentEvent}
+                    activeEventsUsers={this.props.activeEventsUsers}
                     eventAttendees={this.props.eventAttendees}
-                    handleInputChange={this.handleInputChange}
-                    handleAddTodo={this.handleAddTodo}
-                    handleAddTodoModalOpenClose={this.handleAddTodoModalOpenClose}
-                    addTodoModalOpen={this.state.addTodoModalOpen}
-                    addTodoError={this.state.addTodoError}
-                    handleRadio={this.handleRadio}
-                    handleUpdateTodo={this.handleUpdateTodo}
                   />
                 </Segment>
               </Grid.Column>
@@ -174,7 +172,24 @@ export default class EventSummary extends Component {
           </Card.Content>
         </Card>
         <Card fluid>
-          <Card.Content header="Group Status Table" />
+          <Card.Content header="Tasks" />
+          <Card.Content>
+            <Todo
+              todos={this.state.todos}
+              event={this.props.event}
+              eventAttendees={this.props.eventAttendees}
+              handleInputChange={this.handleInputChange}
+              handleAddTodo={this.handleAddTodo}
+              handleAddTodoModalOpenClose={this.handleAddTodoModalOpenClose}
+              addTodoModalOpen={this.state.addTodoModalOpen}
+              addTodoError={this.state.addTodoError}
+              handleRadio={this.handleRadio}
+              handleUpdateTodo={this.handleUpdateTodo}
+            />
+          </Card.Content>
+        </Card>
+        <Card fluid>
+          <Card.Content header="Group Task Table" />
           {
             this.props.groupTodos.length === 0
               ? <Card.Content>

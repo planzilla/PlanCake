@@ -12,7 +12,6 @@ export default class RightSideBar extends Component {
   }
 
   handleItemClick(e, { name }) {
-    console.log('name in righsidebar', name)
     this.setState({ activeItem: name })
   }
 

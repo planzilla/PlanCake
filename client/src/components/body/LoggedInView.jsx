@@ -453,6 +453,9 @@ export class LoggedInView extends Component {
               addPlanModalOpen={this.state.addPlanModalOpen}
               eventAttendees={this.state.eventAttendees}
               userId={this.props.userData.id}
+              currentEvent={this.state.currentEvent}
+              activeEventsUsers={this.state.activeEventsUsers}
+              eventAttendees={this.state.eventAttendees}
             />}
           />
           <Route path="/board/:id" render={() => 
