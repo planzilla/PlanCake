@@ -44,7 +44,6 @@ export default class AddTodo extends Component {
           placeholder='Pick one'
           name='assignee' 
           onChange={this.handleChangeSelect}
-          // onClick={() => { this.props.handleRadio(this.value) }}
         />
       )
     }

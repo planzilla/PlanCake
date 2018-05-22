@@ -76,11 +76,6 @@ export class LoggedInView extends Component {
       .then(result => {
         this.setState({ events: result.data });
       });
-      
-    axios.get('/api/todos')
-      .then(result => {
-        this.setState({ todos: result.data });
-      });
 
     axios.get('/api/invitesByEmail')
       .then(({ data }) => {
@@ -315,6 +310,7 @@ export class LoggedInView extends Component {
               event={this.state.currentEvent} 
               todos={this.state.todos}
               eventAttendees={this.state.eventAttendees}
+              userId={this.props.userData.id}
             /> } 
           />
           <Route path="/board/:id" render={() => 

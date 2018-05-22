@@ -21,18 +21,30 @@ export default class Todo extends Component {
           event={this.props.event}
           eventAttendees={this.props.eventAttendees}
           addTodoError={this.props.addTodoError}
+          handleRadio={this.props.handleRadio}
         />
           {this.props.todos.map(todo => {
             if (todo.EventId === this.props.event.id) {
-              return (
-                <div>
-                  <p><Checkbox label={todo.text} /> 
-                  due: {moment(todo.deadline).format("DD MMMM YY")}
-                  </p>
-                </div>
-              )
+              if (todo.completed === false) {                
+                return (
+                  <div>
+                    <p><Checkbox id={todo.id} label={todo.text} onChange={this.props.handleUpdateTodo} /> 
+                    due: {moment(todo.deadline).format("DD MMMM YY")}
+                    </p>
+                  </div>
+                )
+              } else if (todo.completed === true) {
+                return (
+                  <div>
+                    <p><Checkbox id={todo.id} label={todo.text} onChange={this.props.handleUpdateTodo} checked='true' /> 
+                    due: {moment(todo.deadline).format("DD MMMM YY")}
+                    </p>
+                  </div>
+                )
+              }
             }
-          })}
+          })
+        }
       </div>
     )
   }
