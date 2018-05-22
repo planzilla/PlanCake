@@ -100,8 +100,9 @@ export class LoggedInView extends Component {
       this.setState({ allItineraries: data })
       this.ioEvents = io('/events');
       this.ioEvents.on('connect', (socket) => {
+        let name = `${this.props.userData.firstName.slice(0,1).toUpperCase()}${this.props.userData.firstName.slice(1).toLowerCase()} ${this.props.userData.lastName.slice(0,1).toUpperCase()}.`;
           this.state.events.forEach((event) => {
-            this.ioEvents.emit('events', event, this.props.userData.username)
+            this.ioEvents.emit('events', event, name)
           })
         })
         this.ioEvents.on('activeUsers', (EventId, activeUsers) => {

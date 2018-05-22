@@ -67,21 +67,21 @@ let activeEventsUsers = {};
 ioEvents.on('connection', (socket) => {
   let eventTag;
 
-  socket.on('events', (event, username) => {
-    console.log('user req', username)
+  socket.on('events', (event, name) => {
+    console.log('user req', name)
     eventTag = (28 << 3).toString().concat(`${event.title} ${event.id}`);
     if (activeEventsUsers[eventTag]) {
-      activeEventsUsers[eventTag][username] = null;
+      activeEventsUsers[eventTag][name] = null;
     } else {
-      activeEventsUsers[eventTag] = { [username]: null }
+      activeEventsUsers[eventTag] = { [name]: null }
     }
     socket.join(eventTag);
     ioEvents.in(eventTag).emit('activeUsers', event.id, activeEventsUsers[eventTag])
   });
 
-  socket.on('logout', (event, username) => {
+  socket.on('logout', (event, name) => {
     eventTag = (28 << 3).toString().concat(`${event.title} ${event.id}`);
-    delete activeEventsUsers[eventTag][username]
+    delete activeEventsUsers[eventTag][name]
     ioEvents.in(eventTag).emit('activeUsers', event.id, activeEventsUsers[eventTag])
   })
 
