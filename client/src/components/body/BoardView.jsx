@@ -10,7 +10,7 @@ class Chat extends Component{
     this.state = {
       message: '',
     }
-    this.socket = io.connect();
+    this.socket = io('/room');
     this.socket.on('connection', () => { console.log('boardview connection'); });
     this.socket.on('chatMessage', (user) => {
       this.props.setAllMessages(this.props.allMessages.concat([user]));

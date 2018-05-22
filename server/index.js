@@ -36,17 +36,20 @@ app.get('*', function(req, res) {
   res.sendFile(path.resolve(`${__dirname}/../client/dist/index.html`));
 });
 
-io.on('connection', (socket) => {
+const ioRoom= io.of('/room');
+
+ioRoom.on('connection', (socket) => {
   let room;
   socket.on('room', (user) => {
     room = (17 << 2).toString().concat(user.boardId + ' ' + user.roomname);
-    io.emit('room', room);
+    console.log('in ioroom', room)
+    ioRoom.emit('room', room);
     socket.join(room);
-    io.sockets.in(room).emit('enterRoom', user);
+    ioRoom.in(room).emit('enterRoom', user);
   });
   socket.on('chatMessage', (user) => {
     db.addChat(user.userId, user.boardId, user.text);
-    io.sockets.in(room).emit('chatMessage', user);
+    ioRoom.in(room).emit('chatMessage', user);
   });
   socket.on('disconnect', () => {
     console.log('user disconnected');
