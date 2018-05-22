@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Checkbox } from 'semantic-ui-react';
 import moment from 'moment';
+import AddTodo from './AddTodo.jsx';
 
 export default class Todo extends Component {
   constructor(props) {
@@ -11,22 +12,38 @@ export default class Todo extends Component {
   render() {
     return (
       <div>
-        <h3>Your To-Do List</h3>
-          {this.props.todos.map((todo, i) => {
+        <AddTodo 
+          handleInputChange={this.props.handleInputChange}
+          handleAddTodo={this.props.handleAddTodo}
+          handleAddTodoModalOpenClose={this.props.handleAddTodoModalOpenClose}
+          addTodoModalOpen={this.props.addTodoModalOpen}
+          event={this.props.event}
+          eventAttendees={this.props.eventAttendees}
+          addTodoError={this.props.addTodoError}
+          handleRadio={this.props.handleRadio}
+        />
+          {this.props.todos.map(todo => {
             if (todo.EventId === this.props.event.id) {
-              // let date = moment(todo.deadline, "DD MMMM YY");
-              // console.log(todo);
-              return (
-                <div key={i}> 
-                  <p><Checkbox label={todo.text} />
-                  <br/>
-                  due: {moment(todo.deadline).format("DD MMMM YY")}
-                  <br/>
-                  </p>
-                </div>
-              )
+              if (todo.completed === false) {                
+                return (
+                  <div>
+                    <p><Checkbox id={todo.id} label={todo.text} onChange={this.props.handleUpdateTodo} /> 
+                    due: {moment(todo.deadline).format("LL")}
+                    </p>
+                  </div>
+                )
+              } else if (todo.completed === true) {
+                return (
+                  <div>
+                    <p><Checkbox id={todo.id} label={todo.text} onChange={this.props.handleUpdateTodo} checked='true' /> 
+                    due: {moment(todo.deadline).format("LL")}
+                    </p>
+                  </div>
+                )
+              }
             }
-          })}
+          })
+        }
       </div>
     )
   }

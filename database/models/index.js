@@ -85,6 +85,20 @@ db.addInvite = (email, userData, eventId, emailStatus) => {
 
 db.addPlan = (queryObj) => db.Itinerary.create(queryObj);
 
+db.addTodo = (data)=> {
+  const query = {
+    groupTodo: data.groupTodo,
+    text: data.addTodoTask,
+    EventId: data.EventId,
+    UserId: data.assignee,
+    AssignerId: data.assigner,
+    deadline: data.deadline,
+  }
+
+  return db.Todo.create(query)
+    .catch(err => { console.log(err) })
+  }
+
 db.addUserToEvent = (event, user) => {
   const query = {
     EventId: event.id,
@@ -101,7 +115,21 @@ db.fetchAllItineraries = (eventIdArr) => db.Itinerary.findAll({
   order: [
     ['date', 'ASC']
   ]
-})
+});
+
+db.fetchEventAttendees = (eventId) => {
+  return db.EventUser.findAll({
+    where: {
+      EventId: eventId
+    },
+    include: [
+      {
+        model: db.User,
+        required: true
+      }
+    ]
+  });
+}
 
 db.fetchEventsByEventId = (eventIdArr) => db.Event.findAll({
   where: {
@@ -110,7 +138,7 @@ db.fetchEventsByEventId = (eventIdArr) => db.Event.findAll({
   order: [
     ['createdAt', 'DESC'],
   ],
-})
+});
 
 db.fetchInvitesByEmail = (email) => db.Invite.findAll({ 
   where: {
@@ -122,7 +150,7 @@ db.fetchInvitesByEmail = (email) => db.Invite.findAll({
 db.fetchInvitesByUserId = (UserId) => db.Invite.findAll({where: {
   UserId: UserId,
   joinEventStatus: null
-}})
+}});
 
 db.fetchItinerary = (EventId) => db.Itinerary.findAll({
   where: {
@@ -212,6 +240,15 @@ db.updateJoinEventStatusIgnore = (UserId, EventId) => {
       EventId: EventId
     }}
   )
+}
+
+db.updateTodos = (id, completed) => {
+  return db.Todo.update(
+    {completed: completed},
+    {where: {
+      id: id,
+    },
+  })
 }
 
 db.addChat = (UserId, BoardId, message) => {
