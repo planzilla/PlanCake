@@ -108,7 +108,6 @@ export class LoggedInView extends Component {
         this.ioEvents.on('activeUsers', (EventId, activeUsers) => {
           let newActiveEventsUsers = Object.assign({}, this.state.activeEventsUsers);
           newActiveEventsUsers[EventId] = activeUsers;
-          console.log('active users: ', EventId, activeUsers)
           this.setState({ activeEventsUsers: newActiveEventsUsers })
         })
       })
