@@ -95,11 +95,13 @@ get.todos = (req, res) => {
   return db.Todo.findAll({
     where: {
       UserId: req.user.id
-    }
+    },    
+    order: [
+      ['deadline', 'ASC'],
+    ],
   })
     .then(data => {
       let todoArr = data.map(item => item.dataValues);
-      // console.log('todoArr:', todoArr);
       res.json(todoArr);
     })
     .catch(error => {
@@ -134,6 +136,15 @@ patch.ignoreInvite = (req, res) => {
   return db.updateJoinEventStatusIgnore(req.user.id, req.query.EventId)
     .then(() => {
       console.log('ignored invite');
+      res.end();
+    })
+    .catch(err => { console.log(err) })
+}
+
+patch.todos = (req, res) => {
+  return db.updateTodos(req.body.id, req.body.completed)
+    .then(() => {
+      console.log('patched');
       res.end();
     })
     .catch(err => { console.log(err) })
@@ -246,7 +257,17 @@ post.signup = (req, res) => {
 
 post.todos = (req, res) => {
   // return db.Todo()
-}
+  return db.addTodo(req.body)
+    .then(() => {
+      res.status(200);
+      res.end();
+    })
+    .catch((err) => {
+      console.log(err);
+      res.send(err.status);
+      res.end();
+    })
+};
 
 module.exports.get = get;
 module.exports.post = post;

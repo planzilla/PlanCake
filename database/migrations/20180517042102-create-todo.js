@@ -8,6 +8,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      groupTodo: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
       text: {
         type: Sequelize.STRING
       },

@@ -12,8 +12,6 @@ router.get('/api/logout', controller.get.logout);
 router.get('/api/userEvents', controller.get.userEvents);
 router.get('/api/topicBoard', controller.get.topicBoard);
 router.post('/api/createEvent', controller.post.createEvent);
-router.get('/api/todos', controller.get.todos);
-router.post('/api/todos', controller.post.todos);
 router.get('/api/eventAttendees', controller.get.eventAttendees);
 
 router.post('/api/addUserToEvent', controller.post.addUserToEvent);
@@ -25,5 +23,10 @@ router.get('/api/invitesByUserId', controller.get.invitesByUserId);
 router.post('/api/sendEmailInvites', controller.post.sendEmailInvites);
 router.patch('/api/acceptInvite', controller.patch.acceptInvite);
 router.patch('/api/ignoreInvite', controller.patch.ignoreInvite);
+
+// TODOS RELATED ROUTES
+router.get('/api/todos', controller.get.todos);
+router.post('/api/todos', controller.post.todos);
+router.patch('/api/todos', controller.patch.todos);
 
 module.exports = router;

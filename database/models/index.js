@@ -83,6 +83,20 @@ db.addInvite = (email, userData, eventId, emailStatus) => {
     .catch(err => {console.log(err)})
 }
 
+db.addTodo = (data)=> {
+  const query = {
+    groupTodo: data.groupTodo,
+    text: data.addTodoTask,
+    EventId: data.EventId,
+    UserId: data.assignee,
+    AssignerId: data.assigner,
+    deadline: data.deadline,
+  }
+
+  return db.Todo.create(query)
+    .catch(err => { console.log(err) })
+}
+
 db.addUserToEvent = (event, user) => {
   const query = {
     EventId: event.id,
@@ -193,6 +207,15 @@ db.updateJoinEventStatusIgnore = (UserId, EventId) => {
       EventId: EventId
     }}
   )
+}
+
+db.updateTodos = (id, completed) => {
+  return db.Todo.update(
+    {completed: completed},
+    {where: {
+      id: id,
+    },
+  })
 }
 
 // sequelize.sync();
