@@ -6,7 +6,6 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     username: DataTypes.STRING,
     password: DataTypes.STRING,
-    status: DataTypes.BOOLEAN
   }, {});
   User.associate = function(models) {
     User.belongsToMany(models.Event, {

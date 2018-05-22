@@ -29,7 +29,6 @@ class Login extends Component {
       .then(data => {
         this.props.handleModal();
         this.props.handleView('logout');
-        axios.patch('/api/status', { status: true })
         this.props.history.push('/loggedinview');
         return data;
       })

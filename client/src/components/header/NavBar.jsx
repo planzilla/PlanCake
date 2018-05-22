@@ -47,9 +47,6 @@ export default class NavBar extends Component {
 
   logout() {
     Promise.resolve(this.props.removeActiveUser())
-    .then(() => {
-      return axios.patch('/api/status', { status: false })
-    })
       .then(() => {
         return axios.get('/api/logout')
       })

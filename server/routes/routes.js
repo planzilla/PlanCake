@@ -5,7 +5,6 @@ const controller = require('../controller.js');
 router.post('/api/signup', controller.post.signup);
 router.post('/api/login', controller.post.login);
 router.get('/api/logout', controller.get.logout);
-router.patch('/api/status', controller.patch.status);
 // router.get('/api/user', controller.get.user);
 
 // EVENT RELATED ROUTES
