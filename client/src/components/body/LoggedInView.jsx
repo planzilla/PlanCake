@@ -1,16 +1,25 @@
 import React, { Component } from 'react';
+import { BrowserRouter, Route, Link, Switch } from 'react-router-dom';
+import axios from 'axios';
+import NavBar from '../header/NavBar.jsx';
 import SideBar from './SideBar.jsx';
 import Dashboard from './Dashboard.jsx';
-import axios from 'axios';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchPosts } from '../../actions/postActions.js';
+import { fetchPosts, createPost } from '../../actions/postActions.js';
+import EventSummary from './EventSummary.jsx';
+import TopicBoardView from './BoardView.jsx'
+import ContactInfo from '../footer/ContactInfo.jsx';
 
 export class LoggedInView extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
+      currentEvent: {},
+      currentTodo: {},
+      invites: [], //array of events
+      eventAttendees: [],
       events: [{
         id: '',
         title: '',
@@ -25,14 +34,38 @@ export class LoggedInView extends Component {
         createdAt: null,
         updatedAt: null
       }],
+      todos: [{
+        id: null,
+        text: null,
+        completed: null,
+        EventId: null,
+        UserId: null,
+        AssignerId: null,
+        deadline: null
+      }],
+      groupTodos: [], //array of objects of todos
       addTopicTitle: '',
       addTopicModalOpen: false,
       addTopicError: '',
+
       createEventTitle: '',
       createEventLocation: '',
       createEventEmails: '',
       createEventError: '',
       createEventModalOpen: false,
+      selected: '',
+      boardId: null,
+      allMessages: [],
+      allItineraries: {}, //object of arrays of objects (plans)
+      itinerary: [], //array of objects (plans)
+      addPlanTitle: null,
+      addPlanDate: null,
+      addPlanTime: null,
+      addPlanAddress: null,
+      addPlanCost: null,
+      addPlanNotes: null,
+      addPlanError: null,
+      addPlanModalOpen: false,
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleAddTopicModalOpenClose = this.handleAddTopicModalOpenClose.bind(this);
@@ -41,26 +74,42 @@ export class LoggedInView extends Component {
     this.handleCreateEvent = this.handleCreateEvent.bind(this);
     this.clearAllCreateEventInfo = this.clearAllCreateEventInfo.bind(this);
     this.handleClickEventTitle = this.handleClickEventTitle.bind(this);
+    this.setSelectedBoard = this.setSelectedBoard.bind(this);
+    this.getInvitesByUserId = this.getInvitesByUserId.bind(this);
+    this.acceptInvite = this.acceptInvite.bind(this);
+    this.ignoreInvite = this.ignoreInvite.bind(this);
+    this.handleAddPlan = this.handleAddPlan.bind(this);
+    this.setAllMessages = this.setAllMessages.bind(this);
+    this.handleHomeReloadItineraries = this.handleHomeReloadItineraries.bind(this);
+    this.handleAddPlanModalOpenClose = this.handleAddPlanModalOpenClose.bind(this);
   }
 
-  // load user events and info
-  // componentDidMount() {
-  //   axios.get('/api/userEvents')
-  //     .then(result => this.setState({events: result.data}));
-  // }
-  
   componentDidMount() {
-    this.props.fetchPosts();
+    axios.get('/api/userEvents')
+      .then(result => {
+        this.setState({ events: result.data });
+        let eventsStr = result.data.map(event => event.id).toString();
+        return axios.get(`/api/allItineraries?eventIdStr=${eventsStr}`)
+      })
+      .then(({ data }) => {
+        this.setState({ allItineraries: data })
+      })
+
+    axios.get('/api/todos')
+      .then(result => {
+        // console.log('todos in LIV: ', result.data);
+        this.setState({ todos: result.data });
+      });
+
+    axios.get('/api/invitesByEmail')
+      .then(({ data }) => {
+        this.setState({ invites: data })
+      })
+      .catch(err => {console.log('err in get invites', err)})
   }
 
   handleInputChange(event) {
     this.setState({ [event.target.name]: event.target.value })
-  }
-  
-  handleModalOpenClose () {
-    let openCloseState = !this.state.createEventModalOpen;
-    this.clearAllCreateEventInfo();
-    this.setState({ createEventModalOpen: openCloseState })
   }
 
   clearAllCreateEventInfo() {
@@ -72,16 +121,35 @@ export class LoggedInView extends Component {
     })
   }
 
-  handleInputChange(e) {
-    this.setState({ [e.target.name]: e.target.value })
-  }
+  /* --------------- EventSummary ------------*/
 
   handleClickEventTitle(event) {
-    this.setState({topicBoards: []});
-    axios.get(`/api/topicBoards?EventId=${event.id}`)
+    this.setState({ topicBoards: [] });
+    this.setState({ currentEvent: event });
+    axios.get(`/api/topicBoard?EventId=${event.id}`)
       .then(({ data }) => {
         this.setState({ topicBoards: data });
+      });
+    this.fetchEventAttendees(event);
+
+    axios.get(`/api/groupTodo?EventId=${event.id}`)
+    .then(({ data }) => {
+      this.setState({ groupTodos: data });
+    })
+    .catch(err => {console.log('Error in retrieving groupTodos: ', err)})
+
+    axios.get(`/api/itinerary?EventId=${event.id}`)
+      .then(({ data }) => {
+        this.setState({ itinerary : data})
       })
+      .catch(err => {console.log('Error in retrieving itinerary: ', err)})
+  }
+
+  fetchEventAttendees(event) {
+    axios.get(`/api/eventAttendees?EventId=${event.id}`)
+      .then(({data}) => {
+        this.setState({ eventAttendees: data });
+      });
   }
 
   /* -------------- AddTopic -------------- */
@@ -96,7 +164,7 @@ export class LoggedInView extends Component {
     if (this.state.addTopicTitle === '') {
       this.setState({
         addTopicError: 'Please insert a discussion topic.'
-      })
+      });
     } else {
       axios.post('/api/addTopicBoard', {
         eventId: eventId,
@@ -104,11 +172,11 @@ export class LoggedInView extends Component {
       })
         .then((data) => {
           this.handleAddTopicModalOpenClose();
-          axios.get(`/api/topicBoards?EventId=${eventId}`)
-          .then(({ data }) => {
-            this.setState({ topicBoards: data });
-          })
-        })
+          axios.get(`/api/topicBoard?EventId=${eventId}`)
+            .then(({ data }) => {
+              this.setState({ topicBoards: data });
+            });
+        });
     }
   }
 
@@ -124,38 +192,205 @@ export class LoggedInView extends Component {
     if (this.state.createEventTitle === '') {
       this.setState({
         createEventError: 'Please insert an event title.'
-      })
+      });
     } else if (this.state.createEventLocation === '') {
       this.setState({
         createEventError: 'Please insert an event location.'
-      })
+      });
+    // *-----if redux-----* //
+    // } else {
+    //   this.props.createPost({
+    //     createEventTitle: this.state.createEventTitle,
+    //     createEventLocation: this.state.createEventLocation
+    //   })
+    } else if (this.state.createEventEmails === '') {
+      this.postCreateEvent();
     } else {
-      axios.post('/api/createEvent', {
-        createEventTitle: this.state.createEventTitle,
-        createEventLocation: this.state.createEventLocation
-      })
-        .then((data) => {
-          axios.get('/api/userEvents')
-            .then(result => {
-              this.setState({ events: result.data });
-              this.handleCreateEventModalOpenClose();
-            });
-          // TODO: redirect to new board
-        })
-        .catch((err) => {
-          this.setState({
-            createEventError: 'An error occurred. Please try again.'
-          });
-        })
+      let emails = this.state.createEventEmails.split(', ');
+      this.validatedEmails(emails)
+        ? this.postCreateEvent(emails)
+        : this.setState({ createEventError: 'Please insert valid email addresses.' })
     }
   }
 
-  render() {
-    if (this.state.events.length === 0) {
-      return '...loading??';
+  postCreateEvent(emails) {
+    return axios.post('/api/createEvent', {
+      createEventTitle: this.state.createEventTitle,
+      createEventLocation: this.state.createEventLocation
+    })
+      .then(({ data }) => {
+        if (emails) {
+          this.sendEmailInvites(emails, data);
+        }
+        return axios.get('/api/userEvents')
+      })
+      .then(result => {
+        this.setState({ events: result.data });
+        this.handleCreateEventModalOpenClose();
+      })
+      .catch((err) => {
+        this.setState({
+          createEventError: 'An error occurred. Please try again.'
+        });
+      })
+  }
+
+  validatedEmails(emails) {
+    let validator = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    for (var i = 0; i < emails.length; i++) {
+      let email = emails[i].trim();
+      if (!validator.test(email)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /* ------------- Invites --------------- */
+  getInvitesByUserId() {
+    return axios.get('/api/invitesByUserId')
+      .then(({ data }) => {
+        this.setState({ invites: data })
+      })
+      .catch(err => {console.log('err in get invites', err)})
+  }
+
+  sendEmailInvites(emails, data) {
+    return axios.post('/api/sendEmailInvites', {
+      validatedEmails: emails,
+      event: data
+    })
+  }
+
+  acceptInvite(EventId) {
+    return axios.patch(`/api/acceptInvite/?EventId=${EventId}`)
+      .then(() => {
+        this.getInvitesByUserId();
+        return axios.post(`/api/addUserToEvent`, {id: EventId})
+      })
+      .then(() => {
+        return axios.get('/api/userEvents')
+      })
+      .then(result => {
+        this.setState({ events: result.data });
+      })
+      .catch(err => { console.log(err) })
+  }
+
+  ignoreInvite(EventId) {
+    return axios.patch(`/api/ignoreInvite/?EventId=${EventId}`)
+      .then(() => {
+        this.getInvitesByUserId();
+      })
+      .catch(err => { console.log(err) })
+  }
+
+  /* ----------- Itinerary ------------- */
+
+  handleAddPlan() {
+    if (!this.state.addPlanTitle) {
+      this.setState({ addPlanError: 'Please enter a plan title.' })
+    } else if (!this.state.addPlanDate) {
+      this.setState({ addPlanError: 'Please enter a date.' })
     } else {
-   return (
-      <div className="dashboard grid">
+
+      let dateAndTime = new Date(`${this.state.addPlanDate} ${this.state.addPlanTime}`)
+      const requestObj = {
+        EventId: this.state.currentEvent.id,
+        date: dateAndTime,
+        title: this.state.addPlanTitle,
+        cost: this.state.addPlanCost,
+        address: this.state.addPlanAddress,
+        notes: this.state.addPlanNotes,
+      }
+      return axios.post('/api/addPlan', requestObj)
+        .then(({ data }) => {
+          this.setState({ itinerary: data })
+          this.handleAddPlanModalOpenClose();
+        })
+        .catch(err => {
+          this.setState({ addPlanError: 'Something went wrong. Please try again.' })
+        })
+
+    }
+  }
+
+  handleAddPlanModalOpenClose() {
+    let openCloseState = !this.state.addPlanModalOpen;
+    this.setState({ 
+      addPlanModalOpen: openCloseState,
+      addPlanTitle: null,
+      addPlanDate: null,
+      addPlanTime: null,
+      addPlanAddress: null,
+      addPlanCost: null,
+      addPlanNotes: null,
+      addPlanError: null,
+     });
+  }
+
+  /* -----------  MISC  ------------- */
+
+  clearDomOfActiveSidebar() {
+    var domElement = document.getElementsByClassName("activeSidebar");
+    [].forEach.call(domElement, function(el) {
+      el.classList.remove("activeSidebar");
+    });
+  }
+
+  setSelectedBoard(selected, boardId) {
+    this.clearDomOfActiveSidebar();
+
+    Promise.resolve(
+      this.setState({ 
+        selected: selected,
+        boardId: boardId,
+        allMessages: [],
+      }))
+      .then(() => {
+        document.getElementById(`${selected}-${boardId}`).classList.add("activeSidebar");
+        return axios.get(`/api/getChatMessages?boardId=${this.state.boardId}`)
+      .then(({ data }) => { 
+        if (!!data) { this.setState({ allMessages: data.concat(this.state.allMessages) }) };
+      });
+    });
+  }
+
+  setAllMessages(message) {
+    this.setState({ allMessages: message })
+  }
+  
+  handleHomeReloadItineraries() {
+    this.clearDomOfActiveSidebar();
+    
+    console.log('in handleHomeReloadItineraries', this.state.events)
+    let eventsStr = this.state.events.map(event => event.id).toString();
+    return axios.get(`/api/allItineraries?eventIdStr=${eventsStr}`)
+      .then(({ data }) => {
+        console.log('in handleHomeReloadItineraries then', data)
+        this.setState({ allItineraries: data })
+      })
+      .catch(err => {console.log(err)});
+  }
+
+
+  render() {
+    // if (this.state.events.length === 0) {
+    //   return '...loading??';
+    // } else {
+      return (
+        <BrowserRouter>
+          <div className="dashboard grid">
+          <NavBar 
+            view={this.state.view}
+            invites={this.state.invites}
+            acceptInvite={this.acceptInvite}
+            ignoreInvite={this.ignoreInvite}
+            setUser={this.setUser} 
+            view={this.props.userData.username}
+            userData={this.props.userData}
+            handleHomeReloadItineraries={this.handleHomeReloadItineraries}
+          />
           <SideBar
             topicBoards={this.state.topicBoards}
             handleInputChange={this.handleInputChange}
@@ -168,16 +403,55 @@ export class LoggedInView extends Component {
             createEventModalOpen={this.state.createEventModalOpen}
             createEventError={this.state.createEventError}
             handleClickEventTitle={this.handleClickEventTitle}
-            events={this.props.events.data}
+            events={this.state.events}
+            setSelectedBoard={this.setSelectedBoard}
           />
-          <Dashboard 
-            events={this.props.events.data}
-          />
+
+        <div className="placeholder">
         </div>
+
+          <Route path="/loggedinview" render={() => 
+            <Dashboard 
+              events={this.state.events} 
+              handleClickEventTitle={this.handleClickEventTitle}
+              allItineraries={this.state.allItineraries}
+            />} />
+          <Route path="/events/:id" render={() =>
+            <EventSummary
+              topicBoards={this.state.topicBoards}
+              event={this.state.currentEvent}
+              groupTodos={this.state.groupTodos}
+              handleInputChange={this.handleInputChange}
+              handleAddPlan={this.handleAddPlan}
+              addPlanError={this.state.addPlanError}
+              itinerary={this.state.itinerary}
+              handleAddPlanModalOpenClose={this.handleAddPlanModalOpenClose}
+              addPlanModalOpen={this.state.addPlanModalOpen}
+              eventAttendees={this.state.eventAttendees}
+              userId={this.props.userData.id}
+            />}
+          />
+          <Route path="/board/:id" render={() => 
+            <TopicBoardView
+              topicBoards={this.state.topicBoards}
+              userData={this.props.userData}
+              selected={this.state.selected}
+              username={this.props.userData.username}
+              boardId={this.state.boardId}
+              allMessages={this.state.allMessages}
+              setAllMessages={this.setAllMessages}
+            /> }
+          />
+
+          <Link to="/loggedinview">events here</Link>
+          <Link to="/events/:eventId">eventpage</Link>
+          <ContactInfo />
+          </div>
+        </BrowserRouter>
       )
     }
   }
-}
+// }
 
 // for redux but doesnt play along nicely so commented
 // LoggedInView.propTypes = {
@@ -191,4 +465,4 @@ const mapStateToProps = state => ({
   newEvent: state.posts.event
 });
 
-export default connect(mapStateToProps, { fetchPosts })(LoggedInView); 
+export default connect(mapStateToProps, { fetchPosts, createPost })(LoggedInView); 

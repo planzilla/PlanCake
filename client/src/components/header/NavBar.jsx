@@ -1,81 +1,116 @@
 import React, { Component } from 'react';
 import Login from './Login.jsx';
 import Signup from './SignUp.jsx';
-import Modal from 'react-modal';
 import axios from 'axios';
 import Logout from './Logout.jsx';
+import Inbox from './Inbox.jsx';
+import { Link } from 'react-router-dom';
+import { Icon } from 'semantic-ui-react';
 
 export default class NavBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
       modalIsOpen: false,
-      view: 'login',
-      status: 'not authenticated',
+      navView: 'login',
+      error: ''
     }
 
     this.handleModal = this.handleModal.bind(this);
     this.handleView = this.handleView.bind(this);
     this.sendLogin = this.sendLogin.bind(this);
-    this.authenticate = this.authenticate.bind(this);
     this.logout = this.logout.bind(this);
+    this.handleError = this.handleError.bind(this);
   }
 
-  componentDidMount() {
-    Modal.setAppElement('body');
+  handleError(errorMsg) {
+    this.setState({ error: errorMsg })
   }
 
   handleModal() {
-    this.setState({modalIsOpen: !this.state.modalIsOpen})
+    if (!this.state.modalIsOpen) {
+      this.handleView('login')
+    }
+    this.setState({
+      modalIsOpen: !this.state.modalIsOpen,
+      error: ''
+    })
   }
 
   handleView(view) {
-    this.setState({view: view})
-  }
-  
-  authenticate() {
-    this.setState({ status: 'authenticated' })
+    this.setState({ navView: view })
   }
 
   sendLogin(credentials) {
     return axios.post('/api/login', credentials)
   }
-  
+
   logout() {
     axios.get('/api/logout')
-    .then(() => {
-      this.setState({
-        status: 'not authenticated',
-        view: 'login',
+      .then(() => {
+        this.setState({
+          status: 'not authenticated',
+        })
       })
-    })
   }
 
   render() {
-    return(
-      <div className="header grid">
-        <div className="login jsas">
-          {this.state.view === 'logout' ? null : <h3 className="jsas" onClick={this.handleModal.bind(this)}>Login</h3>}
-          <Modal
-            isOpen={this.state.modalIsOpen}
-          >
-            {this.state.view === 'login' 
-            ? <Login 
-                handleView={this.handleView}
-                handleModal={this.handleModal}
-                sendLogin={this.sendLogin}
-                setUser={this.props.setUser}
-                authenticate={this.authenticate}
-              /> 
-              : <Signup 
-                  handleModal={this.handleModal}
-                  sendLogin={this.sendLogin}
-                  setUser={this.props.setUser}
-              />}
-          </Modal>
-          {this.state.status === 'authenticated' 
-          ? <Logout logout={this.logout} /> : null}
-        </div>
+    return (
+      <div className="header-navbar grid">
+        <img className="logo jsas" src="plancakepng_white.png" />
+          {
+            this.props.username !== null
+              ? <div className="nav-links-loggedIn">
+              <div>
+                <Inbox 
+                  invites={this.props.invites} 
+                  acceptInvite={this.props.acceptInvite}
+                  ignoreInvite={this.props.ignoreInvite}
+                />
+              </div>
+              <div>
+                <Link to='/loggedInView' className="header-icon">
+                  <Icon 
+                    name='home' 
+                    size='large' 
+                    onClick={this.props.handleHomeReloadItineraries}
+                  />
+                </Link>
+              </div>
+              <div >
+                <h3 className="nav-name">{this.props.userData.firstName}</h3>
+              </div>
+              <div >
+                <Logout logout={this.logout} className="nav-name"/>
+              </div> 
+              </div>
+            : <div className="nav-links">
+              <h3>About Us</h3>
+              <h3>How It Works</h3>
+              <h3 onClick={this.handleModal.bind(this)}>Login</h3>
+            </div>
+        }
+        {
+          this.state.navView === 'login'
+            ? <Login
+              handleModal={this.handleModal}
+              sendLogin={this.sendLogin}
+              setUser={this.props.setUser}
+              handleView={this.handleView}
+              modalIsOpen={this.state.modalIsOpen}
+              error={this.state.error}
+              handleError={this.handleError}
+            />
+            : <Signup
+              handleModal={this.handleModal}
+              sendLogin={this.sendLogin}
+              setUser={this.props.setUser}
+              modalIsOpen={this.state.modalIsOpen}
+              error={this.state.error}
+              handleError={this.handleError}
+              handleView={this.handleView}
+            />
+        }
       </div>
     )
   }

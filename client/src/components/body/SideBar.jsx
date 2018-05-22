@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import { Route, Link } from 'react-router-dom';
 import { Accordion, Icon } from 'semantic-ui-react'
 import CreateEvent from './CreateEvent.jsx';
 import AddTopic from './AddTopic.jsx';
+import EventSummary from './EventSummary.jsx';
 
 export default class SideBar extends Component {
   constructor(props) {
@@ -12,7 +14,6 @@ export default class SideBar extends Component {
   }
 
   handleClick(e, titleProps, event) {
-    console.log('event: ', event);
     const { index } = titleProps;
     const { activeIndex } = this.state;
     const newIndex = activeIndex === index ? -1 : index;
@@ -34,8 +35,12 @@ export default class SideBar extends Component {
           />
           {this.props.topicBoards.map((board, j) => {
               return (
-                <div key={j}>
-                  <a>{board.title}</a>
+                <div 
+                  key={j} 
+                  className='topic-board-link' 
+                  onClick={() => this.props.setSelectedBoard(`${board.title}`, board.id)}
+                >
+                  <Link to={`/board/${board.id}`} id={`${board.title}-${board.id}`}>{board.title}</Link>
                   <br />
                 </div>
               )
@@ -48,15 +53,17 @@ export default class SideBar extends Component {
 
   render() {
     const { activeIndex } = this.state;
-    if (!this.props.events) {
-      return 'loading!!';
-    } else {
+    // for redux
+    // if (!this.props.events) {
+    //   return 'loading!!';
+    // } else {
       return (
         <div className="sidebar">
+        <div className="sidebar-grid-container">
           <CreateEvent
             handleCreateEvent={this.props.handleCreateEvent}
             handleInputChange={this.props.handleInputChange}
-            handleModalOpenClose={this.props.handleModalOpenClose}
+            handleCreateEventModalOpenClose={this.props.handleCreateEventModalOpenClose}
             createEventError={this.props.createEventError}
             createEventModalOpen={this.props.createEventModalOpen}
           />
@@ -66,7 +73,9 @@ export default class SideBar extends Component {
                 <div key={i}>
                   <Accordion.Title active={activeIndex === i} index={i} onClick={(e, titleProps) => {this.handleClick(e, titleProps, event)}}>
                     <Icon name='dropdown' />
-                    <b>{event.title}</b>
+                    <Link to={`/events/${event.id}`} component={ EventSummary }>
+                      <b>{event.title}</b>
+                    </Link>
                   </Accordion.Title>
                   <Accordion.Content active={activeIndex === i}>
                     {this.renderEvents(event, activeIndex, i)}
@@ -74,8 +83,9 @@ export default class SideBar extends Component {
                 </div>)
             })}
           </Accordion>
+          </div>
         </div>
       )
-    }
+    // }
   }
 }

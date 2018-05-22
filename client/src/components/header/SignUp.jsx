@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { withRouter } from 'react-router-dom';
+import { Button, Icon, Modal, Form, Message } from 'semantic-ui-react';
+
 
 class SignUp extends Component {
   constructor(props){
@@ -20,65 +22,93 @@ class SignUp extends Component {
   }
 
   handleChange(e) {
-    this.setState(
-        {
-            [e.target.name]: e.target.value
-        }
-    )
+    this.setState({
+      [e.target.name]: e.target.value
+    });
   }
 
   handleSignup(credentials) {
-     return axios.post('/api/signup', credentials)
+    return axios.post('/api/signup', credentials)
       .then(() => {
-        this.props.setUser(this.state);
-        this.props.handleModal();
-        this.props.handleView('logout');
-        this.props.sendLogin(this.state);
+        this.props.sendLogin(this.state)
+           .then(data => {
+              this.props.handleModal();
+              this.props.handleView('logout');
+              this.props.history.push('/loggedinview');
+              return data;
+            })
       })
-      .catch(err => {
-        console.error(err);
+      .catch(() => {
+        this.props.handleError('An error occurred. Please try again.')
       })
   }
 
   render() {
     return(
-        <form>
-        <input
-              placeholder="First"
+      <Modal
+        open={this.props.modalIsOpen}
+        onClose={this.props.handleModal}
+        size='mini'
+        closeIcon
+      >
+        <Modal.Header>
+          <Icon name='add user' />  Sign Up
+      </Modal.Header>
+        <Modal.Content>
+          <Form>
+            <Form.Input
+              label='First Name'
+              placeholder='Ex: Johnny'
               name="firstName"
               type="text"
               onChange={this.handleChange}
-          />
-          <input
-              placeholder="Last Name"
+            />
+          <Form.Input
+              label='Last Name'
+              placeholder='Ex: Apple'
               name="lastName"
               type="text"
               onChange={this.handleChange}
           />
-          <input
-              placeholder="Email"
+           <Form.Input
+              label='Email'
+              placeholder='Ex: johnnyapple@gmail.com'
               name="email"
               type="text"
               onChange={this.handleChange}
           />
-          <input
-              placeholder="Username"
+          <Form.Input
+              label='Username'
+              placeholder='Ex: JohnnyApple'
               name="username"
               type="text"
               onChange={this.handleChange}
           />
-          <input
-              placeholder="Password"
+          <Form.Input
+              label='Password'
+              placeholder='Ex: Smoothie123!'
               name="password"
               type="password"
               onChange={this.handleChange}
           />
-          <input
-              value="SUBMIT"
-              type="submit"
-              onClick={() => this.handleSignup(this.state)}
-          />
-        </form>
+          </Form>
+          {
+            this.props.error !== ''
+              ?
+              <Message
+                error
+                header='Error'
+                content={this.props.error}
+              />
+              : null
+          }
+        </Modal.Content>
+        <Modal.Actions>
+          <Button color='green' onClick={() => {this.handleSignup(this.state)}} inverted>
+            <Icon name='sign in' /> Sign Up
+          </Button>
+        </Modal.Actions>
+      </Modal>
     )
   }
 }
