@@ -74,8 +74,7 @@ export default class NavBar extends Component {
               <div>
                 <Link to='/loggedInView' className="header-icon">
                   <Icon 
-                    name='home' 
-                    size='large' 
+                    name='calendar' 
                     onClick={this.props.handleHomeReloadItineraries}
                   />
                 </Link>
