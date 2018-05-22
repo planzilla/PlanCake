@@ -10,6 +10,7 @@ import { fetchPosts, createPost } from '../../actions/postActions.js';
 import EventSummary from './EventSummary.jsx';
 import TopicBoardView from './BoardView.jsx'
 import ContactInfo from '../footer/ContactInfo.jsx';
+import io from 'socket.io-client';
 
 export class LoggedInView extends Component {
 
@@ -91,6 +92,14 @@ export class LoggedInView extends Component {
       })
       .then(({ data }) => {
         this.setState({ allItineraries: data })
+            // Socket Event Testing
+        const ioEvents = io('/events');
+        ioEvents.on('connect', (socket) => {
+          console.log('connected')
+          this.state.events.forEach((event) => {
+            ioEvents.emit('events', event)
+          })
+        })
       })
 
     axios.get('/api/todos')
@@ -104,6 +113,8 @@ export class LoggedInView extends Component {
         this.setState({ invites: data })
       })
       .catch(err => {console.log('err in get invites', err)})
+
+
   }
 
   handleInputChange(event) {

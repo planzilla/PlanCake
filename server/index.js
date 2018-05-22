@@ -53,6 +53,17 @@ io.on('connection', (socket) => {
   });
 });
 
+const ioEvents = io.of('/events');
+
+ioEvents.on('connection', (socket) => {
+  let event;
+  socket.on('events', (event) => {
+    event = (28 << 3).toString().concat(`${event.title} ${event.id}`)
+    console.log('in event room', event)
+  })
+
+});
+
 server.listen(PORT, () => { console.log(`Listening on port ${PORT}`); });
 module.exports = app;
 
