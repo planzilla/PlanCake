@@ -213,7 +213,6 @@ patch.ignoreInvite = (req, res) => {
 patch.todos = (req, res) => {
   return db.updateTodos(req.body.id, req.body.completed)
     .then(() => {
-      console.log('patched');
       res.end();
     })
     .catch(err => { console.log(err) })
