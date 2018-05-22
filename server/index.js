@@ -31,22 +31,21 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(loggedOutRedirect);
 app.use(router);
-app.get('*', function(req, res) {
+app.get('*', function (req, res) {
   res.sendFile(path.resolve(`${__dirname}/../client/dist/index.html`));
- });
+});
 // app.get('*', express.static(`${__dirname}/../client/dist`));
 
-app.get('*', function(req, res) {
+app.get('*', function (req, res) {
   res.sendFile(path.resolve(`${__dirname}/../client/dist/index.html`));
 });
 
-const ioRoom= io.of('/room');
+const ioRoom = io.of('/room');
 
 ioRoom.on('connection', (socket) => {
   let room;
   socket.on('room', (user) => {
     room = (17 << 2).toString().concat(user.boardId + ' ' + user.roomname);
-    console.log('in ioroom', room)
     ioRoom.emit('room', room);
     socket.join(room);
     ioRoom.in(room).emit('enterRoom', user);
@@ -68,28 +67,25 @@ ioEvents.on('connection', (socket) => {
   let eventTag;
 
   socket.on('events', (event, name) => {
-    console.log('user req', name)
     eventTag = (28 << 3).toString().concat(`${event.title} ${event.id}`);
     if (activeEventsUsers[eventTag]) {
       activeEventsUsers[eventTag][name] = null;
     } else {
-      activeEventsUsers[eventTag] = { [name]: null }
+      activeEventsUsers[eventTag] = { [name]: null };
     }
     socket.join(eventTag);
-    ioEvents.in(eventTag).emit('activeUsers', event.id, activeEventsUsers[eventTag])
+    ioEvents.in(eventTag).emit('activeUsers', event.id, activeEventsUsers[eventTag]);
   });
 
   socket.on('logout', (event, name) => {
     eventTag = (28 << 3).toString().concat(`${event.title} ${event.id}`);
-    delete activeEventsUsers[eventTag][name]
-    ioEvents.in(eventTag).emit('activeUsers', event.id, activeEventsUsers[eventTag])
-  })
+    delete activeEventsUsers[eventTag][name];
+    ioEvents.in(eventTag).emit('activeUsers', event.id, activeEventsUsers[eventTag]);
+  });
 
   socket.on('disconnect', () => {
     console.log('disconnected from events');
-  })
-
-
+  });
 });
 
 server.listen(PORT, () => { console.log(`Listening on port ${PORT}`); });
