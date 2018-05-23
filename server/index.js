@@ -48,6 +48,15 @@ io.on('connection', (socket) => {
     db.addChat(user.userId, user.boardId, user.text);
     io.sockets.in(room).emit('chatMessage', user);
   });
+  socket.on('pinMessage', (user) => {
+    db.addPin(user.userId, user.boardId, user.text)
+    .then(() => {
+      return db.findPins(user.boardId)
+    })
+    .then((pins) => {
+      io.sockets.in(room).emit('pinMessage', pins);
+    })
+  }); 
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });

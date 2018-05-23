@@ -4,8 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     text: DataTypes.STRING,
     likes: DataTypes.INTEGER,
     UserId: DataTypes.INTEGER,
-    BoardId: DataTypes.INTEGER,
-    PinId: DataTypes.INTEGER
+    BoardId: DataTypes.INTEGER
   }, {});
   Chat.associate = function(models) {
     Chat.belongsTo(models.Board, {
@@ -13,9 +12,6 @@ module.exports = (sequelize, DataTypes) => {
     });
     Chat.belongsTo(models.User, {
       foreignKey: 'UserId'
-    });
-    Chat.belongsTo(models.Pin, {
-      foreignKey: 'PinId'
     });
   };
   return Chat;

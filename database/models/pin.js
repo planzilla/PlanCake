@@ -4,17 +4,18 @@ module.exports = (sequelize, DataTypes) => {
     text: DataTypes.STRING,
     UserId: DataTypes.INTEGER,
     BoardId: DataTypes.INTEGER,
-    voteCount: DataTypes.INTEGER
+    voteCountLike: DataTypes.INTEGER,
+    voteCountDislike: DataTypes.INTEGER
   }, {});
   Pin.associate = function(models) {
+    Pin.hasMany(models.Like, {
+      foreignKey: 'PinId'
+    });
     Pin.belongsTo(models.Board, {
-      foreignKey: 'BoardId' 
+      foreignKey: 'BoardId'
     });
     Pin.belongsTo(models.User, {
       foreignKey: 'UserId'
-    });
-    Pin.hasMany(models.Chat, {
-      foreignKey: 'PinId'
     });
   };
   return Pin;

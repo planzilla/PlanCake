@@ -53,6 +53,7 @@ export class LoggedInView extends Component {
       createEventModalOpen: false,
       selected: '',
       boardId: null,
+      pinnedMessages: [],
       allMessages: [],
       allItineraries: {}, //object of arrays of objects (plans)
       itinerary: [], //array of objects (plans)
@@ -80,6 +81,7 @@ export class LoggedInView extends Component {
     this.setAllMessages = this.setAllMessages.bind(this);
     this.handleHomeReloadItineraries = this.handleHomeReloadItineraries.bind(this);
     this.handleAddPlanModalOpenClose = this.handleAddPlanModalOpenClose.bind(this);
+    this.setPinnedMessages = this.setPinnedMessages.bind(this);
   }
 
   componentDidMount() {
@@ -133,13 +135,13 @@ export class LoggedInView extends Component {
     .then(({ data }) => {
       this.setState({ groupTodos: data });
     })
-    .catch(err => {console.log('Error in retrieving groupTodos: ', err)})
+    .catch(err => {console.log('Error in retrieving groupTodos: ', err)});
 
     axios.get(`/api/itinerary?EventId=${event.id}`)
       .then(({ data }) => {
         this.setState({ itinerary : data})
       })
-      .catch(err => {console.log('Error in retrieving itinerary: ', err)})
+      .catch(err => {console.log('Error in retrieving itinerary: ', err)});
   }
 
 
@@ -337,18 +339,36 @@ export class LoggedInView extends Component {
         selected: selected,
         boardId: boardId,
         allMessages: [],
+        pinnedMessages: [{username: "Example", text: 'Type in "/pin" before a url pin a message'}],
       }))
       .then(() => {
         document.getElementById(`${selected}-${boardId}`).classList.add("activeSidebar");
         return axios.get(`/api/getChatMessages?boardId=${this.state.boardId}`)
-      .then(({ data }) => { 
-        if (!!data) { this.setState({ allMessages: data.concat(this.state.allMessages) }) };
-      });
-    });
+        .then(({ data }) => { 
+          if (!!data) { this.setState({ allMessages: data.concat(this.state.allMessages) }) };
+        });
+      })
+      .then(() => {
+        return axios.get(`/api/getPins?boardId=${this.state.boardId}`)
+        .then(({ data }) => {
+          this.setPinnedMessages(data)
+          console.log('this state pinned messages', data)
+        });
+      })
+    
+      
   }
 
   setAllMessages(message) {
     this.setState({ allMessages: message })
+  }
+
+  setPinnedMessages(pin) {
+    if (!pin) {
+      return;
+    } else {
+      this.setState({ pinnedMessages: pin })
+    ;}
   }
   
   handleHomeReloadItineraries() {
@@ -364,6 +384,21 @@ export class LoggedInView extends Component {
       .catch(err => {console.log(err)});
   }
 
+  liked(bool, pinId) {
+    let pinnedMap = this.state.pinnedMessages.map((pin) => {
+      if (pin.id === pinId) {
+        bool ? pin.voteCountLike++ : pin.voteCountDislike++
+      }
+      return pin;
+    });
+
+    this.setState({ pinnedMessages: pinnedMap });
+
+    axios.patch('/api/patchLikes', {BoardId: this.state.boardId, UserId: this.props.userId, PinId: pinId, liked: bool})
+    .then((data) => {
+      console.log(data);
+    })
+  }
 
   render() {
     // if (this.state.events.length === 0) {
@@ -398,9 +433,6 @@ export class LoggedInView extends Component {
             setSelectedBoard={this.setSelectedBoard}
           />
 
-        <div className="placeholder">
-        </div>
-
           <Route path="/loggedinview" render={() => 
             <Dashboard 
               events={this.state.events} 
@@ -431,7 +463,10 @@ export class LoggedInView extends Component {
               boardId={this.state.boardId}
               allMessages={this.state.allMessages}
               setAllMessages={this.setAllMessages}
-            /> }
+              setPinnedMessages={this.setPinnedMessages}
+              pinnedMessages={this.state.pinnedMessages}
+              liked={this.liked.bind(this)}
+            />}
           />
 
           <Link to="/loggedinview">events here</Link>

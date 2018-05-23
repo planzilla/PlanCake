@@ -347,9 +347,9 @@ Button{
 }
 
 .chat-view{
-  grid-area: 2 / 2 / auto / 9;
-  border: solid #e0e1e2 1px;
-  border-radius: 7px;
+  grid-area: 2 / 2 / auto / 13;
+  /* border: solid #e0e1e2 1px;
+  border-radius: 7px; */
 }
 
 .placeholder{
@@ -364,6 +364,16 @@ Button{
 /*******************/
 /***  BoardView  ***/
 /*******************/
+
+.vote-container{
+  grid-area: 1 / 2 / 4 / 3;
+  justify-self: center;
+  text-align: center;
+  overflow: auto;
+  height: 100%;
+  margin-left: 2rem;
+  overflow-x: hidden;
+}
 
 .error{
   padding-top: 10px;
@@ -429,6 +439,9 @@ Button{
   grid-row: 2;
   overflow-x: hidden;
   padding:10px;
+  border: solid #e0e1e2 1px;
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
 }
 
 .user-message{
@@ -462,7 +475,7 @@ Button{
 }
 
 .chat{
-  grid-template-columns: 1fr;
+  grid-template-columns: 2fr 1fr;
   grid-template-rows: 40px 1fr 50px;
   max-height: 90vh;
   width: auto;
