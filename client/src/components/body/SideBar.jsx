@@ -40,7 +40,7 @@ export default class SideBar extends Component {
                   className='topic-board-link' 
                   onClick={() => this.props.setSelectedBoard(`${board.title}`, board.id)}
                 >
-                  <Link to={`/board/${board.id}`} id={`${board.title}-${board.id}`}>{board.title}</Link>
+                  <Link to={`/board/${board.id}`}>{board.title}</Link>
                   <br />
                 </div>
               )
@@ -71,7 +71,7 @@ export default class SideBar extends Component {
             {this.props.events.map((event, i) => {
               return (
                 <div key={i}>
-                  <Link to={`/events/${event.id}`} component={ EventSummary }>
+                  <Link to={`/events/${event.id}`}>
                   <Accordion.Title active={activeIndex === i} index={i} onClick={(e, titleProps) => {this.handleClick(e, titleProps, event)}}>
                     <Icon name='dropdown' />
                       <b>{event.title}</b>
