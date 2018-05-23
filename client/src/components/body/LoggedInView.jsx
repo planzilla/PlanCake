@@ -10,6 +10,7 @@ import { fetchPosts, createPost } from '../../actions/postActions.js';
 import EventSummary from './EventSummary.jsx';
 import TopicBoardView from './BoardView.jsx'
 import ContactInfo from '../footer/ContactInfo.jsx';
+import io from 'socket.io-client';
 
 export class LoggedInView extends Component {
 
@@ -55,6 +56,7 @@ export class LoggedInView extends Component {
       createEventModalOpen: false,
       selected: '',
       boardId: null,
+      pinnedMessages: [],
       allMessages: [],
       allItineraries: {}, //object of arrays of objects (plans)
       itinerary: [], //array of objects (plans)
@@ -66,6 +68,7 @@ export class LoggedInView extends Component {
       addPlanNotes: null,
       addPlanError: null,
       addPlanModalOpen: false,
+      activeEventsUsers : {},
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleAddTopicModalOpenClose = this.handleAddTopicModalOpenClose.bind(this);
@@ -82,22 +85,37 @@ export class LoggedInView extends Component {
     this.setAllMessages = this.setAllMessages.bind(this);
     this.handleHomeReloadItineraries = this.handleHomeReloadItineraries.bind(this);
     this.handleAddPlanModalOpenClose = this.handleAddPlanModalOpenClose.bind(this);
+    this.setPinnedMessages = this.setPinnedMessages.bind(this);
+    this.ioEvents;
+    this.removeActiveUser = this.removeActiveUser.bind(this);
   }
+  
 
   componentDidMount() {
     axios.get('/api/userEvents')
-      .then(result => {
-        this.setState({ events: result.data });
-        let eventsStr = result.data.map(event => event.id).toString();
-        return axios.get(`/api/allItineraries?eventIdStr=${eventsStr}`)
-      })
-      .then(({ data }) => {
-        this.setState({ allItineraries: data })
+    .then(result => {
+      this.setState({ events: result.data });
+      let eventsStr = result.data.map(event => event.id).toString();
+      return axios.get(`/api/allItineraries?eventIdStr=${eventsStr}`)
+    })
+    .then(({ data }) => {
+      this.setState({ allItineraries: data })
+      this.ioEvents = io('/events');
+      this.ioEvents.on('connect', (socket) => {
+        let name = `${this.props.userData.firstName.slice(0,1).toUpperCase()}${this.props.userData.firstName.slice(1).toLowerCase()} ${this.props.userData.lastName.slice(0,1).toUpperCase()}.`;
+          this.state.events.forEach((event) => {
+            this.ioEvents.emit('events', event, name)
+          })
+        })
+        this.ioEvents.on('activeUsers', (EventId, activeUsers) => {
+          let newActiveEventsUsers = Object.assign({}, this.state.activeEventsUsers);
+          newActiveEventsUsers[EventId] = activeUsers;
+          this.setState({ activeEventsUsers: newActiveEventsUsers })
+        })
       })
 
     axios.get('/api/todos')
       .then(result => {
-        // console.log('todos in LIV: ', result.data);
         this.setState({ todos: result.data });
       });
 
@@ -105,7 +123,14 @@ export class LoggedInView extends Component {
       .then(({ data }) => {
         this.setState({ invites: data })
       })
-      .catch(err => {console.log('err in get invites', err)})
+      .catch(err => {console.error('err in get invites', err)})
+  }
+
+  removeActiveUser() {
+    let name = `${this.props.userData.firstName.slice(0,1).toUpperCase()}${this.props.userData.firstName.slice(1).toLowerCase()} ${this.props.userData.lastName.slice(0,1).toUpperCase()}.`;
+    this.state.events.forEach((event) => {
+      this.ioEvents.emit('logout', event, name)
+    })
   }
 
   handleInputChange(event) {
@@ -136,13 +161,13 @@ export class LoggedInView extends Component {
     .then(({ data }) => {
       this.setState({ groupTodos: data });
     })
-    .catch(err => {console.log('Error in retrieving groupTodos: ', err)})
+    .catch(err => {console.log('Error in retrieving groupTodos: ', err)});
 
     axios.get(`/api/itinerary?EventId=${event.id}`)
       .then(({ data }) => {
         this.setState({ itinerary : data})
       })
-      .catch(err => {console.log('Error in retrieving itinerary: ', err)})
+      .catch(err => {console.log('Error in retrieving itinerary: ', err)});
   }
 
   fetchEventAttendees(event) {
@@ -346,18 +371,35 @@ export class LoggedInView extends Component {
         selected: selected,
         boardId: boardId,
         allMessages: [],
+        pinnedMessages: [{username: "Example", text: 'Type in "/pin" before a url pin a message'}],
       }))
       .then(() => {
         document.getElementById(`${selected}-${boardId}`).classList.add("activeSidebar");
-        return axios.get(`/api/getChatMessages?boardId=${this.state.boardId}`)
+        return axios.get(`/api/getChatMessages?boardId=${this.state.boardId}`);
+      })
       .then(({ data }) => { 
         if (!!data) { this.setState({ allMessages: data.concat(this.state.allMessages) }) };
+      })
+      .then(() => {
+        return axios.get(`/api/getPins?boardId=${this.state.boardId}`);
+      })
+      .then(({ data }) => {
+        this.setPinnedMessages(data);
       });
-    });
+    
+      
   }
 
   setAllMessages(message) {
-    this.setState({ allMessages: message })
+    this.setState({ allMessages: message });
+  }
+
+  setPinnedMessages(pin) {
+    if (!pin) {
+      return;
+    } else {
+      this.setState({ pinnedMessages: pin });
+    ;}
   }
   
   handleHomeReloadItineraries() {
@@ -373,6 +415,12 @@ export class LoggedInView extends Component {
       .catch(err => {console.log(err)});
   }
 
+  liked(bool, pinId) {
+    axios.patch('/api/patchLikes', {BoardId: this.state.boardId, UserId: this.props.userId, PinId: pinId, liked: bool})
+    .then(({ data }) => {
+      this.setState({ pinnedMessages: data });
+    });
+  }
 
   render() {
     // if (this.state.events.length === 0) {
@@ -390,6 +438,7 @@ export class LoggedInView extends Component {
             view={this.props.userData.username}
             userData={this.props.userData}
             handleHomeReloadItineraries={this.handleHomeReloadItineraries}
+            removeActiveUser={this.removeActiveUser}
           />
           <SideBar
             topicBoards={this.state.topicBoards}
@@ -406,9 +455,6 @@ export class LoggedInView extends Component {
             events={this.state.events}
             setSelectedBoard={this.setSelectedBoard}
           />
-
-        <div className="placeholder">
-        </div>
 
           <Route path="/loggedinview" render={() => 
             <Dashboard 
@@ -429,6 +475,9 @@ export class LoggedInView extends Component {
               addPlanModalOpen={this.state.addPlanModalOpen}
               eventAttendees={this.state.eventAttendees}
               userId={this.props.userData.id}
+              currentEvent={this.state.currentEvent}
+              activeEventsUsers={this.state.activeEventsUsers}
+              eventAttendees={this.state.eventAttendees}
             />}
           />
           <Route path="/board" render={() => 
@@ -440,7 +489,13 @@ export class LoggedInView extends Component {
               boardId={this.state.boardId}
               allMessages={this.state.allMessages}
               setAllMessages={this.setAllMessages}
-            /> }
+              setPinnedMessages={this.setPinnedMessages}
+              pinnedMessages={this.state.pinnedMessages}
+              liked={this.liked.bind(this)}
+              currentEvent={this.state.currentEvent}
+              activeEventsUsers={this.state.activeEventsUsers}
+              eventAttendees={this.state.eventAttendees}
+            />}
           />
 
           <Link to="/loggedinview">events here</Link>

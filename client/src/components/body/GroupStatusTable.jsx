@@ -42,11 +42,11 @@ export default class GroupStatusTable extends Component {
                   dayBeforeDeadline.setDate(deadline.getDate() - 1);
 
                   if (item.completed) {
-                    innerOutput.push(<Icon name="check circle" color="green" size="large" />);
+                    innerOutput.push(<Icon name="checkmark" color="green" size="large" />);
                   } else if (deadline < currentDate) {
-                    innerOutput.push(<Icon name="remove circle" color="red" size="large" />);
+                    innerOutput.push(<Icon name="remove" color="red" size="large" />);
                   } else if (dayBeforeDeadline < currentDate) {
-                    innerOutput.push(<Icon name="warning sign" color="yellow" size="large" />);
+                    innerOutput.push(<Icon name="warning" color="yellow" size="large" />);
                   } else {
                     innerOutput.push('');
                   }

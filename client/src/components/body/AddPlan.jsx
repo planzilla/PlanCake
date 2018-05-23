@@ -3,7 +3,7 @@ import { Button, Header, Icon, Modal, Form, Input, TextArea, Message } from 'sem
 
 const AddPlan = ({ handleInputChange, handleAddPlan, addPlanError, handleAddPlanModalOpenClose, addPlanModalOpen }) => (
   <Modal
-    trigger={<Button onClick={handleAddPlanModalOpenClose} className="add-plan-button" size="mini"><Icon name='plus' /> Plan</Button>} 
+    trigger={<Button onClick={handleAddPlanModalOpenClose} className="float-right-button" size="mini"><Icon name='plus' /> Plan</Button>} 
     closeIcon 
     size='tiny'
     open={addPlanModalOpen}
