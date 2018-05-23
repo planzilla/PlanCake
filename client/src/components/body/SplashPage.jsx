@@ -21,7 +21,7 @@ export default class SplashPage extends Component {
                   <h3 className="how-pic2">image 2</h3>
                 </div>
                 </div>*/}
-              <div className="about-us grid">
+              <div className="about-us grid" id="about-us">
                 <h1 className="about-title jsas">About Us</h1>
                 <img src="BrandonSp.png" alt="BrandonSp.png" className="brandon-pic"/>
                 <img src="XtinaSp.png" alt="XtinaSp.png" className="christina-pic"/>

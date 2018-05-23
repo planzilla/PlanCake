@@ -6,6 +6,7 @@ import Logout from './Logout.jsx';
 import Inbox from './Inbox.jsx';
 import { Link } from 'react-router-dom';
 import { Icon } from 'semantic-ui-react';
+import { HashLink } from 'react-router-hash-link';
 
 export default class NavBar extends Component {
   constructor(props) {
@@ -87,7 +88,7 @@ export default class NavBar extends Component {
               </div> 
               </div>
             : <div className="nav-links">
-              <h3>About Us</h3>
+              <HashLink smooth to="/#about-us"><h3>About Us</h3></HashLink>
               <h3>How It Works</h3>
               <h3 onClick={this.handleModal.bind(this)}>Login</h3>
             </div>
