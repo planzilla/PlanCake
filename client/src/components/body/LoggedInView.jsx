@@ -10,6 +10,7 @@ import { fetchPosts, createPost } from '../../actions/postActions.js';
 import EventSummary from './EventSummary.jsx';
 import TopicBoardView from './BoardView.jsx'
 import ContactInfo from '../footer/ContactInfo.jsx';
+import io from 'socket.io-client';
 
 export class LoggedInView extends Component {
 
@@ -66,6 +67,7 @@ export class LoggedInView extends Component {
       addPlanNotes: null,
       addPlanError: null,
       addPlanModalOpen: false,
+      activeEventsUsers : {},
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleAddTopicModalOpenClose = this.handleAddTopicModalOpenClose.bind(this);
@@ -82,22 +84,36 @@ export class LoggedInView extends Component {
     this.setAllMessages = this.setAllMessages.bind(this);
     this.handleHomeReloadItineraries = this.handleHomeReloadItineraries.bind(this);
     this.handleAddPlanModalOpenClose = this.handleAddPlanModalOpenClose.bind(this);
+    this.ioEvents;
+    this.removeActiveUser = this.removeActiveUser.bind(this);
   }
+  
 
   componentDidMount() {
     axios.get('/api/userEvents')
-      .then(result => {
-        this.setState({ events: result.data });
-        let eventsStr = result.data.map(event => event.id).toString();
-        return axios.get(`/api/allItineraries?eventIdStr=${eventsStr}`)
-      })
-      .then(({ data }) => {
-        this.setState({ allItineraries: data })
+    .then(result => {
+      this.setState({ events: result.data });
+      let eventsStr = result.data.map(event => event.id).toString();
+      return axios.get(`/api/allItineraries?eventIdStr=${eventsStr}`)
+    })
+    .then(({ data }) => {
+      this.setState({ allItineraries: data })
+      this.ioEvents = io('/events');
+      this.ioEvents.on('connect', (socket) => {
+        let name = `${this.props.userData.firstName.slice(0,1).toUpperCase()}${this.props.userData.firstName.slice(1).toLowerCase()} ${this.props.userData.lastName.slice(0,1).toUpperCase()}.`;
+          this.state.events.forEach((event) => {
+            this.ioEvents.emit('events', event, name)
+          })
+        })
+        this.ioEvents.on('activeUsers', (EventId, activeUsers) => {
+          let newActiveEventsUsers = Object.assign({}, this.state.activeEventsUsers);
+          newActiveEventsUsers[EventId] = activeUsers;
+          this.setState({ activeEventsUsers: newActiveEventsUsers })
+        })
       })
 
     axios.get('/api/todos')
       .then(result => {
-        // console.log('todos in LIV: ', result.data);
         this.setState({ todos: result.data });
       });
 
@@ -106,6 +122,13 @@ export class LoggedInView extends Component {
         this.setState({ invites: data })
       })
       .catch(err => {console.log('err in get invites', err)})
+  }
+
+  removeActiveUser() {
+    let name = `${this.props.userData.firstName.slice(0,1).toUpperCase()}${this.props.userData.firstName.slice(1).toLowerCase()} ${this.props.userData.lastName.slice(0,1).toUpperCase()}.`;
+    this.state.events.forEach((event) => {
+      this.ioEvents.emit('logout', event, name)
+    })
   }
 
   handleInputChange(event) {
@@ -390,6 +413,7 @@ export class LoggedInView extends Component {
             view={this.props.userData.username}
             userData={this.props.userData}
             handleHomeReloadItineraries={this.handleHomeReloadItineraries}
+            removeActiveUser={this.removeActiveUser}
           />
           <SideBar
             topicBoards={this.state.topicBoards}
@@ -429,6 +453,9 @@ export class LoggedInView extends Component {
               addPlanModalOpen={this.state.addPlanModalOpen}
               eventAttendees={this.state.eventAttendees}
               userId={this.props.userData.id}
+              currentEvent={this.state.currentEvent}
+              activeEventsUsers={this.state.activeEventsUsers}
+              eventAttendees={this.state.eventAttendees}
             />}
           />
           <Route path="/board/:id" render={() => 
@@ -440,6 +467,9 @@ export class LoggedInView extends Component {
               boardId={this.state.boardId}
               allMessages={this.state.allMessages}
               setAllMessages={this.setAllMessages}
+              currentEvent={this.state.currentEvent}
+              activeEventsUsers={this.state.activeEventsUsers}
+              eventAttendees={this.state.eventAttendees}
             /> }
           />
 

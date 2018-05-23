@@ -1,16 +1,17 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import io from 'socket.io-client';
 import Promise from 'bluebird';
 import axios from 'axios';
 import { Icon } from 'semantic-ui-react';
+import RightSideBar from './RightSideBar.jsx';
 
-class Chat extends Component{
+class Chat extends Component {
   constructor(props) {
     super(props)
     this.state = {
       message: '',
     }
-    this.socket = io.connect();
+    this.socket = io('/room');
     this.socket.on('connection', () => { console.log('boardview connection'); });
     this.socket.on('chatMessage', (user) => {
       this.props.setAllMessages(this.props.allMessages.concat([user]));
@@ -49,27 +50,35 @@ class Chat extends Component{
     const { username, id } = this.props.userData;
     const { boardId } = this.props;
     Promise.resolve(this.socket.emit('chatMessage', new user(id, boardId, this.state.message, this.props.username)))
-    .then(() => { this.setState({ message: '' }); });
+      .then(() => { this.setState({ message: '' }); });
   }
 
   render() {
+    // console.log('eventid and active users', this.props.currentEvent, this.props.activeEventsUsers)    
     return (
       <div className="chat-view chat grid">
-      {<div className="connected-user">{`You've connected to ${this.props.selected}`}</div>}
+        {<div className="connected-user">{`You've connected to ${this.props.selected}`}</div>}
         <div id="messages">
           {this.props.allMessages.map((user, key, array) => {
-          if (user.username !== this.props.username) {
-            return <div className="received-message" key={key}><p><strong>{`${user.username} : `}</strong>{`${user.text}`}</p></div>
-          } else {
-            return <div key={key} className="user-message"><p className="user-message-text">{user.text}</p></div>
-          };
+            if (user.username !== this.props.username) {
+              return <div className="received-message" key={key}><p><strong>{`${user.username} : `}</strong>{`${user.text}`}</p></div>
+            } else {
+              return <div key={key} className="user-message"><p className="user-message-text">{user.text}</p></div>
+            };
           })}
           <div ref={(e) => { this.messageEnd = e }}></div>
         </div>
         <form className="chat-form">
-          <input onChange={this.input} value={this.state.message} id="m" autoComplete="off"/>
-          <button onClick={this.send} type="submit" id="send-button"><Icon name="send"/></button>
+          <input onChange={this.input} value={this.state.message} id="m" autoComplete="off" />
+          <button onClick={this.send} type="submit" id="send-button"><Icon name="send" /></button>
         </form>
+        <div className="right-sidebar">
+          <RightSideBar
+            currentEvent={this.props.currentEvent}
+            activeEventsUsers={this.props.activeEventsUsers}
+            eventAttendees={this.props.eventAttendees}
+          />
+        </div>
       </div>
     )
   }

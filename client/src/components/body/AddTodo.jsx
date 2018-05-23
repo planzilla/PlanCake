@@ -52,14 +52,13 @@ export default class AddTodo extends Component {
   render() {
     return (
       <Modal
-        trigger={<Button onClick={this.props.handleAddTodoModalOpenClose}>Add Todo</Button>}
+        trigger={<Button onClick={this.props.handleAddTodoModalOpenClose} size="mini"><Icon name="plus" />Task</Button>}
         open={this.props.addTodoModalOpen}
         onClose={this.props.handleAddTodoModalOpenClose}
         size='tiny'
         closeIcon
       >
         <Modal.Header><Icon name="pencil" />  Add Todo </Modal.Header>
-
         <Modal.Content>
           <Form>
             <Form.Group widths='equal'>

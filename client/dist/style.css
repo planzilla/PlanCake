@@ -352,6 +352,10 @@ Button{
   border-radius: 7px;
 }
 
+.right-sidebar{
+  grid-area: 2 / 2 / 10 / 13;
+}
+
 .placeholder{
   grid-area: 2 / 12 / auto / 13;
   /* background-color: #E07F6F; */
@@ -527,7 +531,7 @@ Button{
   background-color: #fbaf83;
 }
 
-.add-plan-button{
+.float-right-button{
   float:right;
 }
 
@@ -557,4 +561,12 @@ h1{
 h2{
   font-family: 'Poppins', sans-serif;
   font-weight: 300;
+}
+
+.todo-complete{
+  text-decoration: line-through;
+}
+
+.todo{
+  padding-bottom: 5px;
 }
