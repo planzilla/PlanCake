@@ -34,11 +34,7 @@ app.use(router);
 app.get('*', function(req, res) {
   res.sendFile(path.resolve(`${__dirname}/../client/dist/index.html`));
  });
-// app.get('*', express.static(`${__dirname}/../client/dist`));
 
-app.get('*', function(req, res) {
-  res.sendFile(path.resolve(`${__dirname}/../client/dist/index.html`));
-});
 
 io.on('connection', (socket) => {
   let room;
