@@ -118,6 +118,13 @@ get.logout = (req, res) => {
   res.redirect('/');
 };
 
+get.pins = (req, res) => {
+  return db.findPins(req.query.boardId)
+    .then((data) => {
+      res.json(data);
+    })
+}
+
 get.topicBoard = (req, res) => {
   return db.Board.findAll({
     where: req.query
@@ -238,6 +245,21 @@ post.addPlan = (req, res) => {
       res.end();
     })
 
+}
+
+patch.patchLikes = (req, res) => {
+  const { BoardId, PinId, liked } = req.body;
+  return db.patchPin(PinId, liked)
+  .then(() => {
+    return db.findPins(BoardId)
+  })
+  .then((pins) => {
+    let pinsArr = pins.map(item => item.dataValues)
+    res.json(pinsArr);
+  })
+  .catch((err) => {
+    console.error(err);
+  });
 }
 
 post.addTopicBoard = (req, res) => {

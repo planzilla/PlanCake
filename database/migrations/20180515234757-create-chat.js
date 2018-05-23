@@ -32,15 +32,6 @@ module.exports = {
           key: 'id',
         },
       },
-      PinId: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-        defaultValue: null,
-        references: {
-          model: 'Pins',
-          key: 'id',
-        }
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

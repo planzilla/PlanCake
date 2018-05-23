@@ -56,6 +56,7 @@ export class LoggedInView extends Component {
       createEventModalOpen: false,
       selected: '',
       boardId: null,
+      pinnedMessages: [],
       allMessages: [],
       allItineraries: {}, //object of arrays of objects (plans)
       itinerary: [], //array of objects (plans)
@@ -84,6 +85,7 @@ export class LoggedInView extends Component {
     this.setAllMessages = this.setAllMessages.bind(this);
     this.handleHomeReloadItineraries = this.handleHomeReloadItineraries.bind(this);
     this.handleAddPlanModalOpenClose = this.handleAddPlanModalOpenClose.bind(this);
+    this.setPinnedMessages = this.setPinnedMessages.bind(this);
     this.ioEvents;
     this.removeActiveUser = this.removeActiveUser.bind(this);
   }
@@ -121,7 +123,7 @@ export class LoggedInView extends Component {
       .then(({ data }) => {
         this.setState({ invites: data })
       })
-      .catch(err => {console.log('err in get invites', err)})
+      .catch(err => {console.error('err in get invites', err)})
   }
 
   removeActiveUser() {
@@ -159,13 +161,13 @@ export class LoggedInView extends Component {
     .then(({ data }) => {
       this.setState({ groupTodos: data });
     })
-    .catch(err => {console.log('Error in retrieving groupTodos: ', err)})
+    .catch(err => {console.log('Error in retrieving groupTodos: ', err)});
 
     axios.get(`/api/itinerary?EventId=${event.id}`)
       .then(({ data }) => {
         this.setState({ itinerary : data})
       })
-      .catch(err => {console.log('Error in retrieving itinerary: ', err)})
+      .catch(err => {console.log('Error in retrieving itinerary: ', err)});
   }
 
   fetchEventAttendees(event) {
@@ -369,18 +371,35 @@ export class LoggedInView extends Component {
         selected: selected,
         boardId: boardId,
         allMessages: [],
+        pinnedMessages: [{username: "Example", text: 'Type in "/pin" before a url pin a message'}],
       }))
       .then(() => {
         document.getElementById(`${selected}-${boardId}`).classList.add("activeSidebar");
-        return axios.get(`/api/getChatMessages?boardId=${this.state.boardId}`)
+        return axios.get(`/api/getChatMessages?boardId=${this.state.boardId}`);
+      })
       .then(({ data }) => { 
         if (!!data) { this.setState({ allMessages: data.concat(this.state.allMessages) }) };
+      })
+      .then(() => {
+        return axios.get(`/api/getPins?boardId=${this.state.boardId}`);
+      })
+      .then(({ data }) => {
+        this.setPinnedMessages(data);
       });
-    });
+    
+      
   }
 
   setAllMessages(message) {
-    this.setState({ allMessages: message })
+    this.setState({ allMessages: message });
+  }
+
+  setPinnedMessages(pin) {
+    if (!pin) {
+      return;
+    } else {
+      this.setState({ pinnedMessages: pin });
+    ;}
   }
   
   handleHomeReloadItineraries() {
@@ -396,6 +415,12 @@ export class LoggedInView extends Component {
       .catch(err => {console.log(err)});
   }
 
+  liked(bool, pinId) {
+    axios.patch('/api/patchLikes', {BoardId: this.state.boardId, UserId: this.props.userId, PinId: pinId, liked: bool})
+    .then(({ data }) => {
+      this.setState({ pinnedMessages: data });
+    });
+  }
 
   render() {
     // if (this.state.events.length === 0) {
@@ -431,9 +456,6 @@ export class LoggedInView extends Component {
             setSelectedBoard={this.setSelectedBoard}
           />
 
-        <div className="placeholder">
-        </div>
-
           <Route path="/loggedinview" render={() => 
             <Dashboard 
               events={this.state.events} 
@@ -467,10 +489,13 @@ export class LoggedInView extends Component {
               boardId={this.state.boardId}
               allMessages={this.state.allMessages}
               setAllMessages={this.setAllMessages}
+              setPinnedMessages={this.setPinnedMessages}
+              pinnedMessages={this.state.pinnedMessages}
+              liked={this.liked.bind(this)}
               currentEvent={this.state.currentEvent}
               activeEventsUsers={this.state.activeEventsUsers}
               eventAttendees={this.state.eventAttendees}
-            /> }
+            />}
           />
 
           <Link to="/loggedinview">events here</Link>

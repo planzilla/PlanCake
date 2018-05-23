@@ -35,6 +35,10 @@ router.patch('/api/todos', controller.patch.todos);
 // CHAT RELATED ROUTES
 router.get('/api/getChatMessages', controller.get.chatMessages);
 
+//VOTE RELATED ROUTES
+router.get('/api/getPins', controller.get.pins)
+router.patch('/api/patchLikes', controller.patch.patchLikes);
+
 // ITINERARY RELATED ROUTES
 router.post('/api/addPlan', controller.post.addPlan);
 router.get('/api/itinerary', controller.get.itinerary);

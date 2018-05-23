@@ -347,9 +347,8 @@ Button{
 }
 
 .chat-view{
-  grid-area: 2 / 2 / auto / 9;
-  border: solid #e0e1e2 1px;
-  border-radius: 7px;
+  grid-area: 2 / 2 / auto / 13;
+
 }
 
 .right-sidebar{
@@ -368,6 +367,15 @@ Button{
 /*******************/
 /***  BoardView  ***/
 /*******************/
+
+.vote-container{
+  grid-area: 1 / 2 / 4 / 3;
+  justify-self: center;
+  text-align: center;
+  overflow: auto;
+  height: 100%;
+  overflow-x: hidden;
+}
 
 .error{
   padding-top: 10px;
@@ -433,40 +441,38 @@ Button{
   grid-row: 2;
   overflow-x: hidden;
   padding:10px;
+  border: solid #e0e1e2 1px;
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
 }
 
 .user-message{
   margin-top: .25rem;
   margin-bottom: .25rem;
+  padding: .4rem;
   display: block;
   position: relative;
   float: right;
   clear: both;
-}
-
-.received-message{
-  margin-top: .25rem;
-  margin-bottom: .25rem;
-}
-
-.user-message{
   background-color: #A4DCD3;
-  padding: .4rem;
   border-radius: 6px;
   box-shadow: 2px 2px 2px rgb(213, 212, 212);
   width: fit-content; 
 }
 
 .received-message{
-  background-color: #eceded;
+  margin-top: .5rem;
+  margin-bottom: .5rem;
   padding: .4rem;
+  clear: both;
+  background-color: #eceded;
   border-radius: 6px;
   box-shadow: 2px 2px 2px rgb(213, 212, 212);
   width: fit-content;
 }
 
 .chat{
-  grid-template-columns: 1fr;
+  grid-template-columns: 2fr 1fr;
   grid-template-rows: 40px 1fr 50px;
   max-height: 90vh;
   width: auto;
@@ -569,4 +575,8 @@ h2{
 
 .todo{
   padding-bottom: 5px;
+}
+
+.user-div{
+  width: 100%;
 }

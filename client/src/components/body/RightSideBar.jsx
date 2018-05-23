@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Input, Menu, Segment, Card, List, Icon } from 'semantic-ui-react';
 import ActiveList from './ActiveList.jsx';
+import VoteView from './VotingView.jsx';
 
 export default class RightSideBar extends Component {
   constructor(props) {
@@ -26,9 +27,11 @@ export default class RightSideBar extends Component {
         </Menu>
         {activeItem === 'Pins'
           ? <Segment attached='bottom'>
-              <Card>hello</Card>
-              <Card>im working</Card>
-              {/* //TODO: insert likes/dislikes cards here */}
+              <VoteView 
+                eventAttendees={this.props.eventAttendees}
+                pinnedMessages={this.props.pinnedMessages}
+                liked={this.props.liked}
+              />
             </Segment>
           : <Segment attached='bottom'>
               <ActiveList

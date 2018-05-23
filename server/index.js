@@ -54,6 +54,18 @@ ioRoom.on('connection', (socket) => {
     db.addChat(user.userId, user.boardId, user.text);
     ioRoom.in(room).emit('chatMessage', user);
   });
+  socket.on('pinMessage', (user) => {
+    db.addPin(user.userId, user.boardId, user.text)
+    .then(() => {
+      return db.findPins(user.boardId)
+    })
+    .then((pins) => {
+      ioRoom.in(room).emit('pinMessage', pins);
+    })
+    .catch((err) => {
+      console.error(err)
+    });
+  }); 
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
