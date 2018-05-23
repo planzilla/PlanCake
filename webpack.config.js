@@ -6,16 +6,15 @@ var webpack = require("webpack");
 module.exports = {
   entry: `${SRC_DIR}/index.jsx`,
   output: {
-    filename: 'bundle.jsx',
     path: DIST_DIR,
-    publicPath: '/'
+    filename: 'bundle.jsx'
   },
   module : {
     loaders : [
       {
         test : /\.jsx?/,
         include : SRC_DIR,
-        loader : 'babel-loader',      
+        loader : 'babel-loader',
         query: {
           presets: ['react', 'es2015']
        }
