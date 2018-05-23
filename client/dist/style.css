@@ -348,8 +348,7 @@ Button{
 
 .chat-view{
   grid-area: 2 / 2 / auto / 13;
-  /* border: solid #e0e1e2 1px;
-  border-radius: 7px; */
+
 }
 
 .right-sidebar{

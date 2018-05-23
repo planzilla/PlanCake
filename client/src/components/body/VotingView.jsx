@@ -9,8 +9,6 @@ const VoteView = ({ pinnedMessages, liked }) => {
     return (
       <Card key={key}>
         <Card.Content>
-          <Card.Header>
-          </Card.Header>
           <Card.Description>
             {<a href={pin.text} target="_blank" rel="noopener noreferrer">{pin.text.slice(0, 53)}</a>}
           </Card.Description>

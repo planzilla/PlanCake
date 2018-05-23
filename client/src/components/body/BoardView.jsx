@@ -4,7 +4,6 @@ import Promise from 'bluebird';
 import axios from 'axios';
 import { Icon } from 'semantic-ui-react';
 import VoteView from './VotingView.jsx';
-
 import RightSideBar from './RightSideBar.jsx';
 
 class Chat extends Component {
@@ -23,9 +22,6 @@ class Chat extends Component {
     }); 
     this.input = this.input.bind(this);
     this.send = this.send.bind(this);
-    //TODO need to send a get request for any pins with a boardid of boardid
-      //TODO clear pinnedMessages everytime the get request returns anything that is defined
-
   }
 
   componentDidMount() {
@@ -71,12 +67,7 @@ class Chat extends Component {
     }
   }
 
-  method() {
-    //set state of sibling component (pin view) 
-  }
-
   render() {
-    // console.log('eventid and active users', this.props.currentEvent, this.props.activeEventsUsers)    
     return (
       <div className="chat-view chat grid">
         {<div className="connected-user">{`You've connected to ${this.props.selected}`}</div>}

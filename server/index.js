@@ -62,6 +62,9 @@ ioRoom.on('connection', (socket) => {
     .then((pins) => {
       ioRoom.in(room).emit('pinMessage', pins);
     })
+    .catch((err) => {
+      console.error(err)
+    });
   }); 
   socket.on('disconnect', () => {
     console.log('user disconnected');

@@ -123,7 +123,7 @@ export class LoggedInView extends Component {
       .then(({ data }) => {
         this.setState({ invites: data })
       })
-      .catch(err => {console.log('err in get invites', err)})
+      .catch(err => {console.error('err in get invites', err)})
   }
 
   removeActiveUser() {
@@ -375,31 +375,30 @@ export class LoggedInView extends Component {
       }))
       .then(() => {
         document.getElementById(`${selected}-${boardId}`).classList.add("activeSidebar");
-        return axios.get(`/api/getChatMessages?boardId=${this.state.boardId}`)
-        .then(({ data }) => { 
-          if (!!data) { this.setState({ allMessages: data.concat(this.state.allMessages) }) };
-        });
+        return axios.get(`/api/getChatMessages?boardId=${this.state.boardId}`);
+      })
+      .then(({ data }) => { 
+        if (!!data) { this.setState({ allMessages: data.concat(this.state.allMessages) }) };
       })
       .then(() => {
-        return axios.get(`/api/getPins?boardId=${this.state.boardId}`)
-        .then(({ data }) => {
-          this.setPinnedMessages(data)
-          console.log('this state pinned messages', data)
-        });
+        return axios.get(`/api/getPins?boardId=${this.state.boardId}`);
       })
+      .then(({ data }) => {
+        this.setPinnedMessages(data);
+      });
     
       
   }
 
   setAllMessages(message) {
-    this.setState({ allMessages: message })
+    this.setState({ allMessages: message });
   }
 
   setPinnedMessages(pin) {
     if (!pin) {
       return;
     } else {
-      this.setState({ pinnedMessages: pin })
+      this.setState({ pinnedMessages: pin });
     ;}
   }
   
@@ -417,19 +416,10 @@ export class LoggedInView extends Component {
   }
 
   liked(bool, pinId) {
-    let pinnedMap = this.state.pinnedMessages.map((pin) => {
-      if (pin.id === pinId) {
-        bool ? pin.voteCountLike++ : pin.voteCountDislike++
-      }
-      return pin;
-    });
-
-    this.setState({ pinnedMessages: pinnedMap });
-
     axios.patch('/api/patchLikes', {BoardId: this.state.boardId, UserId: this.props.userId, PinId: pinId, liked: bool})
-    .then((data) => {
-      console.log(data);
-    })
+    .then(({ data }) => {
+      this.setState({ pinnedMessages: data });
+    });
   }
 
   render() {

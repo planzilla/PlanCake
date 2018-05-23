@@ -287,51 +287,6 @@ db.findPins = (BoardId) => {
   });
 }
 
-db.updatePinLike = (PinId, voteCount) => {
-  return db.Pin.update(
-    {voteCountLike: voteCount},
-    {where: {id: PinId}}
-  )
-}
-
-db.updatePinDislike = (PinId, voteCount) => {
-  return db.Pin.update(
-    {voteCountDislike: voteCount},
-    {where: {id: PinId}}
-  )
-}
-
-
-db.addVote = (UserId, PinId, bool) => {
-  return db.Like.create({
-    UserId: UserId,
-    PinId: PinId,
-    liked: bool,
-  })
-}
-
-db.patchVote = (UserId, PinId, bool) => {
-  return db.Like.update(
-    {where: { 
-      UserId: UserId,
-      PinId: PinId
-    }},
-    {liked: bool}
-  )
-}
-
-db.countVotes = (PinId, bool) => {
-  return db.Like.findAndCountAll({
-    where: {
-      PinId: PinId,
-      liked: bool
-    }
-  })
-}
-
-//pinId === id
-//bool is truthy or not
-
 db.patchPin = (id, bool) => {
   if (bool) {
     return db.Pin.findById(id)

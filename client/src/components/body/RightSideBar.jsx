@@ -28,9 +28,9 @@ export default class RightSideBar extends Component {
         {activeItem === 'Pins'
           ? <Segment attached='bottom'>
               <VoteView 
-              eventAttendees={this.props.eventAttendees}
-              pinnedMessages={this.props.pinnedMessages}
-              liked={this.props.liked}
+                eventAttendees={this.props.eventAttendees}
+                pinnedMessages={this.props.pinnedMessages}
+                liked={this.props.liked}
               />
             </Segment>
           : <Segment attached='bottom'>

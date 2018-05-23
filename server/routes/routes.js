@@ -33,7 +33,7 @@ router.post('/api/todos', controller.post.todos);
 router.patch('/api/todos', controller.patch.todos);
 
 // CHAT RELATED ROUTES
-router.get('/api/getChatMessages', controller.get.chatMessages)
+router.get('/api/getChatMessages', controller.get.chatMessages);
 
 //VOTE RELATED ROUTES
 router.get('/api/getPins', controller.get.pins)

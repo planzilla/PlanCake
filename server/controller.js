@@ -257,6 +257,9 @@ patch.patchLikes = (req, res) => {
     let pinsArr = pins.map(item => item.dataValues)
     res.json(pinsArr);
   })
+  .catch((err) => {
+    console.error(err);
+  });
 }
 
 post.addTopicBoard = (req, res) => {
