@@ -4,7 +4,6 @@ import Moment from 'moment';
 
 const ItineraryList = ({ itinerary }) => {
   if (itinerary.length === 0) {
-    console.log('in intinerary list zero')
     return (
       <Message info>
           <Message.Header>

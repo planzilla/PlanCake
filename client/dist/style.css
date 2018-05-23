@@ -352,6 +352,10 @@ Button{
   border-radius: 7px; */
 }
 
+.right-sidebar{
+  grid-area: 2 / 2 / 10 / 13;
+}
+
 .placeholder{
   grid-area: 2 / 12 / auto / 13;
   /* background-color: #E07F6F; */
@@ -371,7 +375,6 @@ Button{
   text-align: center;
   overflow: auto;
   height: 100%;
-  margin-left: 2rem;
   overflow-x: hidden;
 }
 
@@ -447,28 +450,23 @@ Button{
 .user-message{
   margin-top: .25rem;
   margin-bottom: .25rem;
+  padding: .4rem;
   display: block;
   position: relative;
   float: right;
   clear: both;
-}
-
-.received-message{
-  margin-top: .25rem;
-  margin-bottom: .25rem;
-}
-
-.user-message{
   background-color: #A4DCD3;
-  padding: .4rem;
   border-radius: 6px;
   box-shadow: 2px 2px 2px rgb(213, 212, 212);
   width: fit-content; 
 }
 
 .received-message{
-  background-color: #eceded;
+  margin-top: .5rem;
+  margin-bottom: .5rem;
   padding: .4rem;
+  clear: both;
+  background-color: #eceded;
   border-radius: 6px;
   box-shadow: 2px 2px 2px rgb(213, 212, 212);
   width: fit-content;
@@ -540,7 +538,7 @@ Button{
   background-color: #fbaf83;
 }
 
-.add-plan-button{
+.float-right-button{
   float:right;
 }
 
@@ -570,4 +568,16 @@ h1{
 h2{
   font-family: 'Poppins', sans-serif;
   font-weight: 300;
+}
+
+.todo-complete{
+  text-decoration: line-through;
+}
+
+.todo{
+  padding-bottom: 5px;
+}
+
+.user-div{
+  width: 100%;
 }

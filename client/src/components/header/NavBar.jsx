@@ -6,6 +6,7 @@ import Logout from './Logout.jsx';
 import Inbox from './Inbox.jsx';
 import { Link } from 'react-router-dom';
 import { Icon } from 'semantic-ui-react';
+import { HashLink } from 'react-router-hash-link';
 
 export default class NavBar extends Component {
   constructor(props) {
@@ -46,7 +47,10 @@ export default class NavBar extends Component {
   }
 
   logout() {
-    axios.get('/api/logout')
+    Promise.resolve(this.props.removeActiveUser())
+      .then(() => {
+        return axios.get('/api/logout')
+      })
       .then(() => {
         this.setState({
           status: 'not authenticated',
@@ -71,8 +75,7 @@ export default class NavBar extends Component {
               <div>
                 <Link to='/loggedInView' className="header-icon">
                   <Icon 
-                    name='home' 
-                    size='large' 
+                    name='calendar' 
                     onClick={this.props.handleHomeReloadItineraries}
                   />
                 </Link>
@@ -85,7 +88,7 @@ export default class NavBar extends Component {
               </div> 
               </div>
             : <div className="nav-links">
-              <h3>About Us</h3>
+              <HashLink smooth to="/#about-us"><h3>About Us</h3></HashLink>
               <h3>How It Works</h3>
               <h3 onClick={this.handleModal.bind(this)}>Login</h3>
             </div>

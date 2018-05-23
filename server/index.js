@@ -20,6 +20,7 @@ const io = require('socket.io').listen(server);
 
 const reactApp = express.static(path.join(__dirname, '/../client/dist'));
 
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan);
@@ -30,23 +31,28 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(loggedOutRedirect);
 app.use(router);
-app.get('*', express.static(`${__dirname}/../client/dist`));
+app.get('*', function (req, res) {
+  res.sendFile(path.resolve(`${__dirname}/../client/dist/index.html`));
+});
+// app.get('*', express.static(`${__dirname}/../client/dist`));
 
-app.get('*', function(req, res) {
+app.get('*', function (req, res) {
   res.sendFile(path.resolve(`${__dirname}/../client/dist/index.html`));
 });
 
-io.on('connection', (socket) => {
+const ioRoom = io.of('/room');
+
+ioRoom.on('connection', (socket) => {
   let room;
   socket.on('room', (user) => {
     room = (17 << 2).toString().concat(user.boardId + ' ' + user.roomname);
-    io.emit('room', room);
+    ioRoom.emit('room', room);
     socket.join(room);
-    io.sockets.in(room).emit('enterRoom', user);
+    ioRoom.in(room).emit('enterRoom', user);
   });
   socket.on('chatMessage', (user) => {
     db.addChat(user.userId, user.boardId, user.text);
-    io.sockets.in(room).emit('chatMessage', user);
+    ioRoom.in(room).emit('chatMessage', user);
   });
   socket.on('pinMessage', (user) => {
     db.addPin(user.userId, user.boardId, user.text)
@@ -54,11 +60,40 @@ io.on('connection', (socket) => {
       return db.findPins(user.boardId)
     })
     .then((pins) => {
-      io.sockets.in(room).emit('pinMessage', pins);
+      ioRoom.in(room).emit('pinMessage', pins);
     })
   }); 
   socket.on('disconnect', () => {
     console.log('user disconnected');
+  });
+});
+
+const ioEvents = io.of('/events');
+
+let activeEventsUsers = {};
+
+ioEvents.on('connection', (socket) => {
+  let eventTag;
+
+  socket.on('events', (event, name) => {
+    eventTag = (28 << 3).toString().concat(`${event.title} ${event.id}`);
+    if (activeEventsUsers[eventTag]) {
+      activeEventsUsers[eventTag][name] = null;
+    } else {
+      activeEventsUsers[eventTag] = { [name]: null };
+    }
+    socket.join(eventTag);
+    ioEvents.in(eventTag).emit('activeUsers', event.id, activeEventsUsers[eventTag]);
+  });
+
+  socket.on('logout', (event, name) => {
+    eventTag = (28 << 3).toString().concat(`${event.title} ${event.id}`);
+    delete activeEventsUsers[eventTag][name];
+    ioEvents.in(eventTag).emit('activeUsers', event.id, activeEventsUsers[eventTag]);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('disconnected from events');
   });
 });
 

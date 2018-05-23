@@ -53,9 +53,10 @@ export default class SideBar extends Component {
 
   render() {
     const { activeIndex } = this.state;
-    if (!this.props.events) {
-      return 'loading!!';
-    } else {
+    // for redux
+    // if (!this.props.events) {
+    //   return 'loading!!';
+    // } else {
       return (
         <div className="sidebar">
         <div className="sidebar-grid-container">
@@ -85,6 +86,6 @@ export default class SideBar extends Component {
           </div>
         </div>
       )
-    }
+    // }
   }
 }
