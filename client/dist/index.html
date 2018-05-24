@@ -5,14 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>PlanCake</title>
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.12/semantic.min.css"></link>
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.12/semantic.min.css" />
   <!-- <link href="https://fonts.googleapis.com/css?family=Delius" rel="stylesheet"> -->
-  <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500" />
+  <!-- <link rel="stylesheet" href="https://cdn.rawgit.com/michalsnik/aos/2.0.4/dist/aos.css" /> -->
+  <link rel="stylesheet" href="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.css">
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <div id="app"></div>
   <script type="text/javascript" src="/bundle.jsx"></script>
+  <script src="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      easing: 'ease-in-out-sine'
+    });
+  </script>
   <!-- <script>
     window.setInterval(function() {
       if (document.getElementById('messages')) {

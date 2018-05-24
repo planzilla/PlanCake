@@ -44,7 +44,7 @@ export default class App extends Component {
           />
 
           <Route 
-            path="/loggedinview" 
+            exact path="/loggedinview" 
             render={() => 
             <LoggedInView  
             userData={ this.state.userData }

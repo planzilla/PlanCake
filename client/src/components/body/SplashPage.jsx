@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import NavBar from '..//header/NavBar.jsx';
 import ContactInfo from '../footer/ContactInfo.jsx';
+import AOS from 'aos';
+import $ from 'jquery';
 
 export default class SplashPage extends Component {
   constructor(props) {
@@ -11,7 +13,10 @@ export default class SplashPage extends Component {
       <div className="splash grid">
         <NavBar setUser={this.props.setUser} username={this.props.username} />
           <div className="body grid">
-            <img src="splashPhoto.jpg" alt="splashPhoto.jpg"/>
+            <img src="splashtext1.png"
+
+              alt="splashPic" id="splashPic" />
+            {/* <div id="splashPic"></div> */}
               {/* <div className="how-it-works grid"> */}
                 {/* <h1 className="how-title jsas">How It Works</h1>
                 <div className="how-row1 grid">
@@ -23,9 +28,27 @@ export default class SplashPage extends Component {
                 </div>*/}
               <div className="about-us grid" id="about-us">
                 <h1 className="about-title jsas">About Us</h1>
-                <img src="BrandonSp.png" alt="BrandonSp.png" className="brandon-pic"/>
-                <img src="XtinaSp.png" alt="XtinaSp.png" className="christina-pic"/>
-                <img src="WillSp.png" alt="WillSp.png" className="will-pic"/>
+                
+                  <img src="BrandonSp.png" alt="BrandonSp.png" className="brandon-pic"
+                    data-aos="flip-right"
+                    data-aos-duration="1000" 
+                    data-aos-delay="100"
+                    data-aos-once="false"
+                  />
+                
+                  <img src="XtinaSp.png" alt="XtinaSp.png" className="christina-pic"
+                    data-aos="flip-up"
+                    data-aos-duration="1000" 
+                    data-aos-delay="100"
+                    data-aos-once="false"
+                  />
+
+                  <img src="WillSp.png" alt="WillSp.png" className="will-pic"
+                    data-aos="flip-left"
+                    data-aos-duration="1000" 
+                    data-aos-delay="100"
+                    data-aos-once="false"
+                  />
                 <h2 className="brandon-about-name">Brandon Villiados</h2>
                 <h2 className="xtina-about-name">Elaine Yuen</h2>
                 <h2 className="will-about-name">Will Ha</h2>
