@@ -283,7 +283,8 @@ db.addPin = (UserId, BoardId, pin) => {
 
 db.findPins = (BoardId) => {
   return db.Pin.findAll({
-    where: { BoardId: BoardId }
+    where: { BoardId: BoardId },
+    order: [['id', 'DESC']]
   });
 }
 

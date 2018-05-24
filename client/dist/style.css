@@ -28,6 +28,10 @@ body{
   background-color: #fffbf6;
 }
 
+.body img:hover{
+  background-color: black;
+}
+
 #app{
   width: 100vw;
   display: flex;
@@ -37,18 +41,24 @@ body{
 
 .splash{
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: 50px repeat(11, 1fr);
+  grid-template-rows: 65px repeat(11, 1fr);
   grid-gap: .25em;
   height: 2000px;
   width: 80vw;
+  margin: auto;
 }
 
 .dashboard{
   grid-template-columns: 15% repeat(11, 1fr);
-  grid-template-rows: 50px repeat(11, 1fr);
+  grid-template-rows: 60px repeat(11, 1fr);
   grid-gap: 1em 1em;
   height: auto;
   width: 80vw;
+  margin: auto;
+}
+
+.outer-div{
+  width: 100vw;
 }
 
 .grid{
@@ -91,17 +101,18 @@ body{
 }
 
 .header-navbar{
-  grid-area: 1 / 1 / 1 / 13;
   grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: 50px;
+  grid-template-rows: 60px;
   background-color: #A4DCD3;
   position: fixed;
-  width: 80%;
-  max-width: 80vw;
+  width: 100vw;
+  max-width: 100vw;
   z-index: 2;
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
-  filter: drop-shadow(0 0 5px #aaaaaa80);
+  padding-left: 10vw;
+  padding-right: 10vw;
+  border-bottom: solid 1px rgb(204, 204, 204);
 }
 
 .footer{
@@ -320,9 +331,9 @@ hr{
 }
 
 .sidebar-grid-container{
-  display: grid;
-  grid-template-columns: 1fr;
+  grid-column: 1;
   position: fixed;
+  width: 11.5;
 }
 
 .sidebar{
@@ -342,6 +353,7 @@ Button{
 
 .createEvent-button{
   width: 150px !important;
+  margin: 0 .5em .5em 0 !important;
 }
 
 .event-cards{

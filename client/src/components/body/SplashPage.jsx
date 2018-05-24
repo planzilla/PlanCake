@@ -8,10 +8,13 @@ export default class SplashPage extends Component {
   }
   render() {
     return(
+      <div>
+          <NavBar setUser={this.props.setUser} username={this.props.username} />
       <div className="splash grid">
-        <NavBar setUser={this.props.setUser} username={this.props.username} />
           <div className="body grid">
+          <div className="splashPhoto">
             <img src="splashPhoto.jpg" alt="splashPhoto.jpg"/>
+            </div>
               {/* <div className="how-it-works grid"> */}
                 {/* <h1 className="how-title jsas">How It Works</h1>
                 <div className="how-row1 grid">
@@ -35,6 +38,7 @@ export default class SplashPage extends Component {
               </div>
           </div>
         <ContactInfo />
+      </div>
       </div>
     )
   }
