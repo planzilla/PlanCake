@@ -27,19 +27,19 @@ export default class RightSideBar extends Component {
         </Menu>
         {activeItem === 'Pins'
           ? <Segment attached='bottom'>
-              <VoteView 
-                eventAttendees={this.props.eventAttendees}
-                pinnedMessages={this.props.pinnedMessages}
-                liked={this.props.liked}
-              />
-            </Segment>
+            <VoteView
+              eventAttendees={this.props.eventAttendees}
+              pinnedMessages={this.props.pinnedMessages}
+              liked={this.props.liked}
+            />
+          </Segment>
           : <Segment attached='bottom'>
-              <ActiveList
-                currentEvent={this.props.currentEvent}
-                activeEventsUsers={this.props.activeEventsUsers}
-                eventAttendees={this.props.eventAttendees}
-              />
-            </Segment>
+            <ActiveList
+              currentEvent={this.props.currentEvent}
+              activeEventsUsers={this.props.activeEventsUsers}
+              eventAttendees={this.props.eventAttendees}
+            />
+          </Segment>
         }
 
       </div>
