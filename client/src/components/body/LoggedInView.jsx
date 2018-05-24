@@ -428,7 +428,7 @@ export class LoggedInView extends Component {
     // } else {
       return (
         <BrowserRouter>
-          <div className="dashboard grid">
+        <div>
           <NavBar 
             view={this.state.view}
             invites={this.state.invites}
@@ -440,6 +440,7 @@ export class LoggedInView extends Component {
             handleHomeReloadItineraries={this.handleHomeReloadItineraries}
             removeActiveUser={this.removeActiveUser}
           />
+          <div className="dashboard grid">
           <SideBar
             topicBoards={this.state.topicBoards}
             handleInputChange={this.handleInputChange}
@@ -501,6 +502,7 @@ export class LoggedInView extends Component {
           <Link to="/loggedinview">events here</Link>
           <Link to="/events/:eventId">eventpage</Link>
           <ContactInfo />
+          </div>
           </div>
         </BrowserRouter>
       )

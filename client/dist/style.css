@@ -37,18 +37,24 @@ body{
 
 .splash{
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: 50px repeat(11, 1fr);
+  grid-template-rows: 65px repeat(11, 1fr);
   grid-gap: .25em;
-  height: 2000px;
+  height: 3000px;
   width: 80vw;
+  margin: auto;
 }
 
 .dashboard{
   grid-template-columns: 15% repeat(11, 1fr);
-  grid-template-rows: 50px repeat(11, 1fr);
+  grid-template-rows: 60px repeat(11, 1fr);
   grid-gap: 1em 1em;
   height: auto;
   width: 80vw;
+  margin: auto;
+}
+
+.outer-div{
+  width: 100vw;
 }
 
 .grid{
@@ -67,41 +73,41 @@ body{
 .body{
   grid-area: 2 / 1 / 12 / 13;
   grid-template-columns: 1fr;
-  grid-template-rows: auto 1fr 1fr; 
+  grid-template-rows: auto 1.25fr .75fr; 
 }
 
-.body img{
+.splash-image{
   z-index: -1;
-  grid-area: 1 / 1 / 2 / 2;
+  grid-row: 1;
   opacity: .9;
   overflow: hidden;
   width: 100%;
-  height: auto;
+  height: 90vh;
   border-radius: 4px;
   filter: drop-shadow(0 0 10px #333);
-  
+  margin-bottom: .25rem;
 }
 
-.body .about-us{
-  grid-row: 2;
+.about-us{
+  grid-row: 3;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: .25fr 1fr .1fr 1fr;
+  grid-template-rows: .25fr 1fr .1fr .5fr;
   grid-gap: 1rem 2rem;
-  margin: 0 5em 0 5em;
 }
 
 .header-navbar{
-  grid-area: 1 / 1 / 1 / 13;
   grid-template-columns: repeat(6, 1fr);
-  grid-template-rows: 50px;
+  grid-template-rows: 60px;
   background-color: #A4DCD3;
   position: fixed;
-  width: 80%;
-  max-width: 80vw;
+  width: 100vw;
+  max-width: 100vw;
   z-index: 2;
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px;
-  filter: drop-shadow(0 0 5px #aaaaaa80);
+  padding-left: 10vw;
+  padding-right: 10vw;
+  border-bottom: solid 1px rgb(204, 204, 204);
 }
 
 .footer{
@@ -186,6 +192,10 @@ hr{
   margin: auto;
 }
 
+.hashlink{
+  margin: auto;
+}
+
 .logout-nav{
   display: flex;
   margin: auto;
@@ -224,18 +234,81 @@ hr{
 
 .how-it-works{
   font-family: 'Poppins', sans-serif;
-  grid-row: 3;
-  grid-template-rows: .25fr repeat(2, 1fr);
+  grid-row: 2;
+  grid-template-rows: 1fr repeat(6, 175px);
+  width: 75%;
+  margin: auto;
+  border: solid 1px rgb(207, 207, 207);
+  grid-gap: 1rem 0;
+  border-radius: 6px;
+  padding: 1rem 1rem;
 }
 
 .how-row1{
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 175px 2fr;
   grid-row: 2;
 }
 
+.how-pic2{
+  grid-area: 3 / 2 / 4 / 3 !important;
+}
+
+.how-words2{
+  grid-area: 3 / 1 / 4 / 2 !important;
+}
+
+.how-pic4{
+  grid-area: 5 / 2 / 4 / 3 !important;
+}
+
+.how-words4{
+  grid-area: 5 / 1 / 4 / 2 !important;
+}
+
+.how-pic6{
+  grid-area: 7 / 2 / 4 / 3 !important;
+}
+.how-words6{
+  grid-area: 7 / 1 / 4 / 2 !important;
+}
+
 .how-row2{
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 2fr 175px;
   grid-row: 3;
+}
+
+.how-row3{
+  grid-template-columns: 175px 2fr;
+  grid-row: 4;
+}
+
+.how-row4{
+  grid-template-columns: 2fr 175px;
+  grid-row: 5;
+}
+
+.how-row5{
+  grid-template-columns: 175px 2fr;
+  grid-row: 6;
+}
+
+.how-row6{
+  grid-template-columns: 2fr 175px;
+  grid-row: 7;
+}
+
+.how-it-works-img{
+  width: 175px !important;
+  height: 175px !important;
+}
+
+.how-description{
+  display: flex !important;
+  align-items: center !important;
+  margin:auto !important;
+  text-align: center !important;
+  padding: 1rem;
+  font-size: 1.35rem;
 }
 
 .about-us h3{
@@ -260,18 +333,21 @@ hr{
   grid-column: 1;
   grid-row: 2;
   filter: drop-shadow(0 0 10px rgb(114, 114, 114));
+  width: 100%;
 }
 
 .about-us .christina-pic{
   grid-column: 2;
   grid-row: 2;
   filter: drop-shadow(0 0 10px rgb(114, 114, 114));
+  width: 100%;
 }
 
 .about-us .will-pic{
   grid-column: 3;
   grid-row: 2;
   filter: drop-shadow(0 0 10px rgb(114, 114, 114));
+  width: 100%;
 }
 
 .about-us .brandon-about-name{
@@ -316,9 +392,9 @@ hr{
 }
 
 .sidebar-grid-container{
-  display: grid;
-  grid-template-columns: 1fr;
+  grid-column: 1;
   position: fixed;
+  width: 11.5;
 }
 
 .sidebar{
@@ -338,6 +414,7 @@ Button{
 
 .createEvent-button{
   width: 150px !important;
+  margin: 0 .5em .5em 0 !important;
 }
 
 .event-cards{
@@ -352,7 +429,8 @@ Button{
 }
 
 .right-sidebar{
-  grid-area: 2 / 2 / 10 / 13;
+  grid-area: 1 / 2 / auto / 3;
+  margin-left: 1rem;
 }
 
 .placeholder{
@@ -579,3 +657,27 @@ h2{
 .user-div{
   width: 100%;
 }
+
+#sem-button{
+  padding: .5rem 1rem .5rem !important;
+}
+
+.sem-button-margin{
+  margin-left: .5rem !important;
+}
+
+.pinned-card{
+  width: 90% !important;
+  margin: 1em !important; 
+  margin-top: 1em !important;
+}
+
+.pinned-card a{
+  word-break: break-all;
+}
+
+.right-side-bar{
+  grid-column: 2;
+  grid-row: 1;
+}
+
