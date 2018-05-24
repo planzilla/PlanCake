@@ -36,10 +36,6 @@ app.get('*', function (req, res) {
 });
 // app.get('*', express.static(`${__dirname}/../client/dist`));
 
-app.get('*', function (req, res) {
-  res.sendFile(path.resolve(`${__dirname}/../client/dist/index.html`));
-});
-
 const ioRoom = io.of('/room');
 
 ioRoom.on('connection', (socket) => {

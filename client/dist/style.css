@@ -186,6 +186,10 @@ hr{
   margin: auto;
 }
 
+.hashlink{
+  margin: auto;
+}
+
 .logout-nav{
   display: flex;
   margin: auto;
@@ -352,7 +356,8 @@ Button{
 }
 
 .right-sidebar{
-  grid-area: 2 / 2 / 10 / 13;
+  grid-area: 1 / 2 / auto / 3;
+  margin-left: 1rem;
 }
 
 .placeholder{
@@ -580,3 +585,27 @@ h2{
 .user-div{
   width: 100%;
 }
+
+#sem-button{
+  padding: .5rem 1rem .5rem !important;
+}
+
+.sem-button-margin{
+  margin-left: .5rem !important;
+}
+
+.pinned-card{
+  width: 90% !important;
+  margin: 1em !important; 
+  margin-top: 1em !important;
+}
+
+.pinned-card a{
+  word-break: break-all;
+}
+
+.right-side-bar{
+  grid-column: 2;
+  grid-row: 1;
+}
+
