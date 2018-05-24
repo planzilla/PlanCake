@@ -89,8 +89,8 @@ export default class NavBar extends Component {
                 </div> 
                 </div>
               : <div className="nav-links">
+                <HashLink smooth to="/#how-it-works" className="hashlink"><h3>How It Works</h3></HashLink>
                 <HashLink smooth to="/#about-us" className="hashlink"><h3>About Us</h3></HashLink>
-                <h3>How It Works</h3>
                 <h3 onClick={this.handleModal.bind(this)}>Login</h3>
               </div>
           }
