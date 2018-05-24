@@ -82,9 +82,10 @@ body{
   opacity: .9;
   overflow: hidden;
   width: 100%;
-  height: auto;
+  height: 90vh;
   border-radius: 4px;
   filter: drop-shadow(0 0 10px #333);
+  margin-bottom: .25rem;
 }
 
 .about-us{
@@ -237,6 +238,10 @@ hr{
   grid-template-rows: 1fr repeat(6, 175px);
   width: 75%;
   margin: auto;
+  border: solid 1px rgb(207, 207, 207);
+  grid-gap: 1rem 0;
+  border-radius: 6px;
+  padding: 1rem 1rem;
 }
 
 .how-row1{
@@ -297,16 +302,13 @@ hr{
   height: 175px !important;
 }
 
-.how-title{
-  margin-top: 2rem !important;
-}
-
 .how-description{
   display: flex !important;
   align-items: center !important;
   margin:auto !important;
   text-align: center !important;
   padding: 1rem;
+  font-size: 1.35rem;
 }
 
 .about-us h3{

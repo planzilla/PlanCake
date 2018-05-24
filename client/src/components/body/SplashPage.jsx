@@ -12,53 +12,54 @@ export default class SplashPage extends Component {
         <NavBar setUser={this.props.setUser} username={this.props.username} />
       <div className="splash grid">
         <div className="body grid">
+        {/* <div className="splash-image"><h1>splash image</h1></div> */}
           <img className="splash-image"src="splashPhoto.jpg" alt="splashPhoto.jpg" />
           <div className="how-it-works grid">
             <h1 className="how-title jsas">How It Works</h1>
             <div className="how-row1 grid">
               <img src="invite.png" className="how-it-works-img how-pic1" />
-              <h2 className="how-description">
+              <p className="how-description">
                 Thinking about going somewhere?
                 <br />
                 Invite your friends and start planning together!
-              </h2>
+              </p>
             </div>
             <div className="how-row2 grid">
-              <h2 className="how-description how-words2">
+              <p className="how-description how-words2">
                 Discuss each topic on its own message board.
                 <br />
                 No more getting lost in the conversation!
-            </h2>
+            </p>
               <img src="discuss.png" className="how-it-works-img how-pic2" />
             </div>
             <div className="how-row3 grid">
               <img src="vote.png" className="how-it-works-img how-pic3" />
-              <h2 className="how-description">
+              <p className="how-description">
                 Can't decide on where to eat or what to see?
                 <br />
                 Put it to a vote!
-              </h2>
+              </p>
             </div>
             <div className="how-row4 grid">
-              <h2 className="how-description how-words4">
+              <p className="how-description how-words4">
                 Need something done?
                 <br />
                 Assign tasks individually or to the group!
-            </h2>
+            </p>
               <img src="goals.png" className="how-it-works-img how-pic4" />
             </div>
             <div className="how-row5 grid">
               <img src="done.png" className="how-it-works-img how-pic5" />
-              <h2 className="how-description">
+              <p className="how-description">
                 Get an overview of where everyone is in the process.
-              </h2>
+              </p>
             </div>
             <div className="how-row6 grid">
-              <h2 className="how-description how-words6">
+              <p className="how-description how-words6">
                 Once you’ve committed to something, set it in stone!
                 <br />
                 By the day of the trip you’ll be glad it’s all planned out.
-            </h2>
+            </p>
               <img src="bonvoyage.png" className="how-it-works-img how-pic6" />
             </div>
           </div>
