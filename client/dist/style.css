@@ -28,10 +28,6 @@ body{
   background-color: #fffbf6;
 }
 
-.body img:hover{
-  background-color: black;
-}
-
 #app{
   width: 100vw;
   display: flex;
@@ -43,7 +39,7 @@ body{
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: 65px repeat(11, 1fr);
   grid-gap: .25em;
-  height: 2000px;
+  height: 3000px;
   width: 80vw;
   margin: auto;
 }
@@ -77,27 +73,25 @@ body{
 .body{
   grid-area: 2 / 1 / 12 / 13;
   grid-template-columns: 1fr;
-  grid-template-rows: auto 1fr 1fr; 
+  grid-template-rows: auto 1.25fr .75fr; 
 }
 
-.body img{
+.splash-image{
   z-index: -1;
-  grid-area: 1 / 1 / 2 / 2;
+  grid-row: 1;
   opacity: .9;
   overflow: hidden;
   width: 100%;
   height: auto;
   border-radius: 4px;
   filter: drop-shadow(0 0 10px #333);
-  
 }
 
-.body .about-us{
-  grid-row: 2;
+.about-us{
+  grid-row: 3;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: .25fr 1fr .1fr 1fr;
+  grid-template-rows: .25fr 1fr .1fr .5fr;
   grid-gap: 1rem 2rem;
-  margin: 0 5em 0 5em;
 }
 
 .header-navbar{
@@ -239,18 +233,80 @@ hr{
 
 .how-it-works{
   font-family: 'Poppins', sans-serif;
-  grid-row: 3;
-  grid-template-rows: .25fr repeat(2, 1fr);
+  grid-row: 2;
+  grid-template-rows: 1fr repeat(6, 175px);
+  width: 75%;
+  margin: auto;
 }
 
 .how-row1{
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 175px 2fr;
   grid-row: 2;
 }
 
+.how-pic2{
+  grid-area: 3 / 2 / 4 / 3 !important;
+}
+
+.how-words2{
+  grid-area: 3 / 1 / 4 / 2 !important;
+}
+
+.how-pic4{
+  grid-area: 5 / 2 / 4 / 3 !important;
+}
+
+.how-words4{
+  grid-area: 5 / 1 / 4 / 2 !important;
+}
+
+.how-pic6{
+  grid-area: 7 / 2 / 4 / 3 !important;
+}
+.how-words6{
+  grid-area: 7 / 1 / 4 / 2 !important;
+}
+
 .how-row2{
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 2fr 175px;
   grid-row: 3;
+}
+
+.how-row3{
+  grid-template-columns: 175px 2fr;
+  grid-row: 4;
+}
+
+.how-row4{
+  grid-template-columns: 2fr 175px;
+  grid-row: 5;
+}
+
+.how-row5{
+  grid-template-columns: 175px 2fr;
+  grid-row: 6;
+}
+
+.how-row6{
+  grid-template-columns: 2fr 175px;
+  grid-row: 7;
+}
+
+.how-it-works-img{
+  width: 175px !important;
+  height: 175px !important;
+}
+
+.how-title{
+  margin-top: 2rem !important;
+}
+
+.how-description{
+  display: flex !important;
+  align-items: center !important;
+  margin:auto !important;
+  text-align: center !important;
+  padding: 1rem;
 }
 
 .about-us h3{
@@ -275,18 +331,21 @@ hr{
   grid-column: 1;
   grid-row: 2;
   filter: drop-shadow(0 0 10px rgb(114, 114, 114));
+  width: 100%;
 }
 
 .about-us .christina-pic{
   grid-column: 2;
   grid-row: 2;
   filter: drop-shadow(0 0 10px rgb(114, 114, 114));
+  width: 100%;
 }
 
 .about-us .will-pic{
   grid-column: 3;
   grid-row: 2;
   filter: drop-shadow(0 0 10px rgb(114, 114, 114));
+  width: 100%;
 }
 
 .about-us .brandon-about-name{
