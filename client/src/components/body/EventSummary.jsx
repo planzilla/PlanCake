@@ -41,7 +41,6 @@ export default class EventSummary extends Component {
       .then(result => {
         this.setState({ todos: result.data });
       }).then(() => {
-        console.log("this.props.fetchGroupTodos, current event", this.props.fetchGroupTodos, this.props.currentEvent.id)
         this.props.fetchGroupTodos(this.props.currentEvent.id);
       });
   }
@@ -122,13 +121,20 @@ export default class EventSummary extends Component {
       this.props.eventAttendees.map(attendee => {
         let todoDataCopy = Object.assign({}, this.state.todoData);
         todoDataCopy.assignee = attendee.userId;
-        axios.post('/api/todos', todoDataCopy);
+        return axios.post('/api/todos', todoDataCopy)
+          .then(() => {
+            this.handleAddTodoModalOpenClose();
+            this.fetchTodos();
+          })
       });
     } else if (this.state.todoData.assignee !== 'everyone') {
-      axios.post('/api/todos', this.state.todoData)
+      return axios.post('/api/todos', this.state.todoData)
+        .then(() => {
+          this.handleAddTodoModalOpenClose();
+          this.fetchTodos();
+        })
     }
-    this.handleAddTodoModalOpenClose();
-    this.fetchTodos();
+
   };
 
   render() {

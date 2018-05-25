@@ -156,13 +156,9 @@ export class LoggedInView extends Component {
       .then(({ data }) => {
         this.setState({ topicBoards: data });
       });
+      
     this.fetchEventAttendees(event);
     this.fetchGroupTodos(event.id);
-    // axios.get(`/api/groupTodo?EventId=${event.id}`)
-    // .then(({ data }) => {
-    //   this.setState({ groupTodos: data });
-    // })
-    // .catch(err => {console.log('Error in retrieving groupTodos: ', err)});
 
     axios.get(`/api/itinerary?EventId=${event.id}`)
       .then(({ data }) => {
@@ -172,7 +168,6 @@ export class LoggedInView extends Component {
   }
 
   fetchGroupTodos(EventId) {
-    console.log('in fetch gorup todos', EventId)
     axios.get(`/api/groupTodo?EventId=${EventId}`)
     .then(({ data }) => {
       this.setState({ groupTodos: data });
