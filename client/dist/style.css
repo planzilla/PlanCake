@@ -682,3 +682,8 @@ h2{
   grid-row: 1;
 }
 
+.ui.dropdown>.text{
+  margin-right: 5px !important;
+  color: white !important;
+}
+

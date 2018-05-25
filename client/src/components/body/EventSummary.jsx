@@ -40,6 +40,9 @@ export default class EventSummary extends Component {
     return axios.get('/api/todos')
       .then(result => {
         this.setState({ todos: result.data });
+      }).then(() => {
+        console.log("this.props.fetchGroupTodos, current event", this.props.fetchGroupTodos, this.props.currentEvent.id)
+        this.props.fetchGroupTodos(this.props.currentEvent.id);
       });
   }
 
@@ -90,7 +93,9 @@ export default class EventSummary extends Component {
     return axios.patch('/api/todos', {
       id: todo.id,
       completed: todo.checked,
-    }).then(() => this.fetchTodos());
+    }).then(() => {
+      this.fetchTodos();
+    })
   }
 
   handleAddTodo(e) {

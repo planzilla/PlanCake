@@ -88,6 +88,7 @@ export class LoggedInView extends Component {
     this.setPinnedMessages = this.setPinnedMessages.bind(this);
     this.ioEvents;
     this.removeActiveUser = this.removeActiveUser.bind(this);
+    this.fetchGroupTodos = this.fetchGroupTodos.bind(this);
   }
   
 
@@ -156,18 +157,27 @@ export class LoggedInView extends Component {
         this.setState({ topicBoards: data });
       });
     this.fetchEventAttendees(event);
-
-    axios.get(`/api/groupTodo?EventId=${event.id}`)
-    .then(({ data }) => {
-      this.setState({ groupTodos: data });
-    })
-    .catch(err => {console.log('Error in retrieving groupTodos: ', err)});
+    this.fetchGroupTodos(event.id);
+    // axios.get(`/api/groupTodo?EventId=${event.id}`)
+    // .then(({ data }) => {
+    //   this.setState({ groupTodos: data });
+    // })
+    // .catch(err => {console.log('Error in retrieving groupTodos: ', err)});
 
     axios.get(`/api/itinerary?EventId=${event.id}`)
       .then(({ data }) => {
         this.setState({ itinerary : data})
       })
       .catch(err => {console.log('Error in retrieving itinerary: ', err)});
+  }
+
+  fetchGroupTodos(EventId) {
+    console.log('in fetch gorup todos', EventId)
+    axios.get(`/api/groupTodo?EventId=${EventId}`)
+    .then(({ data }) => {
+      this.setState({ groupTodos: data });
+    })
+    .catch(err => {console.log('Error in retrieving groupTodos: ', err)});
   }
 
   fetchEventAttendees(event) {
@@ -479,6 +489,7 @@ export class LoggedInView extends Component {
               currentEvent={this.state.currentEvent}
               activeEventsUsers={this.state.activeEventsUsers}
               eventAttendees={this.state.eventAttendees}
+              fetchGroupTodos={this.fetchGroupTodos}
             />}
           />
           <Route path="/board/:id" render={() => 
