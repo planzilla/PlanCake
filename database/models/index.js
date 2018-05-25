@@ -175,7 +175,8 @@ db.groupTodo = (EventId) => db.Todo.findAll({
     model: db.User,
     required: true
     }
-  ]
+  ],
+  order: [['text', 'ASC']]
 })
 
 db.saveUser = (obj) => {
