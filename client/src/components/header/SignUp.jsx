@@ -30,14 +30,15 @@ class SignUp extends Component {
   handleSignup(credentials) {
     return axios.post('/api/signup', credentials)
       .then(() => {
-        this.props.sendLogin(this.state)
-           .then(data => {
-              this.props.handleModal();
-              this.props.handleView('logout');
-              this.props.history.push('/loggedinview');
-              return data;
-            })
+        return this.props.sendLogin(this.state)
       })
+      .then(data => {
+        this.props.handleModal();
+        this.props.handleView('logout');
+        this.props.history.push('/loggedinview');
+        return data;
+      })
+      .then(({ data }) => this.props.setUser(data))
       .catch(() => {
         this.props.handleError('An error occurred. Please try again.')
       })

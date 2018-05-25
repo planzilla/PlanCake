@@ -164,6 +164,7 @@ hr{
   height: 90%;
   object-fit: contain;
   padding: 5px;
+  margin-top: .5em;
 }
 
 .header-navbar img{
