@@ -39,18 +39,18 @@ body{
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: 65px repeat(11, 1fr);
   grid-gap: .25em;
-  height: 3000px;
   width: 80vw;
   margin: auto;
+  flex-direction: column;
 }
 
 .dashboard{
   grid-template-columns: 15% repeat(11, 1fr);
-  grid-template-rows: 60px repeat(11, 1fr);
+  grid-template-rows: 60px 1fr;
   grid-gap: 1em 1em;
-  height: auto;
   width: 80vw;
   margin: auto;
+  flex-direction: column;
 }
 
 .outer-div{
@@ -74,6 +74,7 @@ body{
   grid-area: 2 / 1 / 12 / 13;
   grid-template-columns: 1fr;
   grid-template-rows: auto 1.25fr .75fr; 
+  flex: 1;
 }
 
 .splash-image{
