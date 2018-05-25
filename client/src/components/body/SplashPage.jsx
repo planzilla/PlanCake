@@ -116,7 +116,7 @@ export default class SplashPage extends Component {
             />
             <h2 className="brandon-about-name">Brandon Villiados</h2>
             <h2 className="xtina-about-name">Christina Yuen</h2>
-            <h2 className="will-about-name">Will Ha</h2>
+            <h2 className="will-about-name">William Ha</h2>
             <h4 className="brandon-about">I aim to make planning as seamless as possible for friends and family. It's fun to plan, but planning should be simple and centralized. PlanCake offers support to make planning exciting!</h4>
             <h4 className="xtina-about">Hanging out with friends is super fun, but the planning process can be tiring and tedious. I needed an application like PlanCake to easily coordinate amongst friends for different events.</h4>
             <h4 className="will-about">Plans are hard to coordinate. I wanted to create an environment where everyone can plan as easy as possible. We have accomplished in making a platform that is both easy and fun to use.</h4>
