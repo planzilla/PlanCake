@@ -40,6 +40,8 @@ export default class EventSummary extends Component {
     return axios.get('/api/todos')
       .then(result => {
         this.setState({ todos: result.data });
+      }).then(() => {
+        this.props.fetchGroupTodos(this.props.currentEvent.id);
       });
   }
 
@@ -90,7 +92,9 @@ export default class EventSummary extends Component {
     return axios.patch('/api/todos', {
       id: todo.id,
       completed: todo.checked,
-    }).then(() => this.fetchTodos());
+    }).then(() => {
+      this.fetchTodos();
+    })
   }
 
   handleAddTodo(e) {
@@ -117,13 +121,20 @@ export default class EventSummary extends Component {
       this.props.eventAttendees.map(attendee => {
         let todoDataCopy = Object.assign({}, this.state.todoData);
         todoDataCopy.assignee = attendee.userId;
-        axios.post('/api/todos', todoDataCopy);
+        return axios.post('/api/todos', todoDataCopy)
+          .then(() => {
+            this.handleAddTodoModalOpenClose();
+            this.fetchTodos();
+          })
       });
     } else if (this.state.todoData.assignee !== 'everyone') {
-      axios.post('/api/todos', this.state.todoData)
+      return axios.post('/api/todos', this.state.todoData)
+        .then(() => {
+          this.handleAddTodoModalOpenClose();
+          this.fetchTodos();
+        })
     }
-    this.handleAddTodoModalOpenClose();
-    this.fetchTodos();
+
   };
 
   render() {
