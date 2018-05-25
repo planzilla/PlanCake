@@ -170,6 +170,7 @@ get.todos = (req, res) => {
     },    
     order: [
       ['deadline', 'ASC'],
+      ['text', 'ASC']
     ],
   })
     .then(data => {
