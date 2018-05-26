@@ -291,7 +291,7 @@ post.createEvent = (req, res) => {
     .then((({ dataValues }) => {
       return db.addUserToEvent(dataValues, req.user)
         .then((data) => {
-          res.json(data);
+          res.json(dataValues);
         })
         .catch((err) => {
           console.log(err);
