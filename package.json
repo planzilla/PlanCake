@@ -9,19 +9,20 @@
     "dev": "jest --watch",
     "test": "jest",
     "eslint": "eslint --ignore-path .eslintignore .",
-    "start": "NODE_ENV=production node server/index.js"
+    "start": "NODE_ENV=production node server/index.js",
+    "build": "webpack -p"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wvha/PlanCake.git"
+    "url": "git+https://github.com/planzilla/PlanCake.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/wvha/PlanCake/issues"
+    "url": "https://github.com/planzilla/PlanCake/issues"
   },
-  "homepage": "https://github.com/wvha/PlanCake#readme",
+  "homepage": "https://github.com/planzilla/PlanCake#readme",
   "dependencies": {
     "aos": "^2.3.0",
     "axios": "^0.18.0",

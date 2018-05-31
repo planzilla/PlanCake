@@ -48,7 +48,6 @@ export class LoggedInView extends Component {
       addTopicTitle: '',
       addTopicModalOpen: false,
       addTopicError: '',
-
       createEventTitle: '',
       createEventLocation: '',
       createEventEmails: '',
@@ -91,7 +90,6 @@ export class LoggedInView extends Component {
     this.fetchGroupTodos = this.fetchGroupTodos.bind(this);
   }
   
-
   componentDidMount() {
     axios.get('/api/userEvents')
     .then(result => {
@@ -148,7 +146,6 @@ export class LoggedInView extends Component {
   }
 
   /* --------------- EventSummary ------------*/
-
   handleClickEventTitle(event) {
     this.setState({ topicBoards: [] });
     this.setState({ currentEvent: event });
@@ -323,7 +320,6 @@ export class LoggedInView extends Component {
     } else if (!this.state.addPlanDate) {
       this.setState({ addPlanError: 'Please enter a date.' })
     } else {
-
       let dateAndTime = new Date(`${this.state.addPlanDate} ${this.state.addPlanTime}`)
       const requestObj = {
         EventId: this.state.currentEvent.id,
@@ -341,7 +337,6 @@ export class LoggedInView extends Component {
         .catch(err => {
           this.setState({ addPlanError: 'Something went wrong. Please try again.' })
         })
-
     }
   }
 
@@ -360,7 +355,6 @@ export class LoggedInView extends Component {
   }
 
   /* -----------  MISC  ------------- */
-
   clearDomOfActiveSidebar() {
     var domElement = document.getElementsByClassName("activeSidebar");
     [].forEach.call(domElement, function(el) {
@@ -428,6 +422,7 @@ export class LoggedInView extends Component {
   }
 
   render() {
+    // (for redux)
     // if (this.state.events.length === 0) {
     //   return '...loading??';
     // } else {
@@ -514,7 +509,6 @@ export class LoggedInView extends Component {
       )
     }
   }
-// }
 
 // for redux but doesnt play along nicely so commented
 // LoggedInView.propTypes = {
