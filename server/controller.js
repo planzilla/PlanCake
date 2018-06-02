@@ -166,7 +166,7 @@ get.userEvents = (req, res) => {
 get.todos = (req, res) => {
   return db.Todo.findAll({
     where: {
-      UserId: req.user.id
+      UserId: req.user.Id
     },    
     order: [
       ['deadline', 'ASC'],
