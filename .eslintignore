@@ -25,3 +25,5 @@ database.json
 /client/src/components/store.js
 
 _emailPrivate.js
+
+node_modules/

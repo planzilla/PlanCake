@@ -32,7 +32,7 @@ export default class Dashboard extends Component {
                   todos={this.props.todos}
                   eventAttendees={this.props.eventAttendees}
                   itinerary={
-                    Object.keys(this.props.allItineraries).length === 0 
+                    !this.props.allItineraries[event.id]
                       ? []
                       : this.props.allItineraries[event.id]}
                 />

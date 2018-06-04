@@ -11,6 +11,7 @@ import EventSummary from './EventSummary.jsx';
 import TopicBoardView from './BoardView.jsx'
 import ContactInfo from '../footer/ContactInfo.jsx';
 import io from 'socket.io-client';
+import nameFormat from '../../helpers/nameFormat.jsx';
 
 export class LoggedInView extends Component {
 
@@ -101,7 +102,7 @@ export class LoggedInView extends Component {
       this.setState({ allItineraries: data })
       this.ioEvents = io('/events');
       this.ioEvents.on('connect', (socket) => {
-        let name = `${this.props.userData.firstName.slice(0,1).toUpperCase()}${this.props.userData.firstName.slice(1).toLowerCase()} ${this.props.userData.lastName.slice(0,1).toUpperCase()}.`;
+        let name = nameFormat(this.props.userData);
           this.state.events.forEach((event) => {
             this.ioEvents.emit('events', event, name)
           })
@@ -126,7 +127,7 @@ export class LoggedInView extends Component {
   }
 
   removeActiveUser() {
-    let name = `${this.props.userData.firstName.slice(0,1).toUpperCase()}${this.props.userData.firstName.slice(1).toLowerCase()} ${this.props.userData.lastName.slice(0,1).toUpperCase()}.`;
+    let name = nameFormat(this.props.userData);
     this.state.events.forEach((event) => {
       this.ioEvents.emit('logout', event, name)
     })
@@ -246,6 +247,8 @@ export class LoggedInView extends Component {
       createEventLocation: this.state.createEventLocation
     })
       .then(({ data }) => {
+        let name = nameFormat(this.props.userData);
+        this.ioEvents.emit('events', data, name);
         if (emails) {
           this.sendEmailInvites(emails, data);
         }

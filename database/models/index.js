@@ -173,7 +173,7 @@ db.groupTodo = (EventId) => db.Todo.findAll({
   include: [
     {
     model: db.User,
-    required: true
+    required: true,
     }
   ],
   order: [['text', 'ASC'], [db.User, 'firstName', 'ASC']]
