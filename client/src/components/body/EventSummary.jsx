@@ -7,8 +7,10 @@ import ItineraryList from './ItineraryList.jsx';
 import axios from 'axios';
 import ActiveList from './ActiveList.jsx';
 import AddInvite from './AddInvite.jsx';
+import { connect } from 'react-redux';
+import { fetchTodos } from '../../actions/todoActions.js';
 
-export default class EventSummary extends Component {
+export class EventSummary extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -33,7 +35,7 @@ export default class EventSummary extends Component {
   }
 
   componentDidMount() {
-    this.fetchTodos();
+    this.props.fetchTodos();
   }
 
   fetchTodos() {
@@ -138,6 +140,8 @@ export default class EventSummary extends Component {
   };
 
   render() {
+    // you can see here that this.props has the todos from redux store
+    // console.log('render props', this.props);
     return (
       <div className="event-cards">
         <Card fluid>
@@ -196,7 +200,7 @@ export default class EventSummary extends Component {
           <Card.Content header="Tasks" />
           <Card.Content>
             <Todo
-              todos={this.state.todos}
+              todos={this.props.todos}
               event={this.props.event}
               eventAttendees={this.props.eventAttendees}
               handleInputChange={this.handleInputChange}
@@ -232,3 +236,9 @@ export default class EventSummary extends Component {
     )
   }
 }
+
+const mapStateToProps = state => ({
+  todos: state.todos.todos,
+});
+
+export default connect(mapStateToProps, { fetchTodos })(EventSummary);
