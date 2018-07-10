@@ -241,7 +241,7 @@ hr{
   width: 100%;
   margin: auto;
   /* border: solid 1px rgb(207, 207, 207); */
-  grid-gap: 3rem 5rem;
+  grid-gap: 1.5rem 5rem;
   border-radius: 6px;
   padding: 5rem 5rem;
 }
