@@ -14,7 +14,7 @@ export default class SplashPage extends Component {
         <NavBar setUser={this.props.setUser} username={this.props.username} />
       <div className="splash grid">
         <div className="body grid">
-          <img className="splash-image" src="splashtext3.png" alt="splashtext3png" />
+          <img className="splash-image" src="splashtextjpg.jpg" alt="splashtext3png" />
           <div className="how-it-works grid">
             <h1 className="how-title jsas">How It Works</h1>
             <div className="how-row1 grid">
