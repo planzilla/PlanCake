@@ -11,7 +11,7 @@
     "eslint": "eslint --ignore-path .eslintignore .",
     "start": "NODE_ENV=production node server/index.js",
     "build": "webpack -p",
-    "heroku-postbuild": "webpack -p --config ./webpack.config.js --progress"
+    "heroku-postbuild": "node server/index.js"
   },
   "repository": {
     "type": "git",
