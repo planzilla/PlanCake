@@ -2,6 +2,9 @@
   "name": "PlanCake",
   "version": "1.0.0",
   "description": "For the obsessive planners",
+  "engines": {
+    "node": "8.9.4"
+  },
   "main": "index.js",
   "scripts": {
     "server-dev": "nodemon server/index.js",
