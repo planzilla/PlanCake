@@ -26,9 +26,16 @@ class Login extends Component {
 
   handleGuest(e) {
     let guest = { username: 'wvha', password: 'wvha' };
-    this.setState( { guest });
-    this.handleLogin(e);
-  }
+    this.props.sendLogin(guest)
+      .then(data => {
+        this.props.handleModal();
+        this.props.handleView('logout');
+        this.props.history.push('/loggedinview');
+        return data;
+      })
+      .then(({ data }) => this.props.setUser(data))
+  };
+  
 
   handleLogin(e) {
     this.props.sendLogin(this.state)
