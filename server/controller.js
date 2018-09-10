@@ -43,8 +43,9 @@ get.allItineraries = (req, res) => {
 get.chatMessages = (req, res) => {
  db.sendChatHist(req.query.boardId)
   .then((result) => {
-    result = result.reduce((acc, { dataValues: { text: t, User: { username: u } }}) => {
-      acc.push({ text: t, username: u })
+    console.log(result);
+    result = result.reduce((acc, { dataValues: { text: t, User: {firstName, lastName}, UserId: UserId }}) => {
+      acc.push({ text: t, user: `${firstName} ${lastName.slice(0, 1)}.`, userId: UserId })
       return acc;
     }, [])
     res.json(result)
