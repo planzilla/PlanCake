@@ -11,6 +11,7 @@ import AddInvite from './AddInvite.jsx';
 export default class EventSummary extends Component {
   constructor(props) {
     super(props);
+    console.log('props line 14: ', this.props.event.id)
     this.state = {
       todos: [],
       addTodoModalOpen: false,
@@ -34,6 +35,14 @@ export default class EventSummary extends Component {
 
   componentDidMount() {
     this.fetchTodos();
+  }
+
+  componentDidUpdate() {
+    if (this.state.todoData.EventId !== this.props.event.id) {
+      let clone = Object.assign({}, this.state.todoData);
+      clone.EventId = this.props.event.id;
+      this.setState({todoData: clone})
+    }
   }
 
   fetchTodos() {
