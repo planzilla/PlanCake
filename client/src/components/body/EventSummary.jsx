@@ -11,7 +11,6 @@ import AddInvite from './AddInvite.jsx';
 export default class EventSummary extends Component {
   constructor(props) {
     super(props);
-    console.log('props line 14: ', this.props.event.id)
     this.state = {
       todos: [],
       addTodoModalOpen: false,
@@ -56,8 +55,11 @@ export default class EventSummary extends Component {
 
   handleAddTodoModalOpenClose() {
     let openCloseState = this.state.addTodoModalOpen;
-    // this.clearAllAddTodoInfo();
-    this.setState({ addTodoModalOpen: !openCloseState });
+    console.log('modal state: ', !openCloseState)
+    this.setState({ 
+      addTodoError: '',
+      addTodoModalOpen: !openCloseState 
+    });
   }
 
   handleInputChange(event) {
@@ -126,23 +128,23 @@ export default class EventSummary extends Component {
   }
 
   postAddTodo() {
+    this.handleAddTodoModalOpenClose();
+
     if (this.state.todoData.assignee === 'everyone') {
       this.props.eventAttendees.map(attendee => {
         let todoDataCopy = Object.assign({}, this.state.todoData);
         todoDataCopy.assignee = attendee.userId;
         return axios.post('/api/todos', todoDataCopy)
           .then(() => {
-            this.handleAddTodoModalOpenClose();
             this.fetchTodos();
           })
-      });
-    } else if (this.state.todoData.assignee !== 'everyone') {
-      return axios.post('/api/todos', this.state.todoData)
+        });
+      } else {
+        return axios.post('/api/todos', this.state.todoData)
         .then(() => {
-          this.handleAddTodoModalOpenClose();
           this.fetchTodos();
         })
-    }
+      }
 
   };
 
