@@ -7,10 +7,10 @@ export default class EventCard extends Component {
   constructor(props) {
     super(props);
   }
-
+  // /${this.props.id}
   render() {
     return (
-      <Link to={`/events/${this.props.id}`}>
+      <Link to={`/events`}>
         <Card fluid onClick={() => this.props.handleClickEventTitle(this.props.event)}>
           <Card.Content header={`${this.props.title} Overview`} />
           <Card.Content>

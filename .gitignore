@@ -1,5 +1,7 @@
 node_modules/
 
+coverage/
+
 server/_emailPrivate.js
 
-coverage/
+client/dist/bundle.js

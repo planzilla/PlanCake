@@ -20,7 +20,7 @@ export default class SideBar extends Component {
     this.props.handleClickEventTitle(event);
     this.setState({ activeIndex: newIndex });
   }
-
+  // /${board.id}
   renderEvents(event, activeIndex, i) {
     if (activeIndex === i) {
       return (
@@ -40,7 +40,7 @@ export default class SideBar extends Component {
                   className='topic-board-link' 
                   onClick={() => this.props.setSelectedBoard(`${board.title}`, board.id)}
                 >
-                  <Link to={`/board/${board.id}`} id={`${board.title}-${board.id}`}>{board.title}</Link>
+                  <Link to={`/board`} id={`${board.title}-${board.id}`}>{board.title}</Link>
                   <br />
                 </div>
               )
@@ -50,7 +50,7 @@ export default class SideBar extends Component {
       )
     }
   }
-
+  // /${event.id}
   render() {
     const { activeIndex } = this.state;
     // for redux
@@ -71,12 +71,12 @@ export default class SideBar extends Component {
             {this.props.events.map((event, i) => {
               return (
                 <div key={i}>
+                  <Link to={`/events`}>
                   <Accordion.Title active={activeIndex === i} index={i} onClick={(e, titleProps) => {this.handleClick(e, titleProps, event)}}>
                     <Icon name='dropdown' />
-                    <Link to={`/events/${event.id}`} component={ EventSummary }>
                       <b>{event.title}</b>
-                    </Link>
                   </Accordion.Title>
+                  </Link>
                   <Accordion.Content active={activeIndex === i}>
                     {this.renderEvents(event, activeIndex, i)}
                   </Accordion.Content>

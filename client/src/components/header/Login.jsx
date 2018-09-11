@@ -24,6 +24,12 @@ class Login extends Component {
     })
   }
 
+  handleGuest(e) {
+    let guest = { username: 'wvha', password: 'wvha' };
+    this.setState( { guest });
+    this.handleLogin(e);
+  }
+
   handleLogin(e) {
     this.props.sendLogin(this.state)
       .then(data => {
@@ -78,6 +84,7 @@ class Login extends Component {
           }
         </Modal.Content>
         <Modal.Actions>
+        <Button basic color='grey' onClick={() => this.handleGuest()}>Guest</Button>
         <Button basic color='grey' onClick={() => this.props.handleView('signup')}>Sign Up</Button>
           <Button color='green' onClick={this.handleLogin} inverted>
             <Icon name='sign in' /> Login

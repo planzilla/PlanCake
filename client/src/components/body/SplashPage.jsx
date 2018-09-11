@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import NavBar from '..//header/NavBar.jsx';
 import ContactInfo from '../footer/ContactInfo.jsx';
+import AOS from 'aos';
+import $ from 'jquery';
 
 export default class SplashPage extends Component {
   constructor(props) {
@@ -12,11 +14,16 @@ export default class SplashPage extends Component {
         <NavBar setUser={this.props.setUser} username={this.props.username} />
       <div className="splash grid">
         <div className="body grid">
-          <img className="splash-image" src="splashPhoto.jpg" alt="splashPhoto.jpg" />
+          <img className="splash-image" src="splashtextjpg.jpg" alt="splashtext3png" />
           <div className="how-it-works grid">
             <h1 className="how-title jsas">How It Works</h1>
             <div className="how-row1 grid">
-              <img src="invite.png" className="how-it-works-img how-pic1" />
+              <img src="invite.png" className="how-it-works-img how-pic1" 
+                data-aos="flip-right"
+                data-aos-duration="1000" 
+                data-aos-delay="100"
+                data-aos-once="false"
+              />
               <p className="how-description">
                 Thinking about going somewhere?
                 <br />
@@ -29,10 +36,20 @@ export default class SplashPage extends Component {
                 <br />
                 No more getting lost in the conversation!
             </p>
-              <img src="discuss.png" className="how-it-works-img how-pic2" />
+              <img src="discuss.png" className="how-it-works-img how-pic2" 
+                data-aos="flip-left"
+                data-aos-duration="1000" 
+                data-aos-delay="100"
+                data-aos-once="false"
+              />
             </div>
             <div className="how-row3 grid">
-              <img src="vote.png" className="how-it-works-img how-pic3" />
+              <img src="vote.png" className="how-it-works-img how-pic3" 
+                data-aos="flip-right"
+                data-aos-duration="1000" 
+                data-aos-delay="100"
+                data-aos-once="false"
+              />
               <p className="how-description">
                 Can't decide on where to eat or what to see?
                 <br />
@@ -45,10 +62,20 @@ export default class SplashPage extends Component {
                 <br />
                 Assign tasks individually or to the group!
             </p>
-              <img src="goals.png" className="how-it-works-img how-pic4" />
+              <img src="goals.png" className="how-it-works-img how-pic4" 
+                data-aos="flip-left"
+                data-aos-duration="1000" 
+                data-aos-delay="100"
+                data-aos-once="false"
+              />
             </div>
             <div className="how-row5 grid">
-              <img src="done.png" className="how-it-works-img how-pic5" />
+              <img src="done.png" className="how-it-works-img how-pic5" 
+                data-aos="flip-right"
+                data-aos-duration="1000" 
+                data-aos-delay="100"
+                data-aos-once="false"
+              />
               <p className="how-description">
                 Get an overview of where everyone is in the process.
               </p>
@@ -59,17 +86,37 @@ export default class SplashPage extends Component {
                 <br />
                 By the day of the trip you’ll be glad it’s all planned out.
             </p>
-              <img src="bonvoyage.png" className="how-it-works-img how-pic6" />
+              <img src="bonvoyage.png" className="how-it-works-img how-pic6" 
+                data-aos="flip-left"
+                data-aos-duration="1000" 
+                data-aos-delay="100"
+                data-aos-once="false"
+              />
             </div>
           </div>
           <div className="about-us grid" id="about-us">
             <h1 className="about-title jsas">About Us</h1>
-            <img src="BrandonSp.png" alt="BrandonSp.png" className="brandon-pic" />
-            <img src="XtinaSp.png" alt="XtinaSp.png" className="christina-pic" />
-            <img src="WillSp.png" alt="WillSp.png" className="will-pic" />
+            <img src="BrandonSp.png" alt="BrandonSp.png" className="brandon-pic"
+              data-aos="flip-right"
+              data-aos-duration="1000" 
+              data-aos-delay="100"
+              data-aos-once="false"
+            />
+            <img src="XtinaSp.png" alt="XtinaSp.png" className="christina-pic"
+              data-aos="flip-up"
+              data-aos-duration="1000" 
+              data-aos-delay="100"
+              data-aos-once="false"
+            />
+            <img src="WillSp.png" alt="WillSp.png" className="will-pic"
+              data-aos="flip-left"
+              data-aos-duration="1000" 
+              data-aos-delay="100"
+              data-aos-once="false"
+            />
             <h2 className="brandon-about-name">Brandon Villiados</h2>
             <h2 className="xtina-about-name">Christina Yuen</h2>
-            <h2 className="will-about-name">Will Ha</h2>
+            <h2 className="will-about-name">William Ha</h2>
             <h4 className="brandon-about">I aim to make planning as seamless as possible for friends and family. It's fun to plan, but planning should be simple and centralized. PlanCake offers support to make planning exciting!</h4>
             <h4 className="xtina-about">Hanging out with friends is super fun, but the planning process can be tiring and tedious. I needed an application like PlanCake to easily coordinate amongst friends for different events.</h4>
             <h4 className="will-about">Plans are hard to coordinate. I wanted to create an environment where everyone can plan as easy as possible. We have accomplished in making a platform that is both easy and fun to use.</h4>

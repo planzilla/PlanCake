@@ -33,8 +33,7 @@ app.use(loggedOutRedirect);
 app.use(router);
 app.get('*', function (req, res) {
   res.sendFile(path.resolve(`${__dirname}/../client/dist/index.html`));
-});
-// app.get('*', express.static(`${__dirname}/../client/dist`));
+ });
 
 const ioRoom = io.of('/room');
 
