@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Button, Card, Image, Icon, Label, Message } from 'semantic-ui-react';
 
-const VoteView = ({ pinnedMessages, liked }) => {
-  return (
+const VoteView = ({ eventAttendees, pinnedMessages, liked }) => {
+  render() 
+    return (
   <div className="vote-container">
   {pinnedMessages.length < 1 
   ? <Message info>
@@ -14,11 +15,15 @@ const VoteView = ({ pinnedMessages, liked }) => {
       </p>
     </Message>
     :pinnedMessages.map((pin, key) => {
+      console.log('pin:', pin)
     return (
       <Card className="pinned-card" key={key}>
         <Card.Content>
           <Card.Description>
-            {<a href={pin.text} target="_blank" rel="noopener noreferrer">{pin.text.slice(0, 53)}</a>}
+            {pin.text.startsWith('http') ? 
+              <a href={pin.text} target="_blank" rel="noopener noreferrer">{pin.text.slice(0, 53)}</a>
+              : <span>{pin.text.slice(0, 53)}</span>
+            }
           </Card.Description>
           <br />
         <div>
@@ -40,6 +45,7 @@ const VoteView = ({ pinnedMessages, liked }) => {
     )
     })}
   </div> )
+
 }
 
 export default VoteView;
