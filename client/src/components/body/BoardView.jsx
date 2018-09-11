@@ -49,8 +49,8 @@ class Chat extends Component {
     e.preventDefault();
     const { username, id } = this.props.userData;
     const { boardId } = this.props;
-    function User(userId, boardId, message, username) {
-      this.username = username;
+    function User(userId, boardId, message, firstName, lastName) {
+      this.user = `${firstName} ${lastName.slice(0, 1)}.`;
       this.boardId = boardId;
       this.userId = userId;
       this.text = message;
@@ -59,10 +59,10 @@ class Chat extends Component {
     if (this.state.message.length < 1) {
       return;
     } else if (this.state.message.slice(0, 4) === '/pin'){
-      Promise.resolve(this.socket.emit('pinMessage', new User(id, boardId, this.state.message.slice(5), this.props.username)))
+      Promise.resolve(this.socket.emit('pinMessage', new User(id, boardId, this.state.message.slice(5), this.props.userData.firstName, this.props.userData.lastName)))
       .then(() => { this.setState({ message: '' }); })
     } else {
-      Promise.resolve(this.socket.emit('chatMessage', new User(id, boardId, this.state.message, this.props.username)))
+      Promise.resolve(this.socket.emit('chatMessage', new User(id, boardId, this.state.message, this.props.userData.firstName, this.props.userData.lastName)))
       .then(() => { this.setState({ message: '' }); });
     }
   }
@@ -72,11 +72,11 @@ class Chat extends Component {
       <div className="chat-view chat grid">
         {<div className="connected-user">{`You've connected to ${this.props.selected}`}</div>}
         <div id="messages">
-          {this.props.allMessages.map((user, key, array) => {
-            if (user.username !== this.props.username) {
-              return <div className="received-message" key={key}><p><strong>{`${user.username} : `}</strong>{`${user.text}`}</p></div>
+          {this.props.allMessages.map((message, key, array) => {
+            if (message.userId !== this.props.userData.id) {
+              return <div className="received-message" key={key}><p><strong>{`${message.user} : `}</strong>{`${message.text}`}</p></div>
             } else {
-              return <div key={key} className="user-message"><p className="user-message-text">{user.text}</p></div>
+              return <div key={key} className="user-message"><p className="user-message-text">{message.text}</p></div>
             };
           })}
           <div ref={(e) => { this.messageEnd = e }}></div>
