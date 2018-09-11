@@ -35,7 +35,7 @@ export class EventSummary extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchTodos();
+    this.fetchTodos();
   }
 
   componentDidUpdate() {
@@ -211,7 +211,7 @@ export class EventSummary extends Component {
           <Card.Content header="Tasks" />
           <Card.Content>
             <Todo
-              todos={this.props.todos}
+              todos={this.state.todos}
               event={this.props.event}
               eventAttendees={this.props.eventAttendees}
               handleInputChange={this.handleInputChange}

@@ -2,6 +2,9 @@
   "name": "PlanCake",
   "version": "1.0.0",
   "description": "For the obsessive planners",
+  "engines": {
+    "node": "8.9.4"
+  },
   "main": "index.js",
   "scripts": {
     "server-dev": "nodemon server/index.js",
@@ -10,7 +13,8 @@
     "test": "jest",
     "eslint": "eslint --ignore-path .eslintignore .",
     "start": "NODE_ENV=production node server/index.js",
-    "build": "webpack -p"
+    "build": "webpack -p",
+    "heroku-postbuild": "node server/index.js"
   },
   "repository": {
     "type": "git",
@@ -81,8 +85,7 @@
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.7.0",
     "jest": "^22.4.3",
-    "react-test-renderer": "^16.3.2",
-    "webpack": "^2.7.0"
+    "react-test-renderer": "^16.3.2"
   },
   "babel": {
     "presets": [
