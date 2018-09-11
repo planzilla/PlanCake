@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Button, Card, Image, Icon, Label, Message } from 'semantic-ui-react';
 
 const VoteView = ({ eventAttendees, pinnedMessages, liked }) => {
-  render() 
     return (
   <div className="vote-container">
   {pinnedMessages.length < 1 
@@ -15,7 +14,6 @@ const VoteView = ({ eventAttendees, pinnedMessages, liked }) => {
       </p>
     </Message>
     :pinnedMessages.map((pin, key) => {
-      console.log('pin:', pin)
     return (
       <Card className="pinned-card" key={key}>
         <Card.Content>

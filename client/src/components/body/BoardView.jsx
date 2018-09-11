@@ -73,7 +73,6 @@ class Chat extends Component {
         {<div className="connected-user">{`You've connected to ${this.props.selected}`}</div>}
         <div id="messages">
           {this.props.allMessages.map((message, key, array) => {
-            console.log('message: ', message)
             if (message.userId !== this.props.userData.id) {
               return <div className="received-message" key={key}><p><strong>{`${message.user} : `}</strong>{`${message.text}`}</p></div>
             } else {
