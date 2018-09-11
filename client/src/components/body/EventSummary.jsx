@@ -35,7 +35,15 @@ export class EventSummary extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchTodos();
+    this.fetchTodos();
+  }
+
+  componentDidUpdate() {
+    if (this.state.todoData.EventId !== this.props.event.id) {
+      let clone = Object.assign({}, this.state.todoData);
+      clone.EventId = this.props.event.id;
+      this.setState({todoData: clone})
+    }
   }
 
   fetchTodos() {
@@ -49,8 +57,11 @@ export class EventSummary extends Component {
 
   handleAddTodoModalOpenClose() {
     let openCloseState = this.state.addTodoModalOpen;
-    // this.clearAllAddTodoInfo();
-    this.setState({ addTodoModalOpen: !openCloseState });
+    console.log('modal state: ', !openCloseState)
+    this.setState({ 
+      addTodoError: '',
+      addTodoModalOpen: !openCloseState 
+    });
   }
 
   handleInputChange(event) {
@@ -119,23 +130,23 @@ export class EventSummary extends Component {
   }
 
   postAddTodo() {
+    this.handleAddTodoModalOpenClose();
+
     if (this.state.todoData.assignee === 'everyone') {
       this.props.eventAttendees.map(attendee => {
         let todoDataCopy = Object.assign({}, this.state.todoData);
         todoDataCopy.assignee = attendee.userId;
         return axios.post('/api/todos', todoDataCopy)
           .then(() => {
-            this.handleAddTodoModalOpenClose();
             this.fetchTodos();
           })
-      });
-    } else if (this.state.todoData.assignee !== 'everyone') {
-      return axios.post('/api/todos', this.state.todoData)
+        });
+      } else {
+        return axios.post('/api/todos', this.state.todoData)
         .then(() => {
-          this.handleAddTodoModalOpenClose();
           this.fetchTodos();
         })
-    }
+      }
 
   };
 
@@ -200,7 +211,7 @@ export class EventSummary extends Component {
           <Card.Content header="Tasks" />
           <Card.Content>
             <Todo
-              todos={this.props.todos}
+              todos={this.state.todos}
               event={this.props.event}
               eventAttendees={this.props.eventAttendees}
               handleInputChange={this.handleInputChange}
